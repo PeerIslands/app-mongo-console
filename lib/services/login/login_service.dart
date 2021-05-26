@@ -3,7 +3,7 @@ import '../../models/user_model.dart';
 
 class LoginService {
   Future<UserModel> login(String email, String password) async {
-    final api = 'https://api-mongodb-admin.herokuapp.com/v1/login';
+    final api = 'http://10.0.2.2:8000/v1/login';
     final data = {"email": email, "password": password};
     final dio = Dio();
     Response response;

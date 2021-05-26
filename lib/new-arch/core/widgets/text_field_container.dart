@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/constants.dart';
+import 'package:flutter_auth/new-arch/core/util/constants.dart';
 
 class TextFieldContainer extends StatelessWidget {
   final Widget child;
+
   const TextFieldContainer({
     Key key,
     this.child,

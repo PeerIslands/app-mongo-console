@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/constants.dart';
+import 'package:flutter_auth/new-arch/core/util/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SocalIcon extends StatelessWidget {
+class SocialIcon extends StatelessWidget {
   final String iconSrc;
   final Function press;
-  const SocalIcon({
+
+  const SocialIcon({
     Key key,
     this.iconSrc,
     this.press,
