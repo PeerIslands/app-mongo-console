@@ -14,7 +14,8 @@ class SidebarPage extends StatelessWidget {
                 color: Colors.green,
                 image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: AssetImage('assets/images/mongo_wallpaper.jpeg'))),
+                    image: AssetImage('assets/images/mongo_wallpaper.jpeg')),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.dashboard),
