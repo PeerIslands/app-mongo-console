@@ -1,6 +1,7 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/constants/message_constants.dart';
+import 'package:flutter_auth/core/constants/server_constants.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
@@ -32,7 +33,6 @@ class AuthenticationPage extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.lightGreen,
-          accentColor: Color(0xFF74A049),
           textTheme: TextTheme(
             headline3: TextStyle(
               fontFamily: 'OpenSans',
@@ -53,10 +53,13 @@ class AuthenticationPage extends StatelessWidget {
                   onLogin: (LoginData loginInfo) {
                     return Future.delayed(Duration(milliseconds: 2250))
                         .then((_) {
-                      context.read<AuthenticationBloc>().add(
-                          LoginSubmitted(loginInfo.name, loginInfo.password));
 
-                      return AUTHENTICATION_FAILED;
+                      BlocProvider.of<AuthenticationBloc>(context)
+                          .add(LoginSubmitted(loginInfo.name, loginInfo.password));
+                      // context.read<AuthenticationBloc>().add(
+                      //     LoginSubmitted(loginInfo.name, loginInfo.password));
+
+                      return SERVER_FAILURE_MESSAGE;
                     });
                   });
             } else if (state is SubmissionSuccess) {

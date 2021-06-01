@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_auth/core/constants/server_constants.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/features/homepage/domain/entities/user.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_login_form.dart'
@@ -11,8 +12,6 @@ import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/s
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-const String SERVER_FAILURE_MESSAGE = 'Server Failure';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {

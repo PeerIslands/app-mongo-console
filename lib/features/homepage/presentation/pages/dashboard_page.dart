@@ -217,25 +217,19 @@ class _MainPageState extends State<DashboardPage> {
     ]
   ];
 
-  static final List<String> chartDropdownItems = [
-    'Last 7 days',
-    'Last month',
-    'Last year'
-  ];
-  String actualDropdown = chartDropdownItems[0];
-  int actualChart = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.lightGreen,
-        drawer: SidebarPage(),
+        bottomNavigationBar: SidebarPage(),
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
-          title: Text('MongoDB Atlas',
+          automaticallyImplyLeading: false,
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Color.fromRGBO(73, 82, 85, 1.0),
+          title: Text('Dashboard',
               style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.w700,
                   fontSize: 20.0)),
         ),
@@ -243,7 +237,7 @@ class _MainPageState extends State<DashboardPage> {
           crossAxisCount: 2,
           crossAxisSpacing: 12.0,
           mainAxisSpacing: 12.0,
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          padding: EdgeInsets.only(left: 16, right: 16, top: 40),
           children: <Widget>[
             _buildTile(
               Padding(
@@ -256,9 +250,12 @@ class _MainPageState extends State<DashboardPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Total Views',
-                              style: TextStyle(color: Colors.blueAccent)),
-                          Text('265K',
+                          Text('Connections',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0)),
+                          Text('265',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
@@ -271,9 +268,44 @@ class _MainPageState extends State<DashboardPage> {
                           child: Center(
                               child: Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Icon(Icons.timeline,
+                            child: Icon(Icons.account_tree,
                                 color: Colors.white, size: 30.0),
                           )))
+                    ]),
+              ),
+            ),
+            _buildTile(
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Users',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0)),
+                          Text('127',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 34.0))
+                        ],
+                      ),
+                      Material(
+                          color: Color.fromRGBO(73, 82, 85, 1.0),
+                          borderRadius: BorderRadius.circular(24.0),
+                          child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Icon(Icons.supervised_user_circle_rounded,
+                                    color: Colors.white, size: 30.0),
+                              )))
                     ]),
               ),
             ),
@@ -293,12 +325,12 @@ class _MainPageState extends State<DashboardPage> {
                                 color: Colors.white, size: 30.0),
                           )),
                       Padding(padding: EdgeInsets.only(bottom: 16.0)),
-                      Text('General',
+                      Text('Settings',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w700,
                               fontSize: 24.0)),
-                      Text('Images, Videos',
+                      Text('Set up connection',
                           style: TextStyle(color: Colors.black45)),
                     ]),
               ),
@@ -315,16 +347,17 @@ class _MainPageState extends State<DashboardPage> {
                           shape: CircleBorder(),
                           child: Padding(
                             padding: EdgeInsets.all(16.0),
-                            child: Icon(Icons.notifications,
+                            child: Icon(Icons.pie_chart,
                                 color: Colors.white, size: 30.0),
                           )),
                       Padding(padding: EdgeInsets.only(bottom: 16.0)),
-                      Text('Alerts',
+                      Text('Databases',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w700,
                               fontSize: 24.0)),
-                      Text('All ', style: TextStyle(color: Colors.black45)),
+                      Text('Manage access ',
+                          style: TextStyle(color: Colors.black45))
                     ]),
               ),
             ),
@@ -343,38 +376,20 @@ class _MainPageState extends State<DashboardPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text('Revenue',
+                              Text('Connections',
                                   style: TextStyle(color: Colors.green)),
-                              Text('\$16K',
+                              Text('\265',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700,
                                       fontSize: 34.0)),
                             ],
                           ),
-                          DropdownButton(
-                              isDense: true,
-                              value: actualDropdown,
-                              onChanged: (String value) => setState(() {
-                                    actualDropdown = value;
-                                    actualChart = chartDropdownItems
-                                        .indexOf(value); // Refresh the chart
-                                  }),
-                              items: chartDropdownItems.map((String title) {
-                                return DropdownMenuItem(
-                                  value: title,
-                                  child: Text(title,
-                                      style: TextStyle(
-                                          color: Colors.blue,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14.0)),
-                                );
-                              }).toList())
                         ],
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 4.0)),
                       Sparkline(
-                        data: charts[actualChart],
+                        data: charts[0],
                         lineWidth: 5.0,
                         lineColor: Colors.greenAccent,
                       )
@@ -384,9 +399,10 @@ class _MainPageState extends State<DashboardPage> {
           ],
           staggeredTiles: [
             StaggeredTile.extent(2, 110.0),
+            StaggeredTile.extent(2, 110.0),
             StaggeredTile.extent(1, 180.0),
             StaggeredTile.extent(1, 180.0),
-            StaggeredTile.extent(2, 220.0),
+            StaggeredTile.extent(2, 250.0),
             StaggeredTile.extent(2, 110.0),
           ],
         ));

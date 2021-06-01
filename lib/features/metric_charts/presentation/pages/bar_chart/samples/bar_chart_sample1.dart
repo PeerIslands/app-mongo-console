@@ -30,23 +30,23 @@ class BarChartSample1State extends State<BarChartSample1> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1,
+      aspectRatio: 0.7,
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        color: const Color(0xff81e5cd),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+        color: const Color(0xffffffff),
         child: Stack(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Text(
-                    'Mingguan',
+                    'Opcounters',
                     style: TextStyle(
-                        color: const Color(0xff0f4a3c),
+                        color: const Color(0xff000000),
                         fontSize: 24,
                         fontWeight: FontWeight.bold),
                   ),
@@ -54,10 +54,10 @@ class BarChartSample1State extends State<BarChartSample1> {
                     height: 4,
                   ),
                   Text(
-                    'Grafik konsumsi kalori',
+                    '31/05/2021 - 02/06/2021',
                     style: TextStyle(
-                        color: const Color(0xff379982),
-                        fontSize: 18,
+                        color: const Color(0xff000000),
+                        fontSize: 12,
                         fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
@@ -67,6 +67,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: BarChart(
+
                         isPlaying ? randomData() : mainBarData(),
                         swapAnimationDuration: animDuration,
                       ),
@@ -82,22 +83,21 @@ class BarChartSample1State extends State<BarChartSample1> {
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: Icon(
-                    isPlaying ? Icons.pause : Icons.play_arrow,
-                    color: const Color(0xff0f4a3c),
+                child: ListTile(
+                  trailing: Wrap(
+                    spacing: 8, // space between two icons
+                    children: <Widget>[
+                      IconButton(
+                          icon: Icon(Icons.keyboard_arrow_left),
+                          onPressed: () {}),
+                      IconButton(
+                          icon: Icon(Icons.keyboard_arrow_right),
+                          onPressed: () {}),
+                    ],
                   ),
-                  onPressed: () {
-                    setState(() {
-                      isPlaying = !isPlaying;
-                      if (isPlaying) {
-                        refreshState();
-                      }
-                    });
-                  },
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -108,7 +108,7 @@ class BarChartSample1State extends State<BarChartSample1> {
     int x,
     double y, {
     bool isTouched = false,
-    Color barColor = Colors.white,
+    Color barColor = const Color(0xff233220),
     double width = 22,
     List<int> showTooltips = const [],
   }) {
@@ -194,7 +194,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                   TextSpan(
                     text: (rod.y - 1).toString(),
                     style: TextStyle(
-                      color: Colors.yellow,
+                      color: const Color(0xffffffff),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -219,24 +219,24 @@ class BarChartSample1State extends State<BarChartSample1> {
         bottomTitles: SideTitles(
           showTitles: true,
           getTextStyles: (value) => const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {
               case 0:
-                return 'M';
+                return 'Mon';
               case 1:
-                return 'T';
+                return 'Tue';
               case 2:
-                return 'W';
+                return 'Wed';
               case 3:
-                return 'T';
+                return 'Thu';
               case 4:
-                return 'F';
+                return 'Fri';
               case 5:
-                return 'S';
+                return 'Sat';
               case 6:
-                return 'S';
+                return 'Sun';
               default:
                 return '';
             }
