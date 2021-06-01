@@ -31,10 +31,12 @@ class AuthenticationBloc
     if (event is LoginSubmitted) {
       final failureOrLogin = await sendLoginForm(SendLoginFormClass.Params(
           email: event.email, password: event.password));
+      yield Submitting();
       yield* _eitherSuccessOrErrorState(failureOrLogin);
     } else if (event is SignupSubmitted) {
       final failureOrSignup = await sendSignupForm(SendSignupFormClass.Params(
           email: event.email, name: event.name, password: event.password));
+      yield Submitting();
       yield* _eitherSuccessOrErrorState(failureOrSignup);
     }
   }

@@ -41,7 +41,7 @@ class SidebarPage extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.settings, color: Colors.white),
+              icon: Icon(Icons.supervised_user_circle_sharp, color: Colors.white),
               onPressed: () {},
             ),
             IconButton(
@@ -51,7 +51,7 @@ class SidebarPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return AuthenticationPage(false);
+                      return AuthenticationPage();
                     },
                   ),
                 );

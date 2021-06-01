@@ -10,6 +10,8 @@ abstract class AuthenticationState extends Equatable {
 
 class Empty extends AuthenticationState {}
 
+class Submitting extends AuthenticationState {}
+
 class SubmissionSuccess extends AuthenticationState {
   final User user;
 
