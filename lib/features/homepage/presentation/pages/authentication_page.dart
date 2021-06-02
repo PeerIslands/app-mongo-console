@@ -65,7 +65,7 @@ class AuthenticationPage extends StatelessWidget {
         return _checkIfLoginSucceed(context);
       }
       if (loginSucceed is SubmissionFailed)
-        return AUTHENTICATION_FAILED;
+        return loginSucceed.message;
       else
         return null;
     });

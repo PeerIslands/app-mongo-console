@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/core/widgets/bottom_sheet_menu.dart';
+import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
+import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -416,7 +417,7 @@ class _MainPageState extends State<DashboardPage> {
                     StaggeredTile.extent(2, 110.0),
                   ],
                 )),
-            SexyBottomSheet(),
+            BottomMenuPage(),
           ]),
         ),
       ),
@@ -433,7 +434,7 @@ class _MainPageState extends State<DashboardPage> {
 
   Future<bool> handleBackPressed() {
     if (isBottomSheetOpen) {
-      toggleBottomSheet();
+      toggleBottomMenu();
       return Future.value(false);
     }
     return Future.value(true);

@@ -3,6 +3,7 @@ import 'package:flutter_auth/features/homepage/domain/repositories/authenticatio
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_login_form.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_signup_form.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:flutter_auth/features/shared/presentation/bloc/bottom_menu/bottom_menu_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final injector = GetIt.instance;
@@ -10,6 +11,7 @@ final injector = GetIt.instance;
 Future<void> register() async {
   // Bloc
   injector.registerFactory(() => AuthenticationBloc(loginForm: injector(), signupForm: injector()));
+  injector.registerFactory(() => BottomMenuBloc());
 
   // Use cases
   injector.registerLazySingleton(() => SendLoginForm(injector()));

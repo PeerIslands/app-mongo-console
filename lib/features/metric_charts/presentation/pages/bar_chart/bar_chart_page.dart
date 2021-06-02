@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/core/widgets/bottom_sheet_menu.dart';
-import 'package:flutter_auth/core/widgets/sidebar_page.dart';
+import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
+import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 
 import 'samples/bar_chart_sample1.dart';
 
@@ -24,7 +24,6 @@ class BarChartPage extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                         fontSize: 20.0)),
               ),
-              bottomNavigationBar: SidebarPage(),
               body: Container(
                 color: Colors.lightGreen,
                 child: Center(
@@ -35,7 +34,7 @@ class BarChartPage extends StatelessWidget {
                 ),
               ),
             ),
-            SexyBottomSheet(),
+            BottomMenuPage(),
           ]),
         ),
       ),
@@ -44,7 +43,7 @@ class BarChartPage extends StatelessWidget {
 
   Future<bool> handleBackPressed() {
     if (isBottomSheetOpen) {
-      toggleBottomSheet();
+      toggleBottomMenu();
       return Future.value(false);
     }
     return Future.value(true);
