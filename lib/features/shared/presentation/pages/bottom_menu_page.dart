@@ -4,6 +4,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
+import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/features/shared/domain/entities/menu_item.dart';
 import 'package:flutter_auth/features/shared/presentation/bloc/bottom_menu/bottom_menu_bloc.dart';
 import 'package:flutter_auth/features/shared/presentation/bloc/bottom_menu/bottom_menu_state.dart';
@@ -53,22 +54,21 @@ class _BottomMenuPageState extends State<BottomMenuPage>
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.white,
+                      color: menuItemColor(context),
                       blurRadius: 5.0,
                     ),
                   ],
                 ),
                 child: Material(
-                  color: Color.fromRGBO(73, 82, 85, 1.0),
+                  color: menuPrimaryColor(context),
                   elevation: 10.0,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     topRight: Radius.circular(10.0),
                   ),
-                  shadowColor: Color.fromRGBO(73, 82, 85, 1.0),
                   child: InkWell(
                     onTap: doNothing,
-                    splashColor: Colors.white,
+                    splashColor: menuItemColor(context),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: BlocBuilder<BottomMenuBloc, BottomMenuState>(
@@ -112,5 +112,3 @@ class _BottomMenuPageState extends State<BottomMenuPage>
     return ChartMenuItem(index: state.items.indexOf(item), item: item);
   }
 }
-
-

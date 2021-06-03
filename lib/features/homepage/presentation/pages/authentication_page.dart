@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/core/constants/message_constants.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
+import 'package:flutter_auth/core/util/app_colors.dart';
+import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_state.dart';
@@ -11,49 +12,73 @@ import 'dashboard_page.dart';
 
 class AuthenticationPage extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext buildContext) {
     return BlocProvider(
       create: (_) => injector<AuthenticationBloc>(),
       child: MaterialApp(
         theme: ThemeData(
-          primarySwatch: Colors.lightGreen,
+          primarySwatch: primaryColor(buildContext),
           textTheme: TextTheme(
-            headline3: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 45.0,
-              color: Colors.white,
-            ),
             button: TextStyle(
               fontFamily: 'OpenSans',
             ),
           ),
         ),
-        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          // ignore: missing_return
-          builder: (context, state) {
-            return FlutterLogin(
-              logo: 'assets/images/mongo_peer_login.png',
-              loginProviders: [],
-              onLogin: (LoginData loginInfo) {
-                context
-                    .read<AuthenticationBloc>()
-                    .add(LoginSubmitted(loginInfo.name, loginInfo.password));
+        home: Scaffold(
+          body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            // ignore: missing_return
+            builder: (context, state) {
+              return FlutterLogin(
+                logo: 'assets/images/mongo_peer_login.png',
+                loginProviders: [],
+                onLogin: (LoginData loginInfo) {
+                  context
+                      .read<AuthenticationBloc>()
+                      .add(LoginSubmitted(loginInfo.name, loginInfo.password));
 
-                return _checkIfLoginSucceed(context);
-              },
-              onSubmitAnimationCompleted: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return DashboardPage();
-                    },
-                  ),
-                );
-              },
-            );
-          },
+                  return _checkIfLoginSucceed(context);
+                },
+                onSubmitAnimationCompleted: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return DashboardPage();
+                      },
+                    ),
+                  );
+                },
+                theme: buildLoginTheme(buildContext),
+              );
+            },
+          ),
+          floatingActionButton: FloatingDarkLightModeButton(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         ),
+      ),
+    );
+  }
+
+  LoginTheme buildLoginTheme(BuildContext context) {
+    return LoginTheme(
+      primaryColor: loginPrimaryColor(context),
+      pageColorLight: primaryColor(context),
+      pageColorDark: loginSecondaryColor(context),
+      cardTheme: CardTheme(
+        color: loginCardColor(context),
+        elevation: 5,
+        margin: EdgeInsets.only(top: 15),
+        shape: ContinuousRectangleBorder(
+            borderRadius: BorderRadius.circular(100.0)),
+      ),
+      bodyStyle: TextStyle(
+        color: loginBodyColor(context),
+        fontStyle: FontStyle.italic,
+      ),
+      inputTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: loginInputsColor(context),
+        contentPadding: EdgeInsets.zero,
       ),
     );
   }

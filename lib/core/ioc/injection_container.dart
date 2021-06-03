@@ -10,7 +10,8 @@ final injector = GetIt.instance;
 
 Future<void> register() async {
   // Bloc
-  injector.registerFactory(() => AuthenticationBloc(loginForm: injector(), signupForm: injector()));
+  injector.registerFactory(
+      () => AuthenticationBloc(loginForm: injector(), signupForm: injector()));
   injector.registerFactory(() => BottomMenuBloc());
 
   // Use cases

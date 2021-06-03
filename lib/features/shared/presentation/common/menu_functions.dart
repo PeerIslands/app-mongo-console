@@ -19,13 +19,21 @@ void doNothing() {
 void toggleBottomMenu() =>
     controller.fling(velocity: isBottomSheetOpen ? -2 : 2);
 
+Future<bool> handleBackPressed() {
+  if (isBottomSheetOpen) {
+    toggleBottomMenu();
+    return Future.value(false);
+  }
+  return Future.value(true);
+}
+
 bool get isBottomSheetOpen => (controller.status == AnimationStatus.completed);
 
 double lerp(double min, double max) => lerpDouble(min, max, controller.value);
 
-double maxHeight (BuildContext context) => MediaQuery.of(context).size.height;
+double maxHeight(BuildContext context) => MediaQuery.of(context).size.height;
 
-double headerTopMargin (BuildContext context) =>
+double headerTopMargin(BuildContext context) =>
     lerp(16, 0 + MediaQuery.of(context).padding.top);
 
 double get itemBorderRadius => lerp(8, 15);
@@ -41,7 +49,7 @@ double iconTopMargin(int index, BuildContext context) =>
       iconStartMarginTop,
       iconEndMarginTop + index * (iconsVerticalSpacing + iconEndSize),
     ) +
-        headerTopMargin(context);
+    headerTopMargin(context);
 
 double iconLeftMargin(int index) =>
     lerp(index * (iconsHorizontalSpacing + iconStartSize), 0);

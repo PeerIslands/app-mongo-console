@@ -19,8 +19,8 @@ class AuthenticationBloc
   final SendSignupFormClass.SendSignupForm sendSignupForm;
 
   AuthenticationBloc(
-  {@required SendLoginFormClass.SendLoginForm loginForm,
-    @required SendSignupFormClass.SendSignupForm signupForm})
+      {@required SendLoginFormClass.SendLoginForm loginForm,
+      @required SendSignupFormClass.SendSignupForm signupForm})
       : sendLoginForm = loginForm,
         sendSignupForm = signupForm,
         super(Empty());

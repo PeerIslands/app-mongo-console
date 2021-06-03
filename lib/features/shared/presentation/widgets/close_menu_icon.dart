@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/features/shared/presentation/bloc/bottom_menu/bottom_menu_bloc.dart';
 import 'package:flutter_auth/features/shared/presentation/bloc/bottom_menu/bottom_menu_event.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
@@ -18,10 +19,9 @@ class CloseMenuIcon extends StatelessWidget {
       child: GestureDetector(
         onTap: doNothing,
         child: IconButton(
-          icon: Icon(Icons.close, color: Colors.white),
+          icon: Icon(Icons.close, color: menuItemColor(context)),
           onPressed: () {
-            context.read<BottomMenuBloc>()
-                .add(CloseChartMenu());
+            context.read<BottomMenuBloc>().add(CloseChartMenu());
             toggleBottomMenu();
           },
         ),

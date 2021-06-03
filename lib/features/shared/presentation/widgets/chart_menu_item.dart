@@ -10,11 +10,7 @@ class ChartMenuItem extends StatelessWidget {
   final int index;
   final MenuItem item;
 
-  const ChartMenuItem({
-    Key key,
-    this.index,
-    this.item
-  }) : super(key: key);
+  const ChartMenuItem({Key key, this.index, this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

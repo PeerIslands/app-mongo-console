@@ -8,6 +8,7 @@ class MenuItemTile extends StatelessWidget {
     this.splashColor,
     this.onTap,
   });
+
   final Widget child;
   final Color color;
   final Color splashColor;
@@ -20,7 +21,6 @@ class MenuItemTile extends StatelessWidget {
         color: color,
         elevation: 10.0,
         borderRadius: BorderRadius.circular(15.0),
-        shadowColor: Color(0x80718792),
         child: InkWell(
           child: child,
           splashColor: splashColor,

@@ -12,23 +12,22 @@ import 'bottom_menu_event.dart';
 class BottomMenuBloc extends Bloc<MenuEvent, BottomMenuState> {
   BottomMenuBloc() : super(Initial(items: _initialState()));
 
-  static List<MenuItem> _initialState() =>
-    [
-      MenuItem(Icon(Icons.home, color: Colors.white, size: 35), DashboardPage(),
-          false, 'Dashboard'),
-      MenuItem(Icon(Icons.stacked_bar_chart, color: Colors.white, size: 35),
-          null, true, 'Metrics'),
-      MenuItem(
-          Icon(Icons.supervised_user_circle_sharp,
-              color: Colors.white, size: 35),
-          null,
-          false,
-          'Users'),
-      MenuItem(Icon(Icons.pie_chart, color: Colors.white, size: 35), null,
-          false, 'Databases'),
-      MenuItem(Icon(Icons.logout, color: Colors.white, size: 35),
-          AuthenticationPage(), false, 'Logout'),
-    ];
+  static List<MenuItem> _initialState() => [
+        MenuItem(Icon(Icons.home, color: Colors.white, size: 35),
+            DashboardPage(), false, 'Dashboard'),
+        MenuItem(Icon(Icons.stacked_bar_chart, color: Colors.white, size: 35),
+            null, true, 'Metrics'),
+        MenuItem(
+            Icon(Icons.supervised_user_circle_sharp,
+                color: Colors.white, size: 35),
+            null,
+            false,
+            'Users'),
+        MenuItem(Icon(Icons.pie_chart, color: Colors.white, size: 35), null,
+            false, 'Databases'),
+        MenuItem(Icon(Icons.logout, color: Colors.white, size: 35),
+            AuthenticationPage(), false, 'Logout'),
+      ];
 
   @override
   Stream<BottomMenuState> mapEventToState(MenuEvent event) async* {

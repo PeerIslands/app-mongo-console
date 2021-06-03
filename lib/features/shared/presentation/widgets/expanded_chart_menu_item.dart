@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/core/util/app_colors.dart';
 
 import 'menu_item_tile.dart';
 
@@ -13,12 +14,12 @@ class ExpandedChartMenuItem extends StatelessWidget {
 
   const ExpandedChartMenuItem(
       {Key key,
-        this.topMargin,
-        this.height,
-        this.isVisible,
-        this.borderRadius,
-        this.title,
-        this.leftMargin})
+      this.topMargin,
+      this.height,
+      this.isVisible,
+      this.borderRadius,
+      this.title,
+      this.leftMargin})
       : super(key: key);
 
   @override
@@ -32,8 +33,7 @@ class ExpandedChartMenuItem extends StatelessWidget {
         opacity: isVisible ? 1 : 0,
         duration: Duration(milliseconds: 200),
         child: MenuItemTile(
-          color: Colors.black,
-          splashColor: Color(0xffffd600),
+          color: menuItemTileColor(context),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +48,7 @@ class ExpandedChartMenuItem extends StatelessWidget {
                     fontFamily: 'Quicksand',
                     fontSize: 20.0,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    color: menuItemColor(context),
                   ),
                 ),
               ),

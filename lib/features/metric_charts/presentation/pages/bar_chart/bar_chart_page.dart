@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 
@@ -8,7 +9,7 @@ class BarChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen,
+      resizeToAvoidBottomInset: false,
       body: WillPopScope(
         onWillPop: this.handleBackPressed,
         child: Container(
@@ -25,7 +26,7 @@ class BarChartPage extends StatelessWidget {
                         fontSize: 20.0)),
               ),
               body: Container(
-                color: Colors.lightGreen,
+                color: primaryColor(context),
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.only(left: 16, right: 16, top: 16),
