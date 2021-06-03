@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
+import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_full.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_half.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/widgets/bar_chart_item.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -23,7 +25,6 @@ class _MainPageState extends State<DashboardPage> {
         child: Container(
           child: Stack(children: <Widget>[
             Scaffold(
-                resizeToAvoidBottomInset: false,
                 backgroundColor: primaryColor(context),
                 appBar: AppBarDefault(title: 'Dashboard'),
                 body: StaggeredGridView.count(
@@ -56,13 +57,14 @@ class _MainPageState extends State<DashboardPage> {
                       iconData: Icons.pie_chart,
                       iconDataColor: dashboardForthTileCardIconColor(context),
                     ),
+                    DashboardTile(child: BarChartItem())
                   ],
                   staggeredTiles: [
                     StaggeredTile.extent(2, 110.0),
                     StaggeredTile.extent(2, 110.0),
                     StaggeredTile.extent(1, 180.0),
                     StaggeredTile.extent(1, 180.0),
-                    StaggeredTile.extent(2, 110.0),
+                    StaggeredTile.extent(2, 400.0),
                   ],
                 )),
             BottomMenuPage(),
@@ -74,7 +76,3 @@ class _MainPageState extends State<DashboardPage> {
     );
   }
 }
-
-
-
-

@@ -5,7 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class BarChartSample1 extends StatefulWidget {
+class BarChartItem extends StatefulWidget {
   final List<Color> availableColors = [
     Colors.purpleAccent,
     Colors.yellow,
@@ -16,10 +16,10 @@ class BarChartSample1 extends StatefulWidget {
   ];
 
   @override
-  State<StatefulWidget> createState() => BarChartSample1State();
+  State<StatefulWidget> createState() => BarChartItemState();
 }
 
-class BarChartSample1State extends State<BarChartSample1> {
+class BarChartItemState extends State<BarChartItem> {
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final Duration animDuration = const Duration(milliseconds: 250);
 
@@ -44,7 +44,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Text(
-                    'Opcounters',
+                    'Connections',
                     style: TextStyle(
                         color: const Color(0xff000000),
                         fontSize: 24,

@@ -16,10 +16,11 @@ class DashboardTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-        elevation: 14.0,
-        color: dashboardTilesColor(context),
-        borderRadius: BorderRadius.circular(12.0),
-        shadowColor: Color(0x807B7B7B),
-        child: InkWell(onTap: doNothing, child: child));
+      elevation: 14.0,
+      color: dashboardTilesColor(context),
+      borderRadius: BorderRadius.circular(12.0),
+      shadowColor: Color(0x807B7B7B),
+      child: InkWell(onTap: doNothing, child: child),
+    );
   }
 }
