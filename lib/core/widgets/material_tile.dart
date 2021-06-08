@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 
-class DashboardTile extends StatelessWidget {
+class MaterialTile extends StatelessWidget {
   final Widget child;
   final Function onTap;
 
-  const DashboardTile({
+  const  MaterialTile({
     Key key,
     this.child,
     this.onTap,

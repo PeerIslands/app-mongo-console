@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_auth/core/constants/server_constants.dart';
 import 'package:flutter_auth/core/error/failures.dart';
+import 'package:flutter_auth/core/http/api_base_helper.dart';
 import 'package:flutter_auth/features/homepage/domain/entities/user.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_login_form.dart'
     as SendLoginFormClass;
@@ -45,7 +46,11 @@ class AuthenticationBloc
       Either<Failure, User> failureOrUser) async* {
     yield failureOrUser.fold(
       (failure) => SubmissionFailed(message: _mapFailureToMessage(failure)),
-      (user) => SubmissionSuccess(user: user),
+      (user) {
+        ApiBaseHelper.storage.write(key: BEARER_TOKEN, value: user.token);
+
+        return SubmissionSuccess(user: user);
+      },
     );
   }
 

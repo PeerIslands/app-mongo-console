@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 
-import 'dashboard_tile.dart';
+import '../../../../core/widgets/material_tile.dart';
 
 class DashboardTileItemHalf extends StatelessWidget {
   final String title;
@@ -20,7 +20,7 @@ class DashboardTileItemHalf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DashboardTile(
+    return MaterialTile(
       child: Padding(
         padding: const EdgeInsets.only(left: 12.0, top: 12.0),
         child: Column(

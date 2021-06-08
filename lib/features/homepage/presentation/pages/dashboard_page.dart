@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
-import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile.dart';
+import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_full.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_half.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/widgets/bar_chart_item.dart';
@@ -57,7 +57,7 @@ class _MainPageState extends State<DashboardPage> {
                       iconData: Icons.pie_chart,
                       iconDataColor: dashboardForthTileCardIconColor(context),
                     ),
-                    DashboardTile(child: BarChartItem())
+                    MaterialTile(child: BarChartItem())
                   ],
                   staggeredTiles: [
                     StaggeredTile.extent(2, 110.0),
