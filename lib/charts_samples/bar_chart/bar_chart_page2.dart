@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'samples/bar_chart_sample2.dart';
+import '../../features/metric_charts/presentation/widgets/bar_chart_item_thin.dart';
 
 class BarChartPage2 extends StatelessWidget {
   @override
@@ -10,7 +10,7 @@ class BarChartPage2 extends StatelessWidget {
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(28.0),
-          child: BarChartSample2(),
+          child: BarChartItemThin(),
         ),
       ),
     );

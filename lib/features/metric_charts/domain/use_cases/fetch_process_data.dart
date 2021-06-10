@@ -13,8 +13,8 @@ class FetchProcessData implements UseCase<List<Process>, NoParams> {
   Future<Either<Failure, List<Process>>> call(NoParams params) async {
     var groupOrFailure = await repository.getGroup();
     return groupOrFailure.fold(
-          (failure) => Left(failure),
-          (group) async => await repository.getProcesses(group.id),
+      (failure) => Left(failure),
+      (group) async => await repository.getProcesses(group.id),
     );
   }
 }

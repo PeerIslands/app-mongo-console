@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_auth/core/constants/server_constants.dart';
+import 'package:flutter_auth/core/constants/storage_constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiBaseHelper {
-  static final String url = Platform.isIOS ? HTTP_SERVER_URL_IOS : HTTP_SERVER_URL_ANDROID;
+  static final String url =
+      Platform.isIOS ? HTTP_SERVER_URL_IOS : HTTP_SERVER_URL_ANDROID;
   static final storage = new FlutterSecureStorage();
 
   static BaseOptions opts = BaseOptions(
@@ -23,7 +25,7 @@ class ApiBaseHelper {
     return dio
       ..interceptors.add(InterceptorsWrapper(
         onError: (error, errorInterceptorHandler) {
-          print(error);
+          throw error;
         },
         onRequest: (request, requestInterceptorHandler) async {
           return requestInterceptorHandler

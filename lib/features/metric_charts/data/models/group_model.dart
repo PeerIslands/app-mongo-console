@@ -23,17 +23,19 @@ class GroupModel extends Group {
         orgId: json['orgId'],
         links: json['links'] != null
             ? json['links'].forEach((v) {
-          new LinksModel.fromJson(v);
-        }) : []
-    );
+                new LinksModel.fromJson(v);
+              })
+            : []);
   }
 
   Map<String, dynamic> toJson() => {
-    'clusterCount': clusterCount,
-    'created': created,
-    'id': id,
-    'name': name,
-    'orgId': orgId,
-    'links': this.links != null ? (links as List<LinksModel>).map((v) => v.toJson()).toList() : [],
-  };
+        'clusterCount': clusterCount,
+        'created': created,
+        'id': id,
+        'name': name,
+        'orgId': orgId,
+        'links': this.links != null
+            ? (links as List<LinksModel>).map((v) => v.toJson()).toList()
+            : [],
+      };
 }

@@ -2,22 +2,31 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/error/exceptions.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/http/api_base_helper.dart';
+import 'package:flutter_auth/features/metric_charts/data/datasources/process/process_cache_datasource.dart';
+import 'package:flutter_auth/features/metric_charts/data/datasources/process/process_remote_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/models/group_model.dart';
 import 'package:flutter_auth/features/metric_charts/data/models/measurement_model.dart';
-import 'package:flutter_auth/features/metric_charts/data/models/process_model.dart';
-import 'package:flutter_auth/features/metric_charts/domain/constants/measurement_query_constants.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/group.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/measurement.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/process.dart';
 import 'package:flutter_auth/features/metric_charts/domain/repositories/measurement_repository.dart';
+import 'package:flutter_auth/features/metric_charts/domain/util/measurement_queries.dart';
 
 class MeasurementRepositoryImpl implements MeasurementRepository {
+  final ProcessCacheDataSource processCacheDataSource;
+  final ProcessRemoteDataSource processRemoteDataSource;
+
+  MeasurementRepositoryImpl(
+      {@required this.processCacheDataSource,
+      @required this.processRemoteDataSource});
 
   @override
-  Future<Either<Failure, Measurement>> fetchMeasurements(List<BaseMeasurementQuery> params) async {
+  Future<Either<Failure, Measurement>> fetchMeasurements(
+      List<BaseMeasurementQuery> params) async {
     try {
       Map<String, String> queryParams = {};
 
@@ -25,10 +34,11 @@ class MeasurementRepositoryImpl implements MeasurementRepository {
         queryParams[element.param] = element.value;
       });
 
-      Response response = await ApiBaseHelper().get('mongodb/process/measurements', queryParams);
+      Response response = await ApiBaseHelper()
+          .get('mongodb/process/measurements', queryParams);
 
       if (response.statusCode == 200) {
-        return Right(MeasurementModel.fromJson(json.decode(response.data)));
+        return Right(MeasurementModel.fromJson(response.data));
       } else {
         return throw ServerException();
       }
@@ -44,7 +54,8 @@ class MeasurementRepositoryImpl implements MeasurementRepository {
 
       if (response.statusCode == 200) {
         return Right((response.data as List)
-            .map((group) => GroupModel.fromJson(group)).toList()[0]);
+            .map((group) => GroupModel.fromJson(group))
+            .toList()[0]);
       } else {
         return throw ServerException();
       }
@@ -56,19 +67,15 @@ class MeasurementRepositoryImpl implements MeasurementRepository {
   @override
   Future<Either<Failure, List<Process>>> getProcesses(String groupId) async {
     try {
-      Map<String, String> queryParams = {
-        'group_id': groupId
-      };
-
-      Response response = await ApiBaseHelper().get('mongodb/process', queryParams);
-
-      if (response.statusCode == 200) {
-        return Right((response.data as List)
-            .map((process) => ProcessModel.fromJson(process))
-            .toList());
-      } else {
-        return throw ServerException();
+      if (await processCacheDataSource.checkProcessExists()) {
+        return Right(await processCacheDataSource.getProcesses());
       }
+
+      var processes = await processRemoteDataSource.getProcesses(groupId);
+
+      await processCacheDataSource.cacheProcesses(processes);
+
+      return Right(processes);
     } on ServerException {
       return Left(ServerFailure());
     }

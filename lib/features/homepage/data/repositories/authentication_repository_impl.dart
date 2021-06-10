@@ -7,7 +7,6 @@ import 'package:flutter_auth/features/homepage/domain/entities/user.dart';
 import 'package:flutter_auth/features/homepage/domain/repositories/authentication_repository.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
-
   @override
   Future<Either<Failure, User>> forgotPassword(String email) {
     // TODO: implement forgotPassword
@@ -17,9 +16,11 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<Failure, User>> loginUser(String email, String password) async {
     try {
-      Response response = await ApiBaseHelper().post('login', {"email": email, "password": password});
+      Response response = await ApiBaseHelper()
+          .post('login', {"email": email, "password": password});
 
-      if (response.statusCode == 200 && response.data['token'] != "email or password is wrong") {
+      if (response.statusCode == 200 &&
+          response.data['token'] != "email or password is wrong") {
         return Right(User(email: email, token: response.data['token']));
       } else {
         return throw ServerException();

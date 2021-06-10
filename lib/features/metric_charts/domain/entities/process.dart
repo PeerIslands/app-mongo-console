@@ -14,18 +14,31 @@ class Process extends Equatable {
   final String userAlias;
   final String version;
 
-  Process(this.created,
-        this.groupId,
-        this.hostname,
-        this.id,
-        this.lastPing,
-        this.links,
-        this.port,
-        this.replicaSetName,
-        this.typeName,
-        this.userAlias,
-        this.version);
+  Process(
+      this.created,
+      this.groupId,
+      this.hostname,
+      this.id,
+      this.lastPing,
+      this.links,
+      this.port,
+      this.replicaSetName,
+      this.typeName,
+      this.userAlias,
+      this.version);
 
   @override
-  List<Object> get props => [created, groupId, hostname, id, lastPing, links, port, replicaSetName, typeName, userAlias, version];
+  List<Object> get props => [
+        created,
+        groupId,
+        hostname,
+        id,
+        lastPing,
+        links,
+        port,
+        replicaSetName,
+        typeName,
+        userAlias,
+        version
+      ];
 }

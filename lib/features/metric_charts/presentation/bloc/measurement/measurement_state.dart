@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/measurement.dart';
+import 'package:flutter_auth/features/metric_charts/domain/entities/process.dart';
 
 @immutable
 abstract class MeasurementState extends Equatable {
@@ -28,4 +29,13 @@ class DataFailed extends MeasurementState {
 
   @override
   List<Object> get props => [message];
+}
+
+class ProcessSelected extends MeasurementState {
+  final Process process;
+
+  ProcessSelected(this.process);
+
+  @override
+  List<Object> get props => [process];
 }

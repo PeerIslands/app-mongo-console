@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_auth/core/constants/server_constants.dart';
+import 'package:flutter_auth/core/constants/message_constants.dart';
+import 'package:flutter_auth/core/constants/storage_constants.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/http/api_base_helper.dart';
 import 'package:flutter_auth/features/homepage/domain/entities/user.dart';
@@ -59,7 +60,7 @@ class AuthenticationBloc
       case ServerFailure:
         return SERVER_FAILURE_MESSAGE;
       default:
-        return 'Unexpected error';
+        return GENERAL_ERROR_MESSAGE;
     }
   }
 }

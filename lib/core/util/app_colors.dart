@@ -7,7 +7,6 @@ class GeneralColors {
   static const blue = Colors.blue;
   static const teal = Colors.teal;
   static const amber = Colors.amber;
-
 }
 
 class _ColorsBright {

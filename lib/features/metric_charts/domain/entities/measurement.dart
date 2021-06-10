@@ -11,10 +11,20 @@ class Measurement extends Equatable {
   final String processId;
   final String start;
 
-  Measurement(this.end, this.granularity, this.groupId, this.hostId, this.links, this.measurements, this.processId, this.start);
+  Measurement(this.end, this.granularity, this.groupId, this.hostId, this.links,
+      this.measurements, this.processId, this.start);
 
   @override
-  List<Object> get props => [end, granularity, groupId, hostId, links, measurements, processId, start];
+  List<Object> get props => [
+        end,
+        granularity,
+        groupId,
+        hostId,
+        links,
+        measurements,
+        processId,
+        start
+      ];
 }
 
 class Measurements extends Equatable {
@@ -30,7 +40,7 @@ class Measurements extends Equatable {
 
 class DataPoints extends Equatable {
   final String timestamp;
-  final double value;
+  final int value;
 
   DataPoints(this.timestamp, this.value);
 

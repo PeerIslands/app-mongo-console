@@ -7,7 +7,7 @@ class MaterialTile extends StatelessWidget {
   final Widget child;
   final Function onTap;
 
-  const  MaterialTile({
+  const MaterialTile({
     Key key,
     this.child,
     this.onTap,

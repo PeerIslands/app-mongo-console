@@ -32,7 +32,7 @@ class DashboardTileItemHalf extends StatelessWidget {
                   shape: CircleBorder(),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Icon(Icons.settings_applications,
+                    child: Icon(iconData,
                         color: dashboardTilesIconColor(context), size: 30.0),
                   )),
               Padding(padding: EdgeInsets.only(bottom: 16.0)),

@@ -1,11 +1,8 @@
-import 'dart:async';
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class BarChartItem extends StatefulWidget {
+class BarChartItemThick extends StatefulWidget {
   final List<Color> availableColors = [
     Colors.purpleAccent,
     Colors.yellow,
@@ -16,12 +13,11 @@ class BarChartItem extends StatefulWidget {
   ];
 
   @override
-  State<StatefulWidget> createState() => BarChartItemState();
+  State<StatefulWidget> createState() => BarChartItemThickState();
 }
 
-class BarChartItemState extends State<BarChartItem> {
+class BarChartItemThickState extends State<BarChartItemThick> {
   final Color barBackgroundColor = const Color(0xff72d8bf);
-  final Duration animDuration = const Duration(milliseconds: 250);
 
   int touchedIndex = -1;
 
@@ -66,7 +62,6 @@ class BarChartItemState extends State<BarChartItem> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: BarChart(
                         mainBarData(),
-                        swapAnimationDuration: animDuration,
                       ),
                     ),
                   ),
@@ -248,11 +243,5 @@ class BarChartItemState extends State<BarChartItem> {
       ),
       barGroups: showingGroups(),
     );
-  }
-
-  Future<dynamic> refreshState() async {
-    setState(() {});
-    await Future<dynamic>.delayed(
-        animDuration + const Duration(milliseconds: 50));
   }
 }

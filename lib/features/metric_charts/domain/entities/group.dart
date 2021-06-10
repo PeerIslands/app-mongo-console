@@ -10,12 +10,8 @@ class Group extends Equatable {
   final String name;
   final String orgId;
 
-  Group(this.clusterCount,
-        this.created,
-        this.id,
-        this.links,
-        this.name,
-        this.orgId);
+  Group(this.clusterCount, this.created, this.id, this.links, this.name,
+      this.orgId);
 
   @override
   List<Object> get props => [clusterCount, created, id, links, name, orgId];

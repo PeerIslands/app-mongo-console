@@ -15,13 +15,14 @@ class FloatingDarkLightModeButton extends StatelessWidget {
       heroTag: 'fab',
       child: isThemeCurrentlyDark(context)
           ? Icon(
-        EvaIcons.sun,
-        size: 30.0,
-      ) //show sun icon when in dark mode
+              EvaIcons.sun,
+              size: 30.0,
+            ) //show sun icon when in dark mode
           : Icon(
-        EvaIcons.moon,
-        size: 26.0,
-      ), //show moon icon when in light mode
+              EvaIcons.moon,
+              size: 26.0,
+            ),
+      //show moon icon when in light mode
       tooltip: isThemeCurrentlyDark(context)
           ? 'Switch to light mode'
           : 'Switch to dark mode',

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_auth/features/metric_charts/domain/constants/measurement_query_constants.dart';
+import 'package:flutter_auth/features/metric_charts/domain/entities/process.dart';
 
 @immutable
 abstract class MeasurementEvent extends Equatable {
@@ -8,11 +8,25 @@ abstract class MeasurementEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchDataRequested extends MeasurementEvent {
-  final List<BaseMeasurementQuery> params;
+class ProcessChanged extends MeasurementEvent {
+  final Process process;
 
-  FetchDataRequested(this.params);
+  ProcessChanged({@required this.process});
 
   @override
-  List<Object> get props => [params];
+  List<Object> get props => [process];
+}
+
+class GetConnectionData extends MeasurementEvent {
+  final DateTime startDate;
+  final DateTime endDate;
+  final Process process;
+
+  GetConnectionData(
+      {@required this.startDate,
+      @required this.endDate,
+      @required this.process});
+
+  @override
+  List<Object> get props => [startDate, endDate, process];
 }

@@ -6,7 +6,7 @@ import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_full.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_half.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/widgets/bar_chart_item.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/widgets/bar_chart_item_thick.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -40,9 +40,9 @@ class _MainPageState extends State<DashboardPage> {
                       iconDataColor: dashboardFirstTileCardIconColor(context),
                     ),
                     DashboardTileItemFull(
-                      title: 'Users',
-                      subTitle: '127',
-                      iconData: Icons.supervised_user_circle_rounded,
+                      title: 'Network Addresses',
+                      subTitle: '2',
+                      iconData: Icons.network_wifi,
                       iconDataColor: dashboardSecondTileCardIconColor(context),
                     ),
                     DashboardTileItemHalf(
@@ -57,7 +57,7 @@ class _MainPageState extends State<DashboardPage> {
                       iconData: Icons.pie_chart,
                       iconDataColor: dashboardForthTileCardIconColor(context),
                     ),
-                    MaterialTile(child: BarChartItem())
+                    MaterialTile(child: BarChartItemThick())
                   ],
                   staggeredTiles: [
                     StaggeredTile.extent(2, 110.0),

@@ -1,0 +1,2 @@
+const String BEARER_TOKEN = 'USER_TOKEN';
+const String CACHE_PROCESS = 'CACHE_PROCESS';

@@ -1,12 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class LineChartSample1 extends StatefulWidget {
+class LineChartItem extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => LineChartSample1State();
+  State<StatefulWidget> createState() => LineChartItemState();
 }
 
-class LineChartSample1State extends State<LineChartSample1> {
+class LineChartItemState extends State<LineChartItem> {
   bool isShowingMainData;
 
   @override
@@ -24,8 +24,8 @@ class LineChartSample1State extends State<LineChartSample1> {
           borderRadius: BorderRadius.all(Radius.circular(18)),
           gradient: LinearGradient(
             colors: [
-              Color(0xff2c274c),
-              Color(0xff46426c),
+              Color(0xffffffff),
+              Color(0xffffffff),
             ],
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
@@ -40,23 +40,23 @@ class LineChartSample1State extends State<LineChartSample1> {
                   height: 37,
                 ),
                 const Text(
-                  'Unfold Shop 2018',
+                  'Network',
                   style: TextStyle(
-                    color: Color(0xff827daa),
-                    fontSize: 16,
-                  ),
+                      color: const Color(0xff000000),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 const Text(
-                  'Monthly Sales',
+                  'BYTE IN/BYTES OUT',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2),
+                    color: const Color(0xff7f7f7f),
+                    fontSize: 12,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -79,7 +79,7 @@ class LineChartSample1State extends State<LineChartSample1> {
             IconButton(
               icon: Icon(
                 Icons.refresh,
-                color: Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),
+                color: Colors.black.withOpacity(isShowingMainData ? 1.0 : 0.5),
               ),
               onPressed: () {
                 setState(() {
@@ -110,7 +110,7 @@ class LineChartSample1State extends State<LineChartSample1> {
           showTitles: true,
           reservedSize: 22,
           getTextStyles: (value) => const TextStyle(
-            color: Color(0xff72719b),
+            color: Color(0xff000000),
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -130,7 +130,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         leftTitles: SideTitles(
           showTitles: true,
           getTextStyles: (value) => const TextStyle(
-            color: Color(0xff75729e),
+            color: Color(0xff090909),
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -155,7 +155,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         show: true,
         border: const Border(
           bottom: BorderSide(
-            color: Color(0xff4e4965),
+            color: Color(0xff050505),
             width: 4,
           ),
           left: BorderSide(
@@ -201,28 +201,6 @@ class LineChartSample1State extends State<LineChartSample1> {
         show: false,
       ),
     );
-    final lineChartBarData2 = LineChartBarData(
-      spots: [
-        FlSpot(1, 1),
-        FlSpot(3, 2.8),
-        FlSpot(7, 1.2),
-        FlSpot(10, 2.8),
-        FlSpot(12, 2.6),
-        FlSpot(13, 3.9),
-      ],
-      isCurved: true,
-      colors: [
-        const Color(0xffaa4cfc),
-      ],
-      barWidth: 8,
-      isStrokeCapRound: true,
-      dotData: FlDotData(
-        show: false,
-      ),
-      belowBarData: BarAreaData(show: false, colors: [
-        const Color(0x00aa4cfc),
-      ]),
-    );
     final lineChartBarData3 = LineChartBarData(
       spots: [
         FlSpot(1, 2.8),
@@ -246,7 +224,6 @@ class LineChartSample1State extends State<LineChartSample1> {
     );
     return [
       lineChartBarData1,
-      lineChartBarData2,
       lineChartBarData3,
     ];
   }
@@ -264,7 +241,7 @@ class LineChartSample1State extends State<LineChartSample1> {
           showTitles: true,
           reservedSize: 22,
           getTextStyles: (value) => const TextStyle(
-            color: Color(0xff72719b),
+            color: Color(0xff000000),
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -284,7 +261,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         leftTitles: SideTitles(
           showTitles: true,
           getTextStyles: (value) => const TextStyle(
-            color: Color(0xff75729e),
+            color: Color(0xff000000),
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -311,7 +288,7 @@ class LineChartSample1State extends State<LineChartSample1> {
           show: true,
           border: const Border(
             bottom: BorderSide(
-              color: Color(0xff4e4965),
+              color: Color(0xff000000),
               width: 4,
             ),
             left: BorderSide(
@@ -357,28 +334,6 @@ class LineChartSample1State extends State<LineChartSample1> {
         belowBarData: BarAreaData(
           show: false,
         ),
-      ),
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 2.8),
-          FlSpot(7, 1.2),
-          FlSpot(10, 2.8),
-          FlSpot(12, 2.6),
-          FlSpot(13, 3.9),
-        ],
-        isCurved: true,
-        colors: const [
-          Color(0x99aa4cfc),
-        ],
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(
-          show: false,
-        ),
-        belowBarData: BarAreaData(show: true, colors: [
-          const Color(0x33aa4cfc),
-        ]),
       ),
       LineChartBarData(
         spots: [

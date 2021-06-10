@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-const String _PATH_PROCESS = 'processes';
-const String _PATH_GROUP = 'groups';
 const String _PATH_MEASUREMENT = 'measurements';
 const String _PARAM_GROUP = 'group_id';
 const String _PARAM_PROCESS = 'process_id';
