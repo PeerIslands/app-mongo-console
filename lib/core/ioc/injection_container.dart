@@ -3,11 +3,13 @@ import 'package:flutter_auth/features/homepage/domain/repositories/authenticatio
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_login_form.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_signup_form.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:flutter_auth/features/metric_charts/data/datasources/measurement_params_cache_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/process/process_cache_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/process/process_remote_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/repositories/measurement_repository_impl.dart';
 import 'package:flutter_auth/features/metric_charts/domain/repositories/measurement_repository.dart';
 import 'package:flutter_auth/features/metric_charts/domain/use_cases/fetch_measurement_data.dart';
+import 'package:flutter_auth/features/metric_charts/domain/use_cases/fetch_measurement_params.dart';
 import 'package:flutter_auth/features/metric_charts/domain/use_cases/fetch_process_data.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/process/process_bloc.dart';
@@ -21,7 +23,7 @@ Future<void> register() async {
   injector.registerFactory(
       () => AuthenticationBloc(loginForm: injector(), signupForm: injector()));
   injector.registerFactory(() => BottomMenuBloc());
-  injector.registerFactory(() => MeasurementBloc(injector()));
+  injector.registerFactory(() => MeasurementBloc(injector(), injector()));
   injector.registerFactory(() => ProcessBloc(injector()));
 
   // Use cases
@@ -29,6 +31,7 @@ Future<void> register() async {
   injector.registerLazySingleton(() => SendSignupForm(injector()));
   injector.registerLazySingleton(() => FetchMeasurementData(injector()));
   injector.registerLazySingleton(() => FetchProcessData(injector()));
+  injector.registerLazySingleton(() => FetchMeasurementParams(injector()));
 
   // Data sources
   injector.registerLazySingleton<ProcessCacheDataSource>(
@@ -39,6 +42,10 @@ Future<void> register() async {
     () => ProcessRemoteDataSourceImpl(),
   );
 
+  injector.registerLazySingleton<MeasurementParamsCacheDataSource>(
+    () => MeasurementParamsCacheDataSourceImpl(),
+  );
+
   // Repositories
   injector.registerLazySingleton<AuthenticationRepository>(
     () => AuthenticationRepositoryImpl(),
@@ -46,6 +53,7 @@ Future<void> register() async {
   injector.registerLazySingleton<MeasurementRepository>(
     () => MeasurementRepositoryImpl(
         processCacheDataSource: injector(),
-        processRemoteDataSource: injector()),
+        processRemoteDataSource: injector(),
+        measurementParamsCacheDataSource: injector()),
   );
 }

@@ -1,25 +1,32 @@
+import 'package:date_format/date_format.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/core/widgets/date_picker_range.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BarChartItemThick extends StatefulWidget {
-  final List<Color> availableColors = [
-    Colors.purpleAccent,
-    Colors.yellow,
-    Colors.lightBlue,
-    Colors.orange,
-    Colors.pink,
-    Colors.redAccent,
-  ];
+  const BarChartItemThick({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => BarChartItemThickState();
 }
 
 class BarChartItemThickState extends State<BarChartItemThick> {
-  final Color barBackgroundColor = const Color(0xff72d8bf);
-
   int touchedIndex = -1;
+
+  DateTime startDate = DateTime.now().subtract(Duration(days: 10));
+  DateTime endDate = DateTime.now();
+
+  _dispatchSelectedDateEvent(BuildContext context) {
+    context
+        .read<MeasurementBloc>()
+        .add(ChangeParams(startDate: startDate, endDate: endDate));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +55,7 @@ class BarChartItemThickState extends State<BarChartItemThick> {
                     height: 4,
                   ),
                   Text(
-                    '31/05/2021 - 02/06/2021',
+                    '${buildFormatDate(startDate)} - ${buildFormatDate(endDate)}',
                     style: TextStyle(
                         color: const Color(0xff000000),
                         fontSize: 12,
@@ -72,19 +79,35 @@ class BarChartItemThickState extends State<BarChartItemThick> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(2),
               child: Align(
                 alignment: Alignment.topRight,
                 child: ListTile(
                   trailing: Wrap(
-                    spacing: 8, // space between two icons
+                    spacing: 2, // space between two icons
                     children: <Widget>[
-                      IconButton(
-                          icon: Icon(Icons.keyboard_arrow_left),
-                          onPressed: () {}),
-                      IconButton(
-                          icon: Icon(Icons.keyboard_arrow_right),
-                          onPressed: () {}),
+                      BlocConsumer<MeasurementBloc, MeasurementState>(
+                          listener: (context, state) {
+                        if (state is Empty) {
+                          _dispatchSelectedDateEvent(context);
+                        }
+                      }, builder: (context, state) {
+                        return IconButton(
+                          iconSize: 40,
+                          icon: Icon(CupertinoIcons.calendar),
+                          onPressed: () => buildMaterialDatePicker(
+                            context: context,
+                            initialDateRange: DateTimeRange(start: startDate, end: endDate),
+                            callback: (DateTime start, DateTime end) {
+                              setState(() {
+                                startDate = start;
+                                endDate = end;
+                                _dispatchSelectedDateEvent(context);
+                              });
+                            },
+                          ),
+                        );
+                      })
                     ],
                   ),
                 ),
@@ -95,6 +118,14 @@ class BarChartItemThickState extends State<BarChartItemThick> {
       ),
     );
   }
+
+  String buildFormatDate(DateTime date) => formatDate(date, [
+        dd,
+        '/',
+        mm,
+        '/',
+        yyyy,
+      ]);
 
   BarChartGroupData makeGroupData(
     int x,
@@ -114,7 +145,7 @@ class BarChartItemThickState extends State<BarChartItemThick> {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             y: 20,
-            colors: [barBackgroundColor],
+            colors: [const Color(0xff72d8bf)],
           ),
         ),
       ],

@@ -40,7 +40,7 @@ class Measurements extends Equatable {
 
 class DataPoints extends Equatable {
   final String timestamp;
-  final int value;
+  final double value;
 
   DataPoints(this.timestamp, this.value);
 

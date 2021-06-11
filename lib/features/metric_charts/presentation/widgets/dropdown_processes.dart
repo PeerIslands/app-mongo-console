@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_auth/core/widgets/dropdown_item.dart';
@@ -22,10 +20,8 @@ class DropdownProcesses extends StatefulWidget {
 }
 
 class _DropdownProcessesState extends State<DropdownProcesses> {
-  MeasurementEvent processEvent;
-
   dispatchSelectedProcessEvent(BuildContext context, Process process) {
-    context.read<MeasurementBloc>().add(ProcessChanged(process: process));
+    context.read<MeasurementBloc>().add(ChangeParams(process: process));
   }
 
   @override

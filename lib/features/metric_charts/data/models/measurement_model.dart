@@ -1,4 +1,4 @@
-
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_auth/features/metric_charts/data/models/shared/links_model.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/measurement.dart';
@@ -16,26 +16,24 @@ class MeasurementModel extends Measurement {
       : super(end, granularity, groupId, hostId, links, measurements, processId,
             start);
 
-  factory MeasurementModel.fromJson(Map<String, dynamic> json) {
-    print(json['measurements']);
-    return MeasurementModel(
-        end: json['end'],
-        granularity: json['granularity'],
-        groupId: json['groupId'],
-        hostId: json['hostId'],
-        links: json['links'] != null
-            ? json['links'].forEach((v) {
-                return new LinksModel.fromJson(v);
-              })
-            : [],
-        measurements: json['measurements'] != null
-            ? ((json['measurements'] as List)
-                .map((measurement) => MeasurementsModel.fromJson(measurement))
-                .toList())
-            : [],
-        processId: json['processId'],
-        start: json['start']);
-  }
+  factory MeasurementModel.fromJson(Map<String, dynamic> json) =>
+      MeasurementModel(
+          end: json['end'],
+          granularity: json['granularity'],
+          groupId: json['groupId'],
+          hostId: json['hostId'],
+          links: json['links'] != null
+              ? json['links'].forEach((v) {
+                  return new LinksModel.fromJson(v);
+                })
+              : [],
+          measurements: json['measurements'] != null
+              ? ((json['measurements'] as List)
+                  .map((measurement) => MeasurementsModel.fromJson(measurement))
+                  .toList())
+              : [],
+          processId: json['processId'],
+          start: json['start']);
 
   Map<String, dynamic> toJson() => {
         'end': end,
@@ -81,11 +79,12 @@ class MeasurementsModel extends Measurements {
 }
 
 class DataPointsModel extends DataPoints {
-  DataPointsModel({@required timestamp, @required value})
+  DataPointsModel({@required String timestamp, @required double value})
       : super(timestamp, value);
 
   factory DataPointsModel.fromJson(Map<String, dynamic> json) =>
-      DataPointsModel(timestamp: json['timestamp'], value: json['value']);
+      DataPointsModel(timestamp: json['timestamp'],
+          value: json["value"] is int ? (json['value'] as int).toDouble() : json['value'],);
 
   Map<String, dynamic> toJson() => {'timestamp': timestamp, 'value': value};
 }

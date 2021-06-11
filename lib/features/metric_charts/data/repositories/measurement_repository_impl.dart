@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -6,23 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/error/exceptions.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/http/api_base_helper.dart';
+import 'package:flutter_auth/features/metric_charts/data/datasources/measurement_params_cache_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/process/process_cache_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/process/process_remote_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/models/group_model.dart';
 import 'package:flutter_auth/features/metric_charts/data/models/measurement_model.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/group.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/measurement.dart';
+import 'package:flutter_auth/features/metric_charts/domain/entities/measurement_queries.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/process.dart';
 import 'package:flutter_auth/features/metric_charts/domain/repositories/measurement_repository.dart';
-import 'package:flutter_auth/features/metric_charts/domain/util/measurement_queries.dart';
 
 class MeasurementRepositoryImpl implements MeasurementRepository {
   final ProcessCacheDataSource processCacheDataSource;
   final ProcessRemoteDataSource processRemoteDataSource;
+  final MeasurementParamsCacheDataSource measurementParamsCacheDataSource;
 
   MeasurementRepositoryImpl(
       {@required this.processCacheDataSource,
-      @required this.processRemoteDataSource});
+      @required this.processRemoteDataSource,
+      @required this.measurementParamsCacheDataSource});
 
   @override
   Future<Either<Failure, Measurement>> fetchMeasurements(
@@ -79,5 +81,29 @@ class MeasurementRepositoryImpl implements MeasurementRepository {
     } on ServerException {
       return Left(ServerFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, List<BaseMeasurementQuery>>> getParams(
+      List<BaseMeasurementQuery> params) async {
+    try {
+      if (await measurementParamsCacheDataSource.checkParamsExists()) {
+        return Right(await measurementParamsCacheDataSource.getParams());
+      }
+
+      throw ServerException();
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<void> saveParams(List<BaseMeasurementQuery> params) async {
+    await measurementParamsCacheDataSource.cacheParams(params);
+  }
+
+  @override
+  Future<void> clearParams() async {
+    await measurementParamsCacheDataSource.clear();
   }
 }

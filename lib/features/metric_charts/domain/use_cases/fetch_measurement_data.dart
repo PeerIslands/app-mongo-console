@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/use_cases/use_cases.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/measurement.dart';
+import 'package:flutter_auth/features/metric_charts/domain/entities/measurement_queries.dart';
 import 'package:flutter_auth/features/metric_charts/domain/repositories/measurement_repository.dart';
-import 'package:flutter_auth/features/metric_charts/domain/util/measurement_queries.dart';
 
 class FetchMeasurementData implements UseCase<Measurement, Params> {
   final MeasurementRepository repository;

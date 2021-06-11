@@ -28,6 +28,9 @@ dependencies:
   group_list_view: ^1.1.1
   shared_preferences: ^2.0.6
   enum_to_string: ^2.0.1
+  date_range_form_field: ^1.0.2
+  date_format: ^2.0.2
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
