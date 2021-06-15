@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter_auth/core/constants/message_constants.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/measurement.dart';
@@ -21,31 +22,38 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
 
   @override
   Stream<MeasurementState> mapEventToState(MeasurementEvent event) async* {
-    if (event is ClearParams) {
-      await fetchMeasurementParams.clearParameters();
-    } else if (event is ChangeParams) {
-      final params =
-          await fetchMeasurementParams.call(_insertParamsToQuery(event));
+    if (event is ChangeParams) {
+      final params = await fetchMeasurementParams.call(
+          FetchMeasurementParamsParams(
+              params: _insertParamsToQuery(event),
+              isToCallApi: !event.isBaseQuery));
 
-      yield* params.fold(
-          (failure) =>
-              Stream.value(DataFailed(message: _mapFailureToMessage(failure))),
-          (params) async* {
-        params.forEach((element) {
-          print('${element.param}: ${element.value}');
+      if (event.isBaseQuery) {
+        yield* Stream.value(BaseQueryBuilt());
+      } else {
+        yield* params.fold(
+            (failure) => Stream.value(
+                DataFailed(message: _mapFailureToMessage(failure))),
+            (params) async* {
+          Either<Failure, Measurement> failureOrMeasurement =
+              await fetchMeasurementData(Params(params: params));
+
+          yield* _eitherSuccessOrErrorState(failureOrMeasurement);
         });
-        Either<Failure, Measurement> failureOrMeasurement =
-            await fetchMeasurementData(Params(params: params));
-
-        yield* _eitherSuccessOrErrorState(failureOrMeasurement);
-      });
+      }
     } else if (event is GetConnectionData) {
+      await fetchMeasurementParams.clearParameters();
+
       await _dispatchGetConnectionDataEvent(event);
     }
   }
 
   List<BaseMeasurementQuery> _insertParamsToQuery(ChangeParams event) {
     List<BaseMeasurementQuery> params = [];
+
+    if (event.type != null) {
+      params.add(ParamMeasurement(EnumToString.convertToString(event.type)));
+    }
 
     if (event.process != null) {
       params.add(PathGroup(event.process.groupId));
@@ -62,6 +70,7 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
     if (event.granularity != null) {
       params.add(ParamGranularity('PT24H'));
     }
+
     return params;
   }
 
@@ -71,7 +80,8 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
         process: event.process,
         startDate: event.startDate,
         endDate: event.endDate,
-        granularity: 'PT24H'));
+        granularity: 'PT24H',
+        isBaseQuery: true));
   }
 
   Stream<MeasurementState> _eitherSuccessOrErrorState(

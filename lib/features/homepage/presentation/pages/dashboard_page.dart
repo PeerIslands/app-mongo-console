@@ -6,7 +6,7 @@ import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_full.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_half.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/widgets/bar_chart_item_thick.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/widgets/bar_chart_thick_measurement.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -57,14 +57,14 @@ class _MainPageState extends State<DashboardPage> {
                       iconData: Icons.pie_chart,
                       iconDataColor: dashboardForthTileCardIconColor(context),
                     ),
-                    MaterialTile(child: BarChartItemThick())
+                    MaterialTile(child: BarChartThickMeasurement())
                   ],
                   staggeredTiles: [
                     StaggeredTile.extent(2, 110.0),
                     StaggeredTile.extent(2, 110.0),
                     StaggeredTile.extent(1, 180.0),
                     StaggeredTile.extent(1, 180.0),
-                    StaggeredTile.extent(2, 400.0),
+                    StaggeredTile.extent(2, 500.0),
                   ],
                 )),
             BottomMenuPage(),

@@ -9,14 +9,13 @@ import 'package:flutter_auth/features/metric_charts/presentation/bloc/measuremen
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart'
     as MeasurementStateClass;
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/process/process_bloc.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/util/measurementToBarChartThickConverter.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/widgets/dropdown_processes.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../widgets/bar_chart_item_thick.dart';
+import '../widgets/bar_chart_thick_measurement.dart';
 
 class ConnectionsChartPage extends StatelessWidget {
   @override
@@ -48,20 +47,14 @@ class ConnectionsChartPage extends StatelessWidget {
                           // ignore: missing_return
                           builder: (context, state) {
                         if (state is MeasurementStateClass.Empty) {
-                          context.read<MeasurementBloc>().add(ClearParams());
-                        }
-                        if (state is MeasurementStateClass.Empty) {
                           context
                               .read<MeasurementBloc>()
                               .add(GetConnectionData());
-                        } else if (state is MeasurementStateClass.DataLoaded) {
-                          var test = MeasurementToBarChartThickConverter().convert(state.measurement);
-                          print(test);
-                        } else if (state is MeasurementStateClass.DataFailed) {
-                          print(state.message);
                         }
 
-                        return MaterialTile(child: BarChartItemThick());
+                        return MaterialTile(
+                            child:
+                                BarChartThickMeasurement(title: 'Connections'));
                       })
                     ],
                     staggeredTiles: [

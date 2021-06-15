@@ -17,13 +17,15 @@ class ChangeParams extends MeasurementEvent {
   final MeasurementType type;
   final DateTime startDate;
   final DateTime endDate;
+  final bool isBaseQuery;
 
   ChangeParams(
       {this.process,
       this.type,
       this.startDate,
       this.endDate,
-      this.granularity});
+      this.granularity,
+      this.isBaseQuery = false});
 
   @override
   List<Object> get props => [process, startDate, endDate];

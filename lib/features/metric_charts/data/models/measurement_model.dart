@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_auth/features/metric_charts/data/models/shared/links_model.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/measurement.dart';
@@ -83,8 +82,12 @@ class DataPointsModel extends DataPoints {
       : super(timestamp, value);
 
   factory DataPointsModel.fromJson(Map<String, dynamic> json) =>
-      DataPointsModel(timestamp: json['timestamp'],
-          value: json["value"] is int ? (json['value'] as int).toDouble() : json['value'],);
+      DataPointsModel(
+        timestamp: json['timestamp'],
+        value: json["value"] is int
+            ? (json['value'] as int).toDouble()
+            : json['value'],
+      );
 
   Map<String, dynamic> toJson() => {'timestamp': timestamp, 'value': value};
 }

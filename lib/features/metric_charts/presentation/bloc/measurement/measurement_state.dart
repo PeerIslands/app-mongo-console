@@ -11,6 +11,8 @@ abstract class MeasurementState extends Equatable {
 
 class Empty extends MeasurementState {}
 
+class BaseQueryBuilt extends MeasurementState {}
+
 class DataLoading extends MeasurementState {}
 
 class DataLoaded extends MeasurementState {

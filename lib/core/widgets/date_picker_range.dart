@@ -1,11 +1,12 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Future<void> buildMaterialDatePicker({
-  BuildContext context,
-  DateTimeRange initialDateRange,
-  Function callback,
-}) async {
+Future<void> buildMaterialDatePicker(
+    {BuildContext context,
+    DateTimeRange initialDateRange,
+    Function callback,
+    int limitDays}) async {
   final dateRange = await showDateRangePicker(
     context: context,
     initialDateRange: initialDateRange,
@@ -29,6 +30,16 @@ Future<void> buildMaterialDatePicker({
   );
 
   if (dateRange.start != null && dateRange.end != null) {
-    callback(dateRange.start, dateRange.end);
+    if (limitDays != null &&
+        dateRange.end.isAfter(dateRange.start.add(Duration(days: limitDays)))) {
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        title: 'Invalid date range',
+        text: 'Select an interval of maximum $limitDays days range',
+      );
+    } else {
+      callback(dateRange.start, dateRange.end);
+    }
   }
 }

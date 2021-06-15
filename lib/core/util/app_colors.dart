@@ -26,6 +26,13 @@ class _ColorsBright {
   static const dashboardThirdTileCardIcon = GeneralColors.teal;
   static const dashboardForthTileCardIcon = GeneralColors.amber;
   static const dashboardTilesIcon = GeneralColors.white;
+  static const connectionsChart = GeneralColors.white;
+  static const chartTexts = GeneralColors.black;
+  static const chartBar = Color(0xFF9BBB6B);
+  static const chartBarValue = Color(0xFF495F32);
+  static const chartBarSelected = Color(0xFFFFE013);
+  static const chartTooltipText = GeneralColors.white;
+  static const chartTooltip = Color.fromRGBO(73, 82, 85, 1.0);
 }
 
 class _ColorsDark {
@@ -45,6 +52,13 @@ class _ColorsDark {
   static const dashboardThirdTileCardIcon = GeneralColors.teal;
   static const dashboardForthTileCardIcon = GeneralColors.amber;
   static const dashboardTilesIcon = GeneralColors.white;
+  static const connectionsChart = Color(0xFF1F1F1F);
+  static const chartTexts = GeneralColors.white;
+  static const chartBar = GeneralColors.white;
+  static const chartBarValue = Color.fromRGBO(108, 115, 118, 1.0);
+  static const chartBarSelected = Color(0xFFFFE013);
+  static const chartTooltipText = GeneralColors.white;
+  static const chartTooltip = Color.fromRGBO(73, 82, 85, 1.0);
 
   static const _materialDarkPrimary = MaterialColor(
     0xFF2F2C2C,
@@ -212,5 +226,61 @@ Color dashboardTilesIconColor(BuildContext context) {
     return _ColorsDark.dashboardTilesIcon;
   } else {
     return _ColorsBright.dashboardTilesIcon;
+  }
+}
+
+Color connectionsChartColor(BuildContext context) {
+  if (isThemeCurrentlyDark(context)) {
+    return _ColorsDark.connectionsChart;
+  } else {
+    return _ColorsBright.connectionsChart;
+  }
+}
+
+Color chartTextsColor(BuildContext context) {
+  if (isThemeCurrentlyDark(context)) {
+    return _ColorsDark.chartTexts;
+  } else {
+    return _ColorsBright.chartTexts;
+  }
+}
+
+Color chartBarColor(BuildContext context) {
+  if (isThemeCurrentlyDark(context)) {
+    return _ColorsDark.chartBar;
+  } else {
+    return _ColorsBright.chartBar;
+  }
+}
+
+Color chartBarValueColor(BuildContext context) {
+  if (isThemeCurrentlyDark(context)) {
+    return _ColorsDark.chartBarValue;
+  } else {
+    return _ColorsBright.chartBarValue;
+  }
+}
+
+Color chartBarSelectedColor(BuildContext context) {
+  if (isThemeCurrentlyDark(context)) {
+    return _ColorsDark.chartBarSelected;
+  } else {
+    return _ColorsBright.chartBarSelected;
+  }
+}
+
+Color chartTooltipTextColor(BuildContext context) {
+  if (isThemeCurrentlyDark(context)) {
+    return _ColorsDark.chartTooltipText;
+  } else {
+    return _ColorsBright.chartTooltipText;
+  }
+}
+
+Color chartTooltipColor(BuildContext context) {
+  if (isThemeCurrentlyDark(context)) {
+    return _ColorsDark.chartTooltip;
+  } else {
+    return _ColorsBright.chartTooltip;
   }
 }
