@@ -1,4 +1,3 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
@@ -7,12 +6,11 @@ import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/process/process_bloc.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/bloc/process/process_event.dart'
-    as ProcessEventClass;
-import 'package:flutter_auth/features/metric_charts/presentation/bloc/process/process_state.dart'
-    as ProcessStateClass;
-import 'package:flutter_auth/features/metric_charts/presentation/widgets/line_chart_item.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/widgets/dropdown_processes.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/widgets/line_chart_measurement.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,57 +40,18 @@ class NetworkChartPage extends StatelessWidget {
                     padding:
                         EdgeInsets.only(left: 8, right: 8, top: 30, bottom: 8),
                     children: <Widget>[
-                      MaterialTile(
-                        child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 12.0, bottom: 12.0, left: 8.0, right: 8.0),
-                            child: BlocBuilder<ProcessBloc,
-                                    ProcessStateClass.ProcessState>(
-                                builder: (context, state) {
-                              if (state is ProcessStateClass.Empty) {
-                                context.read<ProcessBloc>().add(
-                                    ProcessEventClass.FetchDataRequested());
+                      DropdownProcesses(),
+                      BlocBuilder<MeasurementBloc, MeasurementState>(
+                        // ignore: missing_return
+                          builder: (context, state) {
+                            if (state is Empty) {
+                              context
+                                  .read<MeasurementBloc>()
+                                  .add(GetBytesInBytesOutData());
+                            }
 
-                                return DropdownSearch<String>(
-                                    mode: Mode.BOTTOM_SHEET,
-                                    showSelectedItem: true,
-                                    items: [],
-                                    label: "Select the instance",
-                                    onChanged: print);
-                              } else if (state
-                                  is ProcessStateClass.DataFailed) {
-                                return DropdownSearch<String>(
-                                    mode: Mode.BOTTOM_SHEET,
-                                    showSelectedItem: true,
-                                    items: [],
-                                    label: "Select the instance",
-                                    onChanged: print);
-                              } else if (state
-                                  is ProcessStateClass.DataLoaded) {
-                                return DropdownSearch<String>(
-                                    mode: Mode.BOTTOM_SHEET,
-                                    showSelectedItem: true,
-                                    items: state.processes
-                                        .map((e) => e.id)
-                                        .toList(),
-                                    label: "Select the instance",
-                                    onChanged: print);
-                              }
-                              return DropdownSearch<String>(
-                                  mode: Mode.BOTTOM_SHEET,
-                                  showSelectedItem: true,
-                                  items: [
-                                    "cluster0-shard-00-00.wxkgt.mongodb.net:27017",
-                                    "cluster0-shard-00-01.wxkgt.mongodb.net:27017",
-                                    "cluster0-shard-00-02.wxkgt.mongodb.net:27017"
-                                  ],
-                                  label: "Select the instance",
-                                  onChanged: print,
-                                  selectedItem:
-                                      "cluster0-shard-00-00.wxkgt.mongodb.net:27017");
-                            })),
-                      ),
-                      MaterialTile(child: LineChartItem())
+                            return MaterialTile(child: LineChartMeasurement(title: 'Network', subtitle: 'BYTE IN/BYTES OUT'));
+                          })
                     ],
                     staggeredTiles: [
                       StaggeredTile.extent(2, 80.0),

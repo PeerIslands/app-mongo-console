@@ -33,6 +33,8 @@ class _ColorsBright {
   static const chartBarSelected = Color(0xFFFFE013);
   static const chartTooltipText = GeneralColors.white;
   static const chartTooltip = Color.fromRGBO(73, 82, 85, 1.0);
+  static const defaultButton = Colors.blueAccent;
+  static const defaultButtonText = GeneralColors.white;
 }
 
 class _ColorsDark {
@@ -59,6 +61,8 @@ class _ColorsDark {
   static const chartBarSelected = Color(0xFFFFE013);
   static const chartTooltipText = GeneralColors.white;
   static const chartTooltip = Color.fromRGBO(73, 82, 85, 1.0);
+  static const defaultButton = Color(0xFF070707);
+  static const defaultButtonText = GeneralColors.white;
 
   static const _materialDarkPrimary = MaterialColor(
     0xFF2F2C2C,
@@ -282,5 +286,21 @@ Color chartTooltipColor(BuildContext context) {
     return _ColorsDark.chartTooltip;
   } else {
     return _ColorsBright.chartTooltip;
+  }
+}
+
+Color defaultButtonColor(BuildContext context) {
+  if (isThemeCurrentlyDark(context)) {
+    return _ColorsDark.defaultButton;
+  } else {
+    return _ColorsBright.defaultButton;
+  }
+}
+
+Color defaultButtonTextColor(BuildContext context) {
+  if (isThemeCurrentlyDark(context)) {
+    return _ColorsDark.defaultButtonText;
+  } else {
+    return _ColorsBright.defaultButtonText;
   }
 }

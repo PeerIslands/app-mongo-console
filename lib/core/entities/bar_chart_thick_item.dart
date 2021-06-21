@@ -1,7 +1,5 @@
-class BarChartThickItem {
-  final int index;
-  final String dayOfWeek;
-  final double value;
+import 'package:flutter_auth/core/entities/base_chart_item.dart';
 
-  BarChartThickItem({this.index, this.dayOfWeek, this.value});
+class BarChartThickItem extends BaseChartItem {
+  BarChartThickItem({int index, String dayOfWeek, double value}) : super(index, dayOfWeek, value);
 }

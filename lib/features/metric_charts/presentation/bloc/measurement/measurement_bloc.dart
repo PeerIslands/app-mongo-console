@@ -22,7 +22,17 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
 
   @override
   Stream<MeasurementState> mapEventToState(MeasurementEvent event) async* {
-    if (event is ChangeParams) {
+    if (event is GetConnectionData) {
+      await fetchMeasurementParams.clearParameters();
+
+      await _dispatchGetConnectionDataEvent(event);
+    }
+    else if (event is GetBytesInBytesOutData) {
+      await fetchMeasurementParams.clearParameters();
+
+      await _dispatchGetBytesInBytesOutDataEvent(event);
+    }
+    else if (event is ChangeParams) {
       final params = await fetchMeasurementParams.call(
           FetchMeasurementParamsParams(
               params: _insertParamsToQuery(event),
@@ -41,18 +51,14 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
           yield* _eitherSuccessOrErrorState(failureOrMeasurement);
         });
       }
-    } else if (event is GetConnectionData) {
-      await fetchMeasurementParams.clearParameters();
-
-      await _dispatchGetConnectionDataEvent(event);
     }
   }
 
   List<BaseMeasurementQuery> _insertParamsToQuery(ChangeParams event) {
     List<BaseMeasurementQuery> params = [];
 
-    if (event.type != null) {
-      params.add(ParamMeasurement(EnumToString.convertToString(event.type)));
+    if (event.types != null) {
+      event.types.forEach((type) => params.add(ParamMeasurement(EnumToString.convertToString(type))));
     }
 
     if (event.process != null) {
@@ -68,7 +74,7 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
     }
 
     if (event.granularity != null) {
-      params.add(ParamGranularity('PT24H'));
+      params.add(ParamGranularity('P1D'));
     }
 
     return params;
@@ -76,11 +82,21 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
 
   Future<void> _dispatchGetConnectionDataEvent(GetConnectionData event) async {
     this.add(ChangeParams(
-        type: MeasurementType.CONNECTIONS,
+        types: [MeasurementType.CONNECTIONS],
         process: event.process,
         startDate: event.startDate,
         endDate: event.endDate,
-        granularity: 'PT24H',
+        granularity: 'P1D',
+        isBaseQuery: true));
+  }
+
+  Future<void> _dispatchGetBytesInBytesOutDataEvent(GetBytesInBytesOutData event) async {
+    this.add(ChangeParams(
+        types: [MeasurementType.NETWORK_BYTES_IN, MeasurementType.NETWORK_BYTES_OUT],
+        process: event.process,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        granularity: 'P1D',
         isBaseQuery: true));
   }
 

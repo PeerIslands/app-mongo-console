@@ -14,14 +14,14 @@ class ClearParams extends MeasurementEvent {}
 class ChangeParams extends MeasurementEvent {
   final Process process;
   final String granularity;
-  final MeasurementType type;
+  final List<MeasurementType> types;
   final DateTime startDate;
   final DateTime endDate;
   final bool isBaseQuery;
 
   ChangeParams(
       {this.process,
-      this.type,
+      this.types,
       this.startDate,
       this.endDate,
       this.granularity,
@@ -40,6 +40,19 @@ class GetConnectionData extends MeasurementEvent {
       {@required this.startDate,
       @required this.endDate,
       @required this.process});
+
+  @override
+  List<Object> get props => [startDate, endDate, process];
+}
+
+class GetBytesInBytesOutData extends MeasurementEvent {
+  final DateTime startDate;
+  final DateTime endDate;
+  final Process process;
+
+  GetBytesInBytesOutData({@required this.startDate,
+    @required this.endDate,
+    @required this.process});
 
   @override
   List<Object> get props => [startDate, endDate, process];

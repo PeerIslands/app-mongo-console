@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/error/exceptions.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/http/api_base_helper.dart';
+import 'package:flutter_auth/core/util/common_functions.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/measurement_params_cache_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/process/process_cache_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/process/process_remote_datasource.dart';
@@ -29,10 +30,10 @@ class MeasurementRepositoryImpl implements MeasurementRepository {
   Future<Either<Failure, Measurement>> fetchMeasurements(
       List<BaseMeasurementQuery> params) async {
     try {
-      Map<String, String> queryParams = {};
+      final queryParams = <String, List<String>> {};
 
       params.forEach((element) {
-        queryParams[element.param] = element.value;
+          addValueToMap(queryParams, element.param, element.value);
       });
 
       Response response = await ApiBaseHelper()

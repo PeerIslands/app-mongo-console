@@ -47,7 +47,7 @@ class ApiBaseHelper {
   static final dio = createDio();
   static final baseAPI = addInterceptors(dio);
 
-  Future<Response> get(String url, Map<String, String> queryParams) async =>
+  Future<Response> get(String url, Map<String, dynamic> queryParams) async =>
       await (await baseAPI).get(url, queryParameters: queryParams);
 
   Future<Response> post(String url, dynamic data) async =>

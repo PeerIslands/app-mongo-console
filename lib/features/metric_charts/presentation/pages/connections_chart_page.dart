@@ -6,8 +6,7 @@ import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart'
-    as MeasurementStateClass;
+import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/process/process_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/widgets/dropdown_processes.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
@@ -42,11 +41,10 @@ class ConnectionsChartPage extends StatelessWidget {
                         EdgeInsets.only(left: 8, right: 8, top: 30, bottom: 8),
                     children: <Widget>[
                       DropdownProcesses(),
-                      BlocBuilder<MeasurementBloc,
-                              MeasurementStateClass.MeasurementState>(
+                      BlocBuilder<MeasurementBloc, MeasurementState>(
                           // ignore: missing_return
                           builder: (context, state) {
-                        if (state is MeasurementStateClass.Empty) {
+                        if (state is Empty) {
                           context
                               .read<MeasurementBloc>()
                               .add(GetConnectionData());

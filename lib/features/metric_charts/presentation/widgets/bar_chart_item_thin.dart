@@ -1,6 +1,14 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_auth/core/widgets/chart_subtitle.dart';
+import 'package:flutter_auth/core/widgets/chart_title.dart';
+import 'package:flutter_auth/core/widgets/date_picker_range.dart';
+import 'package:flutter_auth/core/widgets/start_end_date_range.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
 
 class BarChartItemThin extends StatefulWidget {
   @override
@@ -16,6 +24,9 @@ class BarChartItemThinState extends State<BarChartItemThin> {
   List<BarChartGroupData> showingBarGroups;
 
   int touchedGroupIndex = -1;
+
+  DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+  DateTime endDate = DateTime.now();
 
   @override
   void initState() {
@@ -59,29 +70,12 @@ class BarChartItemThinState extends State<BarChartItemThin> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  const SizedBox(
-                    width: 38,
-                  ),
-                  Text(
-                    'Opcounters',
-                    style: TextStyle(
-                        color: const Color(0xff000000),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    '31/05/2021 - 02/06/2021',
-                    style: TextStyle(
-                        color: const Color(0xff000000),
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 38,
-                  ),
+                  ChartTitle(title: 'Opcounters'),
+                  SizedBox(height: 4),
+                  ChartSubtitle(subtitle: 'COMMANDS/QUERIES'),
+                  SizedBox(height: 4),
+                  StartEndDateRange(startDate: startDate, endDate: endDate),
+                  SizedBox(height: 38),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -150,19 +144,19 @@ class BarChartItemThinState extends State<BarChartItemThin> {
                               getTitles: (double value) {
                                 switch (value.toInt()) {
                                   case 0:
-                                    return 'Mn';
+                                    return 'Mon';
                                   case 1:
-                                    return 'Te';
+                                    return 'Tue';
                                   case 2:
-                                    return 'Wd';
+                                    return 'Wed';
                                   case 3:
-                                    return 'Tu';
+                                    return 'Thu';
                                   case 4:
-                                    return 'Fr';
+                                    return 'Fri';
                                   case 5:
-                                    return 'St';
+                                    return 'Sat';
                                   case 6:
-                                    return 'Sn';
+                                    return 'Sun';
                                   default:
                                     return '';
                                 }
@@ -204,19 +198,30 @@ class BarChartItemThinState extends State<BarChartItemThin> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(2),
               child: Align(
                 alignment: Alignment.topRight,
                 child: ListTile(
                   trailing: Wrap(
-                    spacing: 8, // space between two icons
+                    spacing: 2, // space between two icons
                     children: <Widget>[
                       IconButton(
-                          icon: Icon(Icons.keyboard_arrow_left),
-                          onPressed: () {}),
-                      IconButton(
-                          icon: Icon(Icons.keyboard_arrow_right),
-                          onPressed: () {}),
+                        iconSize: 40,
+                        icon: Icon(CupertinoIcons.calendar),
+                        onPressed: () => buildMaterialDatePicker(
+                            context: context,
+                            initialDateRange:
+                            DateTimeRange(start: startDate, end: endDate),
+                            callback: (DateTime start, DateTime end) {
+                              setState(() {
+                                if (startDate != start || end != endDate) {
+                                  startDate = start;
+                                  endDate = end;
+                                }
+                              });
+                            },
+                            limitDays: 7),
+                      )
                     ],
                   ),
                 ),

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/core/entities/bar_chart_thick_item.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/bar_chart_thick.dart';
 import 'package:flutter_auth/core/widgets/date_picker_range.dart';
@@ -9,7 +8,7 @@ import 'package:flutter_auth/features/metric_charts/presentation/bloc/measuremen
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/util/measurementToBarChartThickConverter.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/widgets/start_end_date_range.dart';
+import 'package:flutter_auth/core/widgets/start_end_date_range.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/widgets/chart_title.dart';
@@ -26,8 +25,6 @@ class BarChartThickMeasurement extends StatefulWidget {
 
 class BarChartThickMeasurementState extends State<BarChartThickMeasurement> {
   final String title;
-
-  List<BarChartThickItem> items = [];
 
   DateTime startDate = DateTime.now().subtract(Duration(days: 7));
   DateTime endDate = DateTime.now();
@@ -111,9 +108,9 @@ class BarChartThickMeasurementState extends State<BarChartThickMeasurement> {
 
   Widget _showErrorOrData(MeasurementState state) {
     if (state is DataLoaded) {
-      items = MeasurementToBarChartThickConverter().convert(state.measurement);
+      final items = MeasurementToBarChartThickConverter().convert(state.measurement);
 
-      if (items.length > 0) {
+      if (items.isNotEmpty) {
         return Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.0),

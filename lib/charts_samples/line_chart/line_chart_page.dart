@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../features/metric_charts/presentation/widgets/line_chart_item.dart';
+import '../../features/metric_charts/presentation/widgets/line_chart_measurement.dart';
 import 'samples/line_chart_sample2.dart';
 
 class LineChartPage extends StatelessWidget {
@@ -36,7 +36,7 @@ class LineChartPage extends StatelessWidget {
               left: 28,
               right: 28,
             ),
-            child: LineChartItem(),
+            child: LineChartMeasurement(),
           ),
           const SizedBox(
             height: 22,
