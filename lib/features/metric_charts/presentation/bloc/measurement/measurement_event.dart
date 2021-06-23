@@ -50,9 +50,24 @@ class GetBytesInBytesOutData extends MeasurementEvent {
   final DateTime endDate;
   final Process process;
 
-  GetBytesInBytesOutData({@required this.startDate,
-    @required this.endDate,
-    @required this.process});
+  GetBytesInBytesOutData(
+      {@required this.startDate,
+      @required this.endDate,
+      @required this.process});
+
+  @override
+  List<Object> get props => [startDate, endDate, process];
+}
+
+class GetOpcountersData extends MeasurementEvent {
+  final DateTime startDate;
+  final DateTime endDate;
+  final Process process;
+
+  GetOpcountersData(
+      {@required this.startDate,
+        @required this.endDate,
+        @required this.process});
 
   @override
   List<Object> get props => [startDate, endDate, process];

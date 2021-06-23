@@ -2,7 +2,7 @@ import 'package:flutter_auth/core/entities/line_chart_thick_item.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/measurement.dart';
 import 'package:intl/intl.dart';
 
-class MeasurementToLineChartThickConverter {
+class MeasurementToLineChartItemConverter {
   List<List<LineChartThickItem>> convert(Measurement measurement) {
     List<List<LineChartThickItem>> arrayOfLines = [];
     measurement.measurements.forEach((measurementItem) {

@@ -5,15 +5,34 @@ import 'package:flutter_auth/core/entities/line_chart_thick_item.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/util/common_functions.dart';
 
-class LineChartThick extends StatelessWidget {
+enum LineChartType { Thick, Thin }
+
+class LineChartItem extends StatefulWidget {
   final List<List<LineChartThickItem>> arrayOfLines;
   final int numberOfItems;
+  final LineChartType type;
 
-  const LineChartThick({
-    Key key,
+  const LineChartItem(
+      {Key key, this.arrayOfLines, this.numberOfItems, this.type})
+      : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return LineChartItemState(
+        arrayOfLines: arrayOfLines, numberOfItems: numberOfItems, type: type);
+  }
+}
+
+class LineChartItemState extends State<LineChartItem> {
+  final List<List<LineChartThickItem>> arrayOfLines;
+  final int numberOfItems;
+  final LineChartType type;
+
+  LineChartItemState({
     this.arrayOfLines,
     this.numberOfItems,
-  }) : super(key: key);
+    this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +56,18 @@ class LineChartThick extends StatelessWidget {
               touchedSpots.forEach((element) {
                 items.add(LineTooltipItem(
                     '${arrayOfLines[element.barIndex][element.x.toInt()].text}\n',
-                    TextStyle(color: chartTooltipTextColor(context)), children: <TextSpan>[
-                  TextSpan(
-                    text: '${arrayOfLines[element.barIndex][element.x.toInt()].value.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      color: chartTooltipTextColor(context),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ]));
+                    TextStyle(color: chartTooltipTextColor(context)),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
+                            '${arrayOfLines[element.barIndex][element.x.toInt()].value.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          color: chartTooltipTextColor(context),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ]));
               });
 
               return items;
@@ -77,7 +98,9 @@ class LineChartThick extends StatelessWidget {
             showTitles: true,
             checkToShowTitle: (double minValue, double maxValue,
                 SideTitles sideTitles, double appliedInterval, double value) {
-              return value == yAxisMin || rangeYAxis.contains(value);
+              return (rangeYAxis.length < 2 &&
+                      (value == yAxisMin || value == yAxisMax)) ||
+                  rangeYAxis.contains(value);
             },
             getTextStyles: (value) => TextStyle(
               color: chartTextsColor(context),
@@ -114,15 +137,16 @@ class LineChartThick extends StatelessWidget {
                 return FlSpot(e.index.toDouble(), e.value);
               })
             ],
-            isCurved: true,
             colors: [getRandomColor()],
-            barWidth: 8,
-            isStrokeCapRound: false,
+            curveSmoothness: type == LineChartType.Thin ? 0 : null,
+            isCurved: type == LineChartType.Thick,
+            barWidth: type == LineChartType.Thick ? 8 : 4,
+            isStrokeCapRound: type == LineChartType.Thin,
             dotData: FlDotData(
-              show: true,
+              show: type == LineChartType.Thin,
             ),
             belowBarData: BarAreaData(
-              show: false,
+              show: type == LineChartType.Thin,
             ),
           );
         }).toList(),

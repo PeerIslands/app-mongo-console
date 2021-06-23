@@ -30,10 +30,10 @@ class MeasurementRepositoryImpl implements MeasurementRepository {
   Future<Either<Failure, Measurement>> fetchMeasurements(
       List<BaseMeasurementQuery> params) async {
     try {
-      final queryParams = <String, List<String>> {};
+      final queryParams = <String, List<String>>{};
 
       params.forEach((element) {
-          addValueToMap(queryParams, element.param, element.value);
+        addValueToMap(queryParams, element.param, element.value);
       });
 
       Response response = await ApiBaseHelper()

@@ -11,7 +11,9 @@ class BarChartThick extends StatefulWidget {
   const BarChartThick({Key key, this.items}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => BarChartThickState(items: items);
+  State<StatefulWidget> createState() {
+    return BarChartThickState(items: items);
+  }
 }
 
 class BarChartThickState extends State<BarChartThick> {

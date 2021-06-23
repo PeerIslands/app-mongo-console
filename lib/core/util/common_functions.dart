@@ -18,7 +18,16 @@ Color getRandomColor() =>
     Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
 
 Iterable<int> createRange(double low, double high) sync* {
-  final int interval = high > 50 ? 20 : 10;
+  int interval = 20;
+
+  if (high < 5) {
+    interval = 1;
+  }
+  if (high < 10) {
+    interval = 2;
+  } else if (high < 50) {
+    interval = 10;
+  }
 
   for (int i = low.round(); i < high; i += interval) {
     yield i;

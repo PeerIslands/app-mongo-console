@@ -4,6 +4,7 @@ import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
+import 'package:flutter_auth/core/widgets/line_chart_item.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
@@ -42,16 +43,22 @@ class NetworkChartPage extends StatelessWidget {
                     children: <Widget>[
                       DropdownProcesses(),
                       BlocBuilder<MeasurementBloc, MeasurementState>(
-                        // ignore: missing_return
+                          // ignore: missing_return
                           builder: (context, state) {
-                            if (state is Empty) {
-                              context
-                                  .read<MeasurementBloc>()
-                                  .add(GetBytesInBytesOutData());
-                            }
+                        if (state is Empty) {
+                          context
+                              .read<MeasurementBloc>()
+                              .add(GetBytesInBytesOutData());
+                        }
 
-                            return MaterialTile(child: LineChartMeasurement(title: 'Network', subtitle: 'BYTE IN/BYTES OUT'));
-                          })
+                        return MaterialTile(
+                            child: LineChartMeasurement(
+                          title: 'Network',
+                          subtitle: 'BYTE IN/BYTES OUT',
+                              type: LineChartType.Thick,
+
+                        ));
+                      })
                     ],
                     staggeredTiles: [
                       StaggeredTile.extent(2, 80.0),

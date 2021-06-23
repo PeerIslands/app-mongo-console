@@ -1,36 +1,37 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/chart_subtitle.dart';
 import 'package:flutter_auth/core/widgets/chart_title.dart';
 import 'package:flutter_auth/core/widgets/date_picker_range.dart';
-import 'package:flutter_auth/core/widgets/line_chart_thick.dart';
+import 'package:flutter_auth/core/widgets/line_chart_item.dart';
 import 'package:flutter_auth/core/widgets/not_found.dart';
 import 'package:flutter_auth/core/widgets/start_end_date_range.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/util/measurementToLineChartThickConverter.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/util/measurementToLineChartItemConverter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LineChartMeasurement extends StatefulWidget {
   final String title;
   final String subtitle;
+  final LineChartType type;
 
-  const LineChartMeasurement({Key key, this.title, this.subtitle})
+  const LineChartMeasurement({Key key, this.title, this.subtitle, this.type})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() =>
-      LineChartMeasurementState(title: title, subtitle: subtitle);
+      LineChartMeasurementState(title: title, subtitle: subtitle, type: type);
 }
 
 class LineChartMeasurementState extends State<LineChartMeasurement> {
   final String title;
   final String subtitle;
+  final LineChartType type;
 
-  LineChartMeasurementState({this.title, this.subtitle});
+  LineChartMeasurementState({this.title, this.subtitle, this.type});
 
   @override
   void initState() {
@@ -121,13 +122,13 @@ class LineChartMeasurementState extends State<LineChartMeasurement> {
 
   Widget _showErrorOrData(MeasurementState state) {
     if (state is DataLoaded) {
-      final arrayOfLines = MeasurementToLineChartThickConverter().convert(state.measurement);
+      final arrayOfLines = MeasurementToLineChartItemConverter().convert(state.measurement);
 
       if (arrayOfLines.isNotEmpty){
         return Expanded(
           child: Padding(
             padding: EdgeInsets.only(right: 16.0, left: 6.0),
-            child: LineChartThick(arrayOfLines: arrayOfLines, numberOfItems: arrayOfLines[0].length),
+            child: LineChartItem(type: type, arrayOfLines: arrayOfLines, numberOfItems: arrayOfLines[0].length),
           ),
         );
       }

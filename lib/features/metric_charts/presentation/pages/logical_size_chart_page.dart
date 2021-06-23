@@ -4,6 +4,7 @@ import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
+import 'package:flutter_auth/core/widgets/line_chart_item.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
@@ -38,20 +39,23 @@ class LogicalSizeChartPage extends StatelessWidget {
                     crossAxisSpacing: 12.0,
                     mainAxisSpacing: 12.0,
                     padding:
-                    EdgeInsets.only(left: 8, right: 8, top: 30, bottom: 8),
+                        EdgeInsets.only(left: 8, right: 8, top: 30, bottom: 8),
                     children: <Widget>[
                       DropdownProcesses(),
                       BlocBuilder<MeasurementBloc, MeasurementState>(
-                        // ignore: missing_return
+                          // ignore: missing_return
                           builder: (context, state) {
-                            if (state is Empty) {
-                              context
-                                  .read<MeasurementBloc>()
-                                  .add(GetBytesInBytesOutData());
-                            }
+                        if (state is Empty) {
+                          context
+                              .read<MeasurementBloc>()
+                              .add(GetBytesInBytesOutData());
+                        }
 
-                            return MaterialTile(child: LineChartMeasurement(title: 'Logical Size'));
-                          })
+                        return MaterialTile(
+                            child: LineChartMeasurement(
+                                type: LineChartType.Thick,
+                                title: 'Logical Size'));
+                      })
                     ],
                     staggeredTiles: [
                       StaggeredTile.extent(2, 80.0),

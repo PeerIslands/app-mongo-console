@@ -7,8 +7,6 @@ import 'package:flutter_auth/core/widgets/chart_subtitle.dart';
 import 'package:flutter_auth/core/widgets/chart_title.dart';
 import 'package:flutter_auth/core/widgets/date_picker_range.dart';
 import 'package:flutter_auth/core/widgets/start_end_date_range.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
 
 class BarChartItemThin extends StatefulWidget {
   @override

@@ -26,13 +26,15 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
       await fetchMeasurementParams.clearParameters();
 
       await _dispatchGetConnectionDataEvent(event);
-    }
-    else if (event is GetBytesInBytesOutData) {
+    } else if (event is GetBytesInBytesOutData) {
       await fetchMeasurementParams.clearParameters();
 
       await _dispatchGetBytesInBytesOutDataEvent(event);
-    }
-    else if (event is ChangeParams) {
+    } else if (event is GetOpcountersData) {
+      await fetchMeasurementParams.clearParameters();
+
+      await _dispatchGetOpcountersDataEvent(event);
+    } else if (event is ChangeParams) {
       final params = await fetchMeasurementParams.call(
           FetchMeasurementParamsParams(
               params: _insertParamsToQuery(event),
@@ -45,7 +47,10 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
             (failure) => Stream.value(
                 DataFailed(message: _mapFailureToMessage(failure))),
             (params) async* {
-          Either<Failure, Measurement> failureOrMeasurement =
+
+              yield DataLoading();
+
+              Either<Failure, Measurement> failureOrMeasurement =
               await fetchMeasurementData(Params(params: params));
 
           yield* _eitherSuccessOrErrorState(failureOrMeasurement);
@@ -58,7 +63,8 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
     List<BaseMeasurementQuery> params = [];
 
     if (event.types != null) {
-      event.types.forEach((type) => params.add(ParamMeasurement(EnumToString.convertToString(type))));
+      event.types.forEach((type) =>
+          params.add(ParamMeasurement(EnumToString.convertToString(type))));
     }
 
     if (event.process != null) {
@@ -90,9 +96,28 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
         isBaseQuery: true));
   }
 
-  Future<void> _dispatchGetBytesInBytesOutDataEvent(GetBytesInBytesOutData event) async {
+  Future<void> _dispatchGetBytesInBytesOutDataEvent(
+      GetBytesInBytesOutData event) async {
     this.add(ChangeParams(
-        types: [MeasurementType.NETWORK_BYTES_IN, MeasurementType.NETWORK_BYTES_OUT],
+        types: [
+          MeasurementType.NETWORK_BYTES_IN,
+          MeasurementType.NETWORK_BYTES_OUT,
+          MeasurementType.NETWORK_NUM_REQUESTS
+        ],
+        process: event.process,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        granularity: 'P1D',
+        isBaseQuery: true));
+  }
+
+  Future<void> _dispatchGetOpcountersDataEvent(
+      GetOpcountersData event) async {
+    this.add(ChangeParams(
+        types: [
+          MeasurementType.OPCOUNTER_CMD,
+          MeasurementType.OPCOUNTER_QUERY,
+        ],
         process: event.process,
         startDate: event.startDate,
         endDate: event.endDate,
@@ -103,9 +128,7 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
   Stream<MeasurementState> _eitherSuccessOrErrorState(
       Either<Failure, Measurement> failureOrMeasurement) async* {
     yield failureOrMeasurement.fold(
-      (failure) {
-        return DataFailed(message: _mapFailureToMessage(failure));
-      },
+      (failure) => DataFailed(message: _mapFailureToMessage(failure)),
       (measurement) => DataLoaded(measurement: measurement),
     );
   }
