@@ -55,8 +55,7 @@ class NetworkChartPage extends StatelessWidget {
                             child: LineChartMeasurement(
                           title: 'Network',
                           subtitle: 'BYTE IN/BYTES OUT',
-                              type: LineChartType.Thick,
-
+                          type: LineChartType.Thick,
                         ));
                       })
                     ],

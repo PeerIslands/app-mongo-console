@@ -209,7 +209,7 @@ class BarChartItemThinState extends State<BarChartItemThin> {
                         onPressed: () => buildMaterialDatePicker(
                             context: context,
                             initialDateRange:
-                            DateTimeRange(start: startDate, end: endDate),
+                                DateTimeRange(start: startDate, end: endDate),
                             callback: (DateTime start, DateTime end) {
                               setState(() {
                                 if (startDate != start || end != endDate) {

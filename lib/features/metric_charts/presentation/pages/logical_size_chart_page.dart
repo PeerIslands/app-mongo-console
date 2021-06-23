@@ -48,13 +48,15 @@ class LogicalSizeChartPage extends StatelessWidget {
                         if (state is Empty) {
                           context
                               .read<MeasurementBloc>()
-                              .add(GetBytesInBytesOutData());
+                              .add(GetLogicalSizeData());
                         }
 
                         return MaterialTile(
                             child: LineChartMeasurement(
-                                type: LineChartType.Thick,
-                                title: 'Logical Size'));
+                          type: LineChartType.Thin,
+                          title: 'Logical Size',
+                          subtitle: '(MB)',
+                        ));
                       })
                     ],
                     staggeredTiles: [

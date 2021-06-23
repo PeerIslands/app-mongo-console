@@ -39,25 +39,25 @@ class OpcountersChartPage extends StatelessWidget {
                     crossAxisSpacing: 12.0,
                     mainAxisSpacing: 12.0,
                     padding:
-                    EdgeInsets.only(left: 8, right: 8, top: 30, bottom: 8),
+                        EdgeInsets.only(left: 8, right: 8, top: 30, bottom: 8),
                     children: <Widget>[
                       DropdownProcesses(),
                       BlocBuilder<MeasurementBloc, MeasurementState>(
-                        // ignore: missing_return
+                          // ignore: missing_return
                           builder: (context, state) {
-                            if (state is Empty) {
-                              context
-                                  .read<MeasurementBloc>()
-                                  .add(GetOpcountersData());
-                            }
+                        if (state is Empty) {
+                          context
+                              .read<MeasurementBloc>()
+                              .add(GetOpcountersData());
+                        }
 
-                            return MaterialTile(
-                                child: LineChartMeasurement(
-                                  title: 'Opcounters',
-                                  subtitle: 'COMMAND/QUERY',
-                                  type: LineChartType.Thin,
-                                ));
-                          })
+                        return MaterialTile(
+                            child: LineChartMeasurement(
+                          title: 'Opcounters',
+                          subtitle: 'COMMAND/QUERY',
+                          type: LineChartType.Thin,
+                        ));
+                      })
                     ],
                     staggeredTiles: [
                       StaggeredTile.extent(2, 80.0),

@@ -122,13 +122,18 @@ class LineChartMeasurementState extends State<LineChartMeasurement> {
 
   Widget _showErrorOrData(MeasurementState state) {
     if (state is DataLoaded) {
-      final arrayOfLines = MeasurementToLineChartItemConverter().convert(state.measurement);
+      final arrayOfLines =
+          MeasurementToLineChartItemConverter().convert(state.measurement);
 
-      if (arrayOfLines.isNotEmpty){
+      print(arrayOfLines.length);
+      if (arrayOfLines.isNotEmpty) {
         return Expanded(
           child: Padding(
             padding: EdgeInsets.only(right: 16.0, left: 6.0),
-            child: LineChartItem(type: type, arrayOfLines: arrayOfLines, numberOfItems: arrayOfLines[0].length),
+            child: LineChartItem(
+                type: type,
+                arrayOfLines: arrayOfLines,
+                numberOfItems: arrayOfLines[0].length),
           ),
         );
       }
@@ -137,5 +142,3 @@ class LineChartMeasurementState extends State<LineChartMeasurement> {
     return NotFound();
   }
 }
-
-

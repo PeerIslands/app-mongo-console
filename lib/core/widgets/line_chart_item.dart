@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/entities/line_chart_thick_item.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/util/common_functions.dart';
+import 'package:flutter_auth/core/util/extension_functions.dart';
 
 enum LineChartType { Thick, Thin }
 
@@ -46,6 +47,7 @@ class LineChartItemState extends State<LineChartItem> {
 
     return LineChart(
       LineChartData(
+        minY: yAxisMin == yAxisMax ? 0 : yAxisMin,
         gridData: FlGridData(
           show: false,
         ),
@@ -98,7 +100,9 @@ class LineChartItemState extends State<LineChartItem> {
             showTitles: true,
             checkToShowTitle: (double minValue, double maxValue,
                 SideTitles sideTitles, double appliedInterval, double value) {
-              return (rangeYAxis.length < 2 &&
+              return
+                value == 0 ||
+                (rangeYAxis.length < 2 &&
                       (value == yAxisMin || value == yAxisMax)) ||
                   rangeYAxis.contains(value);
             },
