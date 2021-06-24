@@ -6,6 +6,8 @@ import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/line_chart_item.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
+import 'package:flutter_auth/core/widgets/multi_select.dart';
+import 'package:flutter_auth/features/metric_charts/domain/enums/measurement_type_enum.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart';
@@ -16,17 +18,24 @@ import 'package:flutter_auth/features/shared/presentation/common/menu_functions.
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class NetworkChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<MeasurementType> _initialTypesToShow = [
+      MeasurementType.NETWORK_BYTES_IN,
+      MeasurementType.NETWORK_BYTES_OUT,
+      MeasurementType.NETWORK_NUM_REQUESTS
+    ];
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => injector<MeasurementBloc>()),
         BlocProvider(create: (_) => injector<ProcessBloc>())
       ],
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: WillPopScope(
           onWillPop: handleBackPressed,
           child: Container(
@@ -43,25 +52,42 @@ class NetworkChartPage extends StatelessWidget {
                     children: <Widget>[
                       DropdownProcesses(),
                       BlocBuilder<MeasurementBloc, MeasurementState>(
-                          // ignore: missing_return
                           builder: (context, state) {
                         if (state is Empty) {
                           context
                               .read<MeasurementBloc>()
                               .add(GetBytesInBytesOutData());
                         }
-
-                        return MaterialTile(
-                            child: LineChartMeasurement(
-                          title: 'Network',
-                          subtitle: 'BYTE IN/BYTES OUT',
-                          type: LineChartType.Thick,
-                        ));
-                      })
+                        return Column(
+                          children: [
+                            MultiSelect<MeasurementType>(
+                              initialValues: _initialTypesToShow
+                                  .map((e) => MultiSelectItem<MeasurementType>(
+                                      e, e.description))
+                                  .toList(),
+                              callback: (List<MeasurementType> values) {
+                                if (values.isNotEmpty) {
+                                  context.read<MeasurementBloc>().add(
+                                      GetBytesInBytesOutData(
+                                          queryTypes: values));
+                                }
+                              },
+                            ),
+                            SizedBox(height: 12),
+                            MaterialTile(
+                                child: LineChartMeasurement(
+                              title: 'Network',
+                              subtitle: 'BYTES IN/BYTES OUT/NUM REQUESTS',
+                              type: LineChartType.Thick,
+                            ))
+                          ],
+                        );
+                      }),
                     ],
                     staggeredTiles: [
                       StaggeredTile.extent(2, 80.0),
-                      StaggeredTile.extent(2, 600.0),
+                      StaggeredTile.extent(2, 675.0),
+                      StaggeredTile.extent(2, 80.0),
                     ],
                   )),
               BottomMenuPage(),

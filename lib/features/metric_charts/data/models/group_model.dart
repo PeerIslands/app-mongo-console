@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/group.dart';
-import 'package:flutter_auth/features/metric_charts/domain/entities/share/links.dart';
+import 'package:flutter_auth/features/metric_charts/domain/entities/shared/links.dart';
 
 import 'shared/links_model.dart';
 

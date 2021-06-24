@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'share/links.dart';
+import 'shared/links.dart';
 
 class Group extends Equatable {
   final int clusterCount;

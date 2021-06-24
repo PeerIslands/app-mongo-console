@@ -6,6 +6,8 @@ import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/line_chart_item.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
+import 'package:flutter_auth/core/widgets/multi_select.dart';
+import 'package:flutter_auth/features/metric_charts/domain/enums/measurement_type_enum.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart';
@@ -16,10 +18,20 @@ import 'package:flutter_auth/features/shared/presentation/common/menu_functions.
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 class OpcountersChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<MeasurementType> _initialTypesToShow = [
+      MeasurementType.OPCOUNTER_QUERY,
+      MeasurementType.OPCOUNTER_CMD,
+      MeasurementType.OPCOUNTER_INSERT,
+      MeasurementType.OPCOUNTER_UPDATE,
+      MeasurementType.OPCOUNTER_DELETE,
+      MeasurementType.OPCOUNTER_GETMORE,
+    ];
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => injector<MeasurementBloc>()),
@@ -51,17 +63,37 @@ class OpcountersChartPage extends StatelessWidget {
                               .add(GetOpcountersData());
                         }
 
-                        return MaterialTile(
-                            child: LineChartMeasurement(
-                          title: 'Opcounters',
-                          subtitle: 'COMMAND/QUERY',
-                          type: LineChartType.Thin,
-                        ));
+                        return Column(
+                          children: [
+                            MultiSelect<MeasurementType>(
+                              selectNInitialValues: 2,
+                              initialValues: _initialTypesToShow
+                                  .map((e) => MultiSelectItem<MeasurementType>(
+                                      e, e.description))
+                                  .toList(),
+                              callback: (List<MeasurementType> values) {
+                                if (values.isNotEmpty) {
+                                  context.read<MeasurementBloc>().add(
+                                      GetBytesInBytesOutData(
+                                          queryTypes: values));
+                                }
+                              },
+                            ),
+                            SizedBox(height: 12),
+                            MaterialTile(
+                                child: LineChartMeasurement(
+                              title: 'Opcounters',
+                              subtitle: 'COMMAND/QUERY/DELETE/INSERT/UPDATE/GETMORE',
+                              type: LineChartType.Thin,
+                            ))
+                          ],
+                        );
                       })
                     ],
                     staggeredTiles: [
                       StaggeredTile.extent(2, 80.0),
-                      StaggeredTile.extent(2, 600.0),
+                      StaggeredTile.extent(2, 675.0),
+                      StaggeredTile.extent(2, 80.0),
                     ],
                   )),
               BottomMenuPage(),

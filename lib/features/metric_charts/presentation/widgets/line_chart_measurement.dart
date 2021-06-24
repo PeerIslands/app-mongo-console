@@ -125,7 +125,6 @@ class LineChartMeasurementState extends State<LineChartMeasurement> {
       final arrayOfLines =
           MeasurementToLineChartItemConverter().convert(state.measurement);
 
-      print(arrayOfLines.length);
       if (arrayOfLines.isNotEmpty) {
         return Expanded(
           child: Padding(

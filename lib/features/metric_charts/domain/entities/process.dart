@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_auth/features/metric_charts/domain/entities/share/links.dart';
+import 'package:flutter_auth/features/metric_charts/domain/entities/shared/links.dart';
 
 class Process extends Equatable {
   final String created;

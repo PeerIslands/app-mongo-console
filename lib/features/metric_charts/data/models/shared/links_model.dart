@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_auth/features/metric_charts/domain/entities/share/links.dart';
+import 'package:flutter_auth/features/metric_charts/domain/entities/shared/links.dart';
 
 class LinksModel extends Links {
   LinksModel({@required href, @required rel}) : super(href, rel);

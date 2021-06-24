@@ -1,6 +1,8 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_auth/features/metric_charts/data/models/shared/links_model.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/measurement.dart';
+import 'package:flutter_auth/features/metric_charts/domain/enums/measurement_type_enum.dart';
 
 class MeasurementModel extends Measurement {
   MeasurementModel(
@@ -63,7 +65,7 @@ class MeasurementsModel extends Measurements {
                   .map((data) => DataPointsModel.fromJson(data))
                   .toList())
               : [],
-          name: json['name'],
+          name: EnumToString.fromString(MeasurementType.values, json['name']).description,
           units: json['units']);
 
   Map<String, dynamic> toJson() => {

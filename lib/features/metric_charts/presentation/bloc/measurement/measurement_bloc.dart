@@ -23,16 +23,18 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
         event is GetBytesInBytesOutData ||
         event is GetOpcountersData ||
         event is GetLogicalSizeData) {
-      await fetchMeasurementParams.clearParameters();
+      if (!(event as GetMeasurementMetricData).callApi) {
+        await fetchMeasurementParams.clearParameters();
+      }
 
       await _dispatchGetMeasurementMetrics(event);
     } else if (event is ChangeParams) {
       final params = await fetchMeasurementParams.call(
           FetchMeasurementParamsParams(
               params: event.buildMeasurementQuery().toList(),
-              isToCallApi: !event.isBaseQuery));
+              isToCallApi: event.callApi));
 
-      if (event.isBaseQuery) {
+      if (!event.callApi) {
         yield BaseQueryBuilt();
       } else {
         yield* params.fold(
@@ -50,10 +52,10 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
     }
   }
 
-  Future<void> _dispatchGetMeasurementMetrics(GetMeasurementMetricData event) async => this.add(ChangeParams(
-        types: event.queryTypes,
-        granularity: 'P1D',
-        isBaseQuery: true));
+  Future<void> _dispatchGetMeasurementMetrics(
+          GetMeasurementMetricData event) async =>
+      this.add(ChangeParams(
+          types: event.queryTypes, granularity: 'P1D', callApi: event.callApi));
 
   Stream<MeasurementState> _eitherSuccessOrErrorState(
       Either<Failure, Measurement> failureOrMeasurement) async* {
