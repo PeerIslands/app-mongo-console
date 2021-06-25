@@ -65,7 +65,8 @@ class MeasurementsModel extends Measurements {
                   .map((data) => DataPointsModel.fromJson(data))
                   .toList())
               : [],
-          name: EnumToString.fromString(MeasurementType.values, json['name']).description,
+          name: EnumToString.fromString(MeasurementType.values, json['name'])
+              .description,
           units: json['units']);
 
   Map<String, dynamic> toJson() => {

@@ -37,10 +37,9 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
         yield BaseQueryBuilt();
       } else {
         yield* params.fold(
-            (failure) => Stream.value(
-                DataFailed(message: (failure as ServerFailure).message)),
-            (params) async* {
-          yield DataLoading();
+            (failure) => Stream.value(MeasurementDataFailed(
+                message: (failure as ServerFailure).message)), (params) async* {
+          yield MeasurementDataLoading();
 
           Either<Failure, Measurement> failureOrMeasurement =
               await fetchMeasurementData(Params(params: params));
@@ -59,8 +58,9 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
   Stream<MeasurementState> _eitherSuccessOrErrorState(
       Either<Failure, Measurement> failureOrMeasurement) async* {
     yield failureOrMeasurement.fold(
-      (failure) => DataFailed(message: (failure as ServerFailure).message),
-      (measurement) => DataLoaded(measurement: measurement),
+      (failure) =>
+          MeasurementDataFailed(message: (failure as ServerFailure).message),
+      (measurement) => MeasurementDataLoaded(measurement: measurement),
     );
   }
 }

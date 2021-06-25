@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_auth/core/error/dio_exceptions.dart';
+import 'package:flutter_auth/core/constants/server_requests.dart';
 import 'package:flutter_auth/core/http/api_base_helper.dart';
 import 'package:flutter_auth/features/metric_charts/data/models/process_model.dart';
 
@@ -12,15 +12,10 @@ class ProcessRemoteDataSourceImpl implements ProcessRemoteDataSource {
   Future<List<ProcessModel>> getProcesses(String groupId) async {
     Map<String, String> queryParams = {'group_id': groupId};
 
-    Response response =
-        await ApiBaseHelper().get('mongodb/process', queryParams);
+    Response response = await ApiBaseHelper().get(PROCESSES, queryParams);
 
-    if (response.statusCode == 200) {
-      return (response.data as List)
-          .map((process) => ProcessModel.fromJson(process))
-          .toList();
-    } else {
-      throw ServerException();
-    }
+    return (response.data as List)
+        .map((process) => ProcessModel.fromJson(process))
+        .toList();
   }
 }

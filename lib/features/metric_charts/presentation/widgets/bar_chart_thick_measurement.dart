@@ -108,7 +108,7 @@ class BarChartThickMeasurementState extends State<BarChartThickMeasurement> {
   }
 
   Widget _showErrorOrData(MeasurementState state) {
-    if (state is DataLoaded) {
+    if (state is MeasurementDataLoaded) {
       final items =
           MeasurementToBarChartThickConverter().convert(state.measurement);
 

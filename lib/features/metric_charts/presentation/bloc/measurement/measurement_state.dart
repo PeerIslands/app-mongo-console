@@ -13,25 +13,7 @@ class Empty extends MeasurementState {}
 
 class BaseQueryBuilt extends MeasurementState {}
 
-class DataLoading extends MeasurementState {}
-
-class DataLoaded extends MeasurementState {
-  final Measurement measurement;
-
-  DataLoaded({@required this.measurement});
-
-  @override
-  List<Object> get props => [measurement];
-}
-
-class DataFailed extends MeasurementState {
-  final String message;
-
-  DataFailed({@required this.message});
-
-  @override
-  List<Object> get props => [message];
-}
+class MeasurementDataLoading extends MeasurementState {}
 
 class ParamsChanged extends MeasurementState {
   final List<BaseMeasurementQuery> params;
@@ -40,4 +22,22 @@ class ParamsChanged extends MeasurementState {
 
   @override
   List<Object> get props => [params];
+}
+
+class MeasurementDataLoaded extends MeasurementState {
+  final Measurement measurement;
+
+  MeasurementDataLoaded({@required this.measurement});
+
+  @override
+  List<Object> get props => [measurement];
+}
+
+class MeasurementDataFailed extends MeasurementState {
+  final String message;
+
+  MeasurementDataFailed({@required this.message});
+
+  @override
+  List<Object> get props => [message];
 }

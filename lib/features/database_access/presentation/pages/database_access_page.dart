@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
+import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_bloc.dart';
+import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_event.dart';
+import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_state.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -14,7 +19,6 @@ class DatabaseAccessPage extends StatefulWidget {
 }
 
 class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
-  SlidableController _slidableController;
   final List<HomeModal> items = List.generate(
     3,
         (i) => HomeModal(
@@ -33,6 +37,8 @@ class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
         return Colors.teal;
       case 2:
         return Colors.red;
+      case 3:
+        return Colors.orange;
       default:
         return null;
     }
@@ -59,79 +65,82 @@ class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
   }
 
   @override
-  void initState() {
-    _slidableController = SlidableController(
-      onSlideAnimationChanged: slideAnimationChanged,
-      onSlideIsOpenChanged: slideIsOpenChanged,
-    );
-    super.initState();
-  }
-
-  Animation<double> _rotationAnimation;
-  Color _fabColor = Colors.redAccent;
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: WillPopScope(
-        onWillPop: handleBackPressed,
-        child: Container(
-          child: Stack(children: <Widget>[
-            Scaffold(
-              appBar: AppBarDefault(title: 'Database Access'),
-              backgroundColor: primaryColor(context),
-              body: StaggeredGridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12.0,
-                mainAxisSpacing: 50.0,
-                padding: EdgeInsets.only(left: 8, right: 8, top: 30, bottom: 8),
-                children: <Widget>[
-                  MaterialTile(
-                    child: Center(
-                      child: OrientationBuilder(
-                        builder: (context, orientation) => _buildList(
-                            context,
-                            orientation == Orientation.portrait
-                                ? Axis.vertical
-                                : Axis.horizontal),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(defaultButtonColor(context)),
-                        textStyle: MaterialStateProperty.all<TextStyle>(
-                            TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w700)),
-                        foregroundColor:
-                        MaterialStateProperty.all<Color>(defaultButtonTextColor(context))),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return DatabaseAccessPage();
-                          },
-                        ),
-                      );                       },
-                    icon: Icon(Icons.refresh, size: 30),
-                    label: Text("LOAD REQUESTS"),
-                  )
-                ],
-                staggeredTiles: [
-                  StaggeredTile.extent(2, 420),
-                  StaggeredTile.extent(2, 80.0),
-                ],
+    return BlocProvider(
+      create: (_) => injector<DatabaseAccessBloc>(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: WillPopScope(
+          onWillPop: handleBackPressed,
+          child: Container(
+            child: Stack(children: <Widget>[
+              Scaffold(
+                appBar: AppBarDefault(title: 'Database Access'),
+                backgroundColor: primaryColor(context),
+                body: BlocBuilder<DatabaseAccessBloc, DatabaseAccessState>(
+                  // ignore: missing_return
+                    builder: (context, state) {
+                      if (state is Empty) {
+                        context
+                            .read<DatabaseAccessBloc>()
+                            .add(GetDatabaseAccessRequests());
+                      }
+
+                      return StaggeredGridView.count(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 12.0,
+                        mainAxisSpacing: 50.0,
+                        padding:
+                        EdgeInsets.only(left: 8, right: 8, top: 30, bottom: 8),
+                        children: <Widget>[
+                          MaterialTile(
+                            child: Center(
+                              child: OrientationBuilder(
+                                builder: (context, orientation) => _buildList(
+                                    context,
+                                    orientation == Orientation.portrait
+                                        ? Axis.vertical
+                                        : Axis.horizontal),
+                              ),
+                            ),
+                          ),
+                          ElevatedButton.icon(
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(
+                                    defaultButtonColor(context)),
+                                textStyle: MaterialStateProperty.all<TextStyle>(
+                                    TextStyle(
+                                        fontSize: 16, fontWeight: FontWeight.w700)),
+                                foregroundColor: MaterialStateProperty.all<Color>(
+                                    defaultButtonTextColor(context))),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return DatabaseAccessPage();
+                                  },
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.refresh, size: 30),
+                            label: Text("LOAD REQUESTS"),
+                          )
+                        ],
+                        staggeredTiles: [
+                          StaggeredTile.extent(2, 420),
+                          StaggeredTile.extent(2, 80.0),
+                        ],
+                      );
+                    }),
               ),
-            ),
-            BottomMenuPage(),
-          ]),
+              BottomMenuPage(),
+            ]),
+          ),
         ),
+        floatingActionButton: FloatingDarkLightModeButton(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       ),
-      floatingActionButton: FloatingDarkLightModeButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 
@@ -153,47 +162,10 @@ class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
     final HomeModal item = items[index];
     return Slidable.builder(
         key: Key(item.titles),
-        controller: _slidableController,
         direction: direction,
         dismissal: SlidableDismissal(
           child: SlidableDrawerDismissal(),
           closeOnCanceled: true,
-          onWillDismiss: (item.index != 10)
-              ? null
-              : (actionType) {
-            return showDialog<bool>(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  backgroundColor: Colors.redAccent,
-                  title: Text(
-                    'Delete',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  content: Text(
-                    'Item will be deleted',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () => Navigator.of(context).pop(false),
-                    ),
-                    FlatButton(
-                      child: Text(
-                        'Ok',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () => Navigator.of(context).pop(true),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
           onDismissed: (actionType) {
             _showSnackBar(
                 context,
@@ -230,7 +202,7 @@ class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
                           style: TextStyle(color: Colors.white),
                         ),
                         content: Text(
-                          'Access will be declined',
+                          'IP Address will be declined',
                           style: TextStyle(color: Colors.white),
                         ),
                         actions: <Widget>[
@@ -276,18 +248,6 @@ class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
 
   void _showSnackBar(BuildContext context, String text) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
-  }
-
-  void slideAnimationChanged(Animation<double> slideAnimation) {
-    setState(() {
-      _rotationAnimation = slideAnimation;
-    });
-  }
-
-  void slideIsOpenChanged(bool isOpen) {
-    setState(() {
-      _fabColor = isOpen ? Colors.orange : Colors.redAccent;
-    });
   }
 }
 

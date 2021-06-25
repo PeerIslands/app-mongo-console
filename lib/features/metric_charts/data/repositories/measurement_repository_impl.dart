@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/constants/message_constants.dart';
+import 'package:flutter_auth/core/constants/server_requests.dart';
 import 'package:flutter_auth/core/error/dio_exceptions.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/http/api_base_helper.dart';
@@ -37,8 +38,7 @@ class MeasurementRepositoryImpl implements MeasurementRepository {
         addValueToMap(queryParams, element.param, element.value);
       });
 
-      Response response = await ApiBaseHelper()
-          .get('mongodb/process/measurements', queryParams);
+      Response response = await ApiBaseHelper().get(MEASUREMENTS, queryParams);
 
       return Right(MeasurementModel.fromJson(response.data));
     } on ServerException {
@@ -49,7 +49,7 @@ class MeasurementRepositoryImpl implements MeasurementRepository {
   @override
   Future<Either<Failure, Group>> getGroup() async {
     try {
-      Response response = await ApiBaseHelper().get('mongodb/groups', {});
+      Response response = await ApiBaseHelper().get(GROUPS, {});
 
       return Right((response.data as List)
           .map((group) => GroupModel.fromJson(group))

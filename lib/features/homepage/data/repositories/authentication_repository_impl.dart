@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_auth/core/constants/message_constants.dart';
+import 'package:flutter_auth/core/constants/server_requests.dart';
 import 'package:flutter_auth/core/error/dio_exceptions.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/http/api_base_helper.dart';
@@ -18,7 +19,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, User>> loginUser(String email, String password) async {
     try {
       Response response = await ApiBaseHelper()
-          .post('login', {"email": email, "password": password});
+          .post(LOGIN, {"email": email, "password": password});
 
       return Right(User(email: email, token: response.data['token']));
     } on BadRequestException {

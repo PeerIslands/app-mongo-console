@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_auth/core/constants/server_constants.dart';
+import 'package:flutter_auth/core/constants/server_paths.dart';
 import 'package:flutter_auth/core/constants/storage_constants.dart';
 import 'package:flutter_auth/core/error/dio_exceptions.dart';
 import 'package:flutter_auth/core/error/failures.dart';
@@ -27,6 +27,10 @@ class ApiBaseHelper {
     return dio
       ..interceptors.add(InterceptorsWrapper(
         onError: (error, errorInterceptorHandler) {
+          if (error is NotFoundException) {
+            throw error;
+          }
+
           switch (error.response.statusCode) {
             case 400:
               throw BadRequestException();
@@ -43,6 +47,11 @@ class ApiBaseHelper {
         onRequest: (request, requestInterceptorHandler) async {
           return requestInterceptorHandler
               .next(await requestInterceptor(request));
+        },
+        onResponse: (e, handler) {
+          if (e.data == null || (e is List && (e as List).isEmpty)) {
+            throw NotFoundException();
+          }
         },
       ));
   }

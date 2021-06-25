@@ -121,7 +121,7 @@ class LineChartMeasurementState extends State<LineChartMeasurement> {
   }
 
   Widget _showErrorOrData(MeasurementState state) {
-    if (state is DataLoaded) {
+    if (state is MeasurementDataLoaded) {
       final arrayOfLines =
           MeasurementToLineChartItemConverter().convert(state.measurement);
 

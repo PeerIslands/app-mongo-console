@@ -14,19 +14,17 @@ class GroupModel extends Group {
       @required String orgId})
       : super(clusterCount, created, id, links, name, orgId);
 
-  factory GroupModel.fromJson(Map<String, dynamic> json) {
-    return GroupModel(
-        clusterCount: json['clusterCount'],
-        created: json['created'],
-        id: json['id'],
-        name: json['name'],
-        orgId: json['orgId'],
-        links: json['links'] != null
-            ? json['links'].forEach((v) {
-                new LinksModel.fromJson(v);
-              })
-            : []);
-  }
+  factory GroupModel.fromJson(Map<String, dynamic> json) => GroupModel(
+      clusterCount: json['clusterCount'],
+      created: json['created'],
+      id: json['id'],
+      name: json['name'],
+      orgId: json['orgId'],
+      links: json['links'] != null
+          ? json['links'].forEach((v) {
+              new LinksModel.fromJson(v);
+            })
+          : []);
 
   Map<String, dynamic> toJson() => {
         'clusterCount': clusterCount,

@@ -49,6 +49,8 @@ class AuthenticationPage extends StatelessWidget {
                   );
                 },
                 theme: buildLoginTheme(buildContext),
+                onRecoverPassword: (_) => Future.value(''),
+                onSignup: (_) => Future.value(''),
               );
             },
           ),

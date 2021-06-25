@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
+import 'package:flutter_auth/features/network_access/presentation/bloc/network_access_bloc.dart';
+import 'package:flutter_auth/features/network_access/presentation/bloc/network_access_event.dart';
+import 'package:flutter_auth/features/network_access/presentation/bloc/network_access_state.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -71,67 +76,81 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: WillPopScope(
-        onWillPop: handleBackPressed,
-        child: Container(
-          child: Stack(children: <Widget>[
-            Scaffold(
-              appBar: AppBarDefault(title: 'Network Access'),
-              backgroundColor: primaryColor(context),
-              body: StaggeredGridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12.0,
-                mainAxisSpacing: 50.0,
-                padding: EdgeInsets.only(left: 8, right: 8, top: 30, bottom: 8),
-                children: <Widget>[
-                  MaterialTile(
-                    child: Center(
-                      child: OrientationBuilder(
-                        builder: (context, orientation) => _buildList(
-                            context,
-                            orientation == Orientation.portrait
-                                ? Axis.vertical
-                                : Axis.horizontal),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            defaultButtonColor(context)),
-                        textStyle: MaterialStateProperty.all<TextStyle>(
-                            TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w700)),
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            defaultButtonTextColor(context))),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return NetworkAccessPage();
-                          },
+    return BlocProvider(
+      create: (_) => injector<NetworkAccessBloc>(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: WillPopScope(
+          onWillPop: handleBackPressed,
+          child: Container(
+            child: Stack(children: <Widget>[
+              Scaffold(
+                appBar: AppBarDefault(title: 'Network Access'),
+                backgroundColor: primaryColor(context),
+                body: BlocBuilder<NetworkAccessBloc, NetworkAccessState>(
+                    // ignore: missing_return
+                    builder: (context, state) {
+                  if (state is Empty) {
+                    context
+                        .read<NetworkAccessBloc>()
+                        .add(GetNetworkAccessRequests());
+                  }
+
+                  return StaggeredGridView.count(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12.0,
+                    mainAxisSpacing: 50.0,
+                    padding:
+                        EdgeInsets.only(left: 8, right: 8, top: 30, bottom: 8),
+                    children: <Widget>[
+                      MaterialTile(
+                        child: Center(
+                          child: OrientationBuilder(
+                            builder: (context, orientation) => _buildList(
+                                context,
+                                orientation == Orientation.portrait
+                                    ? Axis.vertical
+                                    : Axis.horizontal),
+                          ),
                         ),
-                      );
-                    },
-                    icon: Icon(Icons.refresh, size: 30),
-                    label: Text("LOAD REQUESTS"),
-                  )
-                ],
-                staggeredTiles: [
-                  StaggeredTile.extent(2, 420),
-                  StaggeredTile.extent(2, 80.0),
-                ],
+                      ),
+                      ElevatedButton.icon(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                defaultButtonColor(context)),
+                            textStyle: MaterialStateProperty.all<TextStyle>(
+                                TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w700)),
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                defaultButtonTextColor(context))),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return NetworkAccessPage();
+                              },
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.refresh, size: 30),
+                        label: Text("LOAD REQUESTS"),
+                      )
+                    ],
+                    staggeredTiles: [
+                      StaggeredTile.extent(2, 420),
+                      StaggeredTile.extent(2, 80.0),
+                    ],
+                  );
+                }),
               ),
-            ),
-            BottomMenuPage(),
-          ]),
+              BottomMenuPage(),
+            ]),
+          ),
         ),
+        floatingActionButton: FloatingDarkLightModeButton(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       ),
-      floatingActionButton: FloatingDarkLightModeButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 
