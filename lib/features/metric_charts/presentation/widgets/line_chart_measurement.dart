@@ -10,7 +10,7 @@ import 'package:flutter_auth/core/widgets/start_end_date_range.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/util/measurementToLineChartItemConverter.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/converters/measurementToLineChartItemConverter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LineChartMeasurement extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_auth/core/error/exceptions.dart';
+import 'package:flutter_auth/core/error/dio_exceptions.dart';
 import 'package:flutter_auth/core/http/api_base_helper.dart';
 import 'package:flutter_auth/features/metric_charts/data/models/process_model.dart';
 

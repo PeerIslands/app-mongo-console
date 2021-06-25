@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter_auth/core/constants/message_constants.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/measurement.dart';
 import 'package:flutter_auth/features/metric_charts/domain/use_cases/fetch_measurement_data.dart';
@@ -39,7 +38,7 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
       } else {
         yield* params.fold(
             (failure) => Stream.value(
-                DataFailed(message: _mapFailureToMessage(failure))),
+                DataFailed(message: (failure as ServerFailure).message)),
             (params) async* {
           yield DataLoading();
 
@@ -60,17 +59,8 @@ class MeasurementBloc extends Bloc<MeasurementEvent, MeasurementState> {
   Stream<MeasurementState> _eitherSuccessOrErrorState(
       Either<Failure, Measurement> failureOrMeasurement) async* {
     yield failureOrMeasurement.fold(
-      (failure) => DataFailed(message: _mapFailureToMessage(failure)),
+      (failure) => DataFailed(message: (failure as ServerFailure).message),
       (measurement) => DataLoaded(measurement: measurement),
     );
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure:
-        return SERVER_FAILURE_MESSAGE;
-      default:
-        return GENERAL_ERROR_MESSAGE;
-    }
   }
 }

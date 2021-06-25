@@ -4,6 +4,7 @@ extension NumExtensions on num {
 
 extension ObjectExtensions on dynamic {
   bool get isNull => this == null;
+
   bool get isNotNull => this != null;
 }
 

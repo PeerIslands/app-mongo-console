@@ -14,7 +14,6 @@ class NetworkAccessPage extends StatefulWidget {
 }
 
 class _NetworkAccessPageState extends State<NetworkAccessPage> {
-  SlidableController _slidableController;
   final List<HomeModal> items = List.generate(
     4,
     (i) => HomeModal(
@@ -71,18 +70,6 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
   }
 
   @override
-  void initState() {
-    _slidableController = SlidableController(
-      onSlideAnimationChanged: slideAnimationChanged,
-      onSlideIsOpenChanged: slideIsOpenChanged,
-    );
-    super.initState();
-  }
-
-  Animation<double> _rotationAnimation;
-  Color _fabColor = Colors.redAccent;
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -112,13 +99,13 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
                   ),
                   ElevatedButton.icon(
                     style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(defaultButtonColor(context)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            defaultButtonColor(context)),
                         textStyle: MaterialStateProperty.all<TextStyle>(
                             TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w700)),
-                        foregroundColor:
-                            MaterialStateProperty.all<Color>(defaultButtonTextColor(context))),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            defaultButtonTextColor(context))),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -127,7 +114,8 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
                             return NetworkAccessPage();
                           },
                         ),
-                      );                    },
+                      );
+                    },
                     icon: Icon(Icons.refresh, size: 30),
                     label: Text("LOAD REQUESTS"),
                   )
@@ -165,47 +153,10 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
     final HomeModal item = items[index];
     return Slidable.builder(
         key: Key(item.titles),
-        controller: _slidableController,
         direction: direction,
         dismissal: SlidableDismissal(
           child: SlidableDrawerDismissal(),
           closeOnCanceled: true,
-          onWillDismiss: (item.index != 10)
-              ? null
-              : (actionType) {
-                  return showDialog<bool>(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        backgroundColor: Colors.redAccent,
-                        title: Text(
-                          'Decline',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        content: Text(
-                          'IP Address will be declined',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text(
-                              'Cancel',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            onPressed: () => Navigator.of(context).pop(false),
-                          ),
-                          FlatButton(
-                            child: Text(
-                              'Ok',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            onPressed: () => Navigator.of(context).pop(true),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
           onDismissed: (actionType) {
             _showSnackBar(
                 context,
@@ -288,18 +239,6 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
 
   void _showSnackBar(BuildContext context, String text) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
-  }
-
-  void slideAnimationChanged(Animation<double> slideAnimation) {
-    setState(() {
-      _rotationAnimation = slideAnimation;
-    });
-  }
-
-  void slideIsOpenChanged(bool isOpen) {
-    setState(() {
-      _fabColor = isOpen ? Colors.orange : Colors.redAccent;
-    });
   }
 }
 

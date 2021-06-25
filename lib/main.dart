@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/features/homepage/presentation/pages/dashboard_page.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/pages/connections_chart_page.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/pages/network_chart_page.dart';
+import 'package:flutter_auth/features/network_access/presentation/pages/network_access_page.dart';
 
 import 'core/ioc/injection_container.dart' as dependency_injector;
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: EasyDynamicTheme.of(context).themeMode,
-      home: DashboardPage(),
+      home: NetworkAccessPage(),
       debugShowCheckedModeBanner: false,
     );
   }

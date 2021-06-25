@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_auth/core/constants/message_constants.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/use_cases/use_cases.dart';
 import 'package:flutter_auth/features/metric_charts/domain/entities/process.dart';
@@ -23,7 +22,7 @@ class ProcessBloc extends Bloc<ProcessEvent, ProcessState> {
   Stream<ProcessState> _eitherSuccessOrErrorState(ProcessEvent event,
       Either<Failure, List<Process>> failureOrMeasurement) async* {
     yield failureOrMeasurement.fold(
-      (failure) => DataFailed(message: _mapFailureToMessage(failure)),
+      (failure) => DataFailed(message: (failure as ServerFailure).message),
       // ignore: missing_return
       (processes) {
         if (event is FetchDataRequested) {
@@ -31,14 +30,5 @@ class ProcessBloc extends Bloc<ProcessEvent, ProcessState> {
         }
       },
     );
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure:
-        return SERVER_FAILURE_MESSAGE;
-      default:
-        return GENERAL_ERROR_MESSAGE;
-    }
   }
 }

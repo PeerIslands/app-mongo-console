@@ -100,9 +100,8 @@ class LineChartItemState extends State<LineChartItem> {
             showTitles: true,
             checkToShowTitle: (double minValue, double maxValue,
                 SideTitles sideTitles, double appliedInterval, double value) {
-              return
-                value == 0 ||
-                (rangeYAxis.length < 2 &&
+              return value == 0 ||
+                  (rangeYAxis.length < 2 &&
                       (value == yAxisMin || value == yAxisMax)) ||
                   rangeYAxis.contains(value);
             },

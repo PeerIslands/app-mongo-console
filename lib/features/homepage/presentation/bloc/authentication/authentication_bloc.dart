@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_auth/core/constants/message_constants.dart';
 import 'package:flutter_auth/core/constants/storage_constants.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/http/api_base_helper.dart';
@@ -32,7 +31,7 @@ class AuthenticationBloc
       AuthenticationEvent event) async* {
     if (event is LoginSubmitted) {
       final failureOrLogin = await sendLoginForm(SendLoginFormClass.Params(
-          email: event.email, password: event.password));
+          email: event.email.toLowerCase(), password: event.password));
       yield Submitting();
       yield* _eitherSuccessOrErrorState(failureOrLogin);
     } else if (event is SignupSubmitted) {
@@ -46,21 +45,14 @@ class AuthenticationBloc
   Stream<AuthenticationState> _eitherSuccessOrErrorState(
       Either<Failure, User> failureOrUser) async* {
     yield failureOrUser.fold(
-      (failure) => SubmissionFailed(message: _mapFailureToMessage(failure)),
+      (failure) {
+        return SubmissionFailed(message: (failure as ServerFailure).message);
+      },
       (user) {
         ApiBaseHelper.storage.write(key: BEARER_TOKEN, value: user.token);
 
         return SubmissionSuccess(user: user);
       },
     );
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure:
-        return SERVER_FAILURE_MESSAGE;
-      default:
-        return GENERAL_ERROR_MESSAGE;
-    }
   }
 }

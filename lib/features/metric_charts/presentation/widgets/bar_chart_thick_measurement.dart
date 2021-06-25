@@ -8,7 +8,7 @@ import 'package:flutter_auth/core/widgets/start_end_date_range.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_event.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_state.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/util/measurementToBarChartThickConverter.dart';
+import 'package:flutter_auth/features/metric_charts/presentation/converters/measurementToBarChartThickConverter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/widgets/chart_title.dart';
