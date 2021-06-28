@@ -8,3 +8,10 @@ abstract class DatabaseAccessEvent extends Equatable {
 }
 
 class GetDatabaseAccessRequests extends DatabaseAccessEvent {}
+
+class ApproveOrDeclineRequest extends DatabaseAccessEvent {
+  final String id;
+  final bool approve;
+
+  ApproveOrDeclineRequest(this.id, this.approve);
+}

@@ -25,3 +25,5 @@ class ChartMenuOpened extends BottomMenuState {
   @override
   List<Object> get props => [items];
 }
+
+class Logout extends BottomMenuState {}

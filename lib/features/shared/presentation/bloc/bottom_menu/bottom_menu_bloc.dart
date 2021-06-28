@@ -32,7 +32,9 @@ class BottomMenuBloc extends Bloc<MenuEvent, BottomMenuState> {
 
   @override
   Stream<BottomMenuState> mapEventToState(MenuEvent event) async* {
-    if (event is ChartItemPressed) {
+    if (event is LogoutPressed) {
+      yield Logout();
+    } else if (event is ChartItemPressed) {
       yield ChartMenuOpened(items: [
         MenuItem(Icon(Icons.stacked_bar_chart, color: Colors.white, size: 35),
             ConnectionsChartPage(), false, 'Connections'),

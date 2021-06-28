@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/core/ioc/injection_container.dart';
+import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
 import 'package:flutter_auth/features/shared/domain/entities/menu_item.dart';
 import 'package:flutter_auth/features/shared/presentation/bloc/bottom_menu/bottom_menu_bloc.dart';
 import 'package:flutter_auth/features/shared/presentation/bloc/bottom_menu/bottom_menu_event.dart';
@@ -32,6 +35,9 @@ class ChartMenuItem extends StatelessWidget {
                 context.read<BottomMenuBloc>().add(ChartItemPressed());
                 toggleBottomMenu();
               } else if (item.redirectTo != null) {
+                // if (item.title.toLowerCase() == 'logout') {
+                //   context.read<AuthenticationBloc>().add(LogoutSubmitted());
+                // }
                 Navigator.push(
                   context,
                   MaterialPageRoute(

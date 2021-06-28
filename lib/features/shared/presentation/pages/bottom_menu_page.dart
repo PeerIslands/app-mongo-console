@@ -21,6 +21,7 @@ class BottomMenuPage extends StatefulWidget {
 
 class _BottomMenuPageState extends State<BottomMenuPage>
     with SingleTickerProviderStateMixin {
+
   @override
   void initState() {
     super.initState();
@@ -39,60 +40,64 @@ class _BottomMenuPageState extends State<BottomMenuPage>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => injector<BottomMenuBloc>(),
-      child: AnimatedBuilder(
-        animation: controller,
-        builder: (context, child) {
-          return Positioned(
-            height: lerp(minHeight, maxHeight(context)),
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: GestureDetector(
-              onTap: toggleBottomMenu,
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: menuItemColor(context),
-                      blurRadius: 5.0,
-                    ),
-                  ],
-                ),
-                child: Material(
-                  color: menuPrimaryColor(context),
-                  elevation: 10.0,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
+        create: (_) => injector<BottomMenuBloc>(),
+        child: AnimatedBuilder(
+          animation: controller,
+          builder: (context, child) {
+            return Positioned(
+              height: lerp(minHeight, maxHeight(context)),
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: GestureDetector(
+                onTap: toggleBottomMenu,
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: menuItemColor(context),
+                        blurRadius: 5.0,
+                      ),
+                    ],
                   ),
-                  child: InkWell(
-                    onTap: doNothing,
-                    splashColor: menuItemColor(context),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: BlocBuilder<BottomMenuBloc, BottomMenuState>(
-                          // ignore: missing_return
-                          builder: (context, state) {
-                        return Stack(
-                          children: <Widget>[
-                            if (state is ChartMenuOpened) CloseMenuIcon(),
-                            for (MenuItem item in state.items)
-                              _constructIconChartMenu(state, item, context),
-                            for (MenuItem item in state.items)
-                              _constructIcon(state, item, context)
+                  child: Material(
+                    color: menuPrimaryColor(context),
+                    elevation: 10.0,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
+                    ),
+                    child: InkWell(
+                      onTap: doNothing,
+                      splashColor: menuItemColor(context),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Stack(
+                          children: [
+                            BlocBuilder<BottomMenuBloc, BottomMenuState>(
+                                // ignore: missing_return
+                                builder: (context, state) {
+                              return Stack(
+                                children: <Widget>[
+                                  if (state is ChartMenuOpened) CloseMenuIcon(),
+                                  for (MenuItem item in state.items)
+                                    _constructIconChartMenu(
+                                        state, item, context),
+                                  for (MenuItem item in state.items)
+                                    _constructIcon(state, item, context)
+                                ],
+                              );
+                            })
                           ],
-                        );
-                      }),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
-      ),
-    );
+            );
+          },
+        ));
   }
 
   ExpandedChartMenuItem _constructIconChartMenu(

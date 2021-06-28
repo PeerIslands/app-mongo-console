@@ -1,5 +1,6 @@
 import 'package:flutter_auth/features/database_access/data/repositories/database_access_repository_impl.dart';
 import 'package:flutter_auth/features/database_access/domain/repositories/database_access_repository.dart';
+import 'package:flutter_auth/features/database_access/domain/use_cases/approve_or_decline_database_request.dart';
 import 'package:flutter_auth/features/database_access/domain/use_cases/fetch_database_access_list.dart';
 import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_bloc.dart';
 import 'package:flutter_auth/features/homepage/data/repositories/authentication_repository_impl.dart';
@@ -34,7 +35,7 @@ Future<void> register() async {
   injector.registerFactory(() => MeasurementBloc(injector(), injector()));
   injector.registerFactory(() => ProcessBloc(injector()));
   injector.registerFactory(() => NetworkAccessBloc(injector()));
-  injector.registerFactory(() => DatabaseAccessBloc(injector()));
+  injector.registerFactory(() => DatabaseAccessBloc(injector(), injector()));
 
   // Use cases
   injector.registerLazySingleton(() => SendLoginForm(injector()));
@@ -44,6 +45,8 @@ Future<void> register() async {
   injector.registerLazySingleton(() => FetchMeasurementParams(injector()));
   injector.registerLazySingleton(() => FetchNetworkAccessList(injector()));
   injector.registerLazySingleton(() => FetchDatabaseAccessList(injector()));
+  injector
+      .registerLazySingleton(() => ApproveOrDeclineDatabaseRequest(injector()));
 
   // Data sources
   injector.registerLazySingleton<ProcessCacheDataSource>(
@@ -75,6 +78,6 @@ Future<void> register() async {
   );
 
   injector.registerLazySingleton<DatabaseAccessRepository>(
-        () => DatabaseAccessRepositoryImpl(),
+    () => DatabaseAccessRepositoryImpl(),
   );
 }

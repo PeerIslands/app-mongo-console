@@ -5,6 +5,9 @@ import 'package:flutter_auth/core/constants/server_paths.dart';
 import 'package:flutter_auth/core/constants/storage_constants.dart';
 import 'package:flutter_auth/core/error/dio_exceptions.dart';
 import 'package:flutter_auth/core/error/failures.dart';
+import 'package:flutter_auth/core/ioc/injection_container.dart';
+import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiBaseHelper {
@@ -27,14 +30,11 @@ class ApiBaseHelper {
     return dio
       ..interceptors.add(InterceptorsWrapper(
         onError: (error, errorInterceptorHandler) {
-          if (error is NotFoundException) {
-            throw error;
-          }
-
           switch (error.response.statusCode) {
             case 400:
               throw BadRequestException();
             case 401:
+              injector<AuthenticationBloc>().add(LogoutSubmitted());
               throw UnauthorizedException();
             case 403:
               throw ForbiddenException();
@@ -47,11 +47,6 @@ class ApiBaseHelper {
         onRequest: (request, requestInterceptorHandler) async {
           return requestInterceptorHandler
               .next(await requestInterceptor(request));
-        },
-        onResponse: (e, handler) {
-          if (e.data == null || (e is List && (e as List).isEmpty)) {
-            throw NotFoundException();
-          }
         },
       ));
   }
@@ -72,7 +67,8 @@ class ApiBaseHelper {
   Future<Response> get(String url, Map<String, dynamic> queryParams) async =>
       await (await baseAPI).get(url, queryParameters: queryParams);
 
-  Future<Response> post(String url, dynamic data) async =>
+  Future<Response> post(
+      {String url, dynamic data, Map<String, dynamic> queryParams}) async =>
       await (await baseAPI).post(url, data: data);
 
   Future<Response> put(String url, dynamic data) async =>

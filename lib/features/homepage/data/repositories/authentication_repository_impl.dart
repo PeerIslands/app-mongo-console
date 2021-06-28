@@ -19,7 +19,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, User>> loginUser(String email, String password) async {
     try {
       Response response = await ApiBaseHelper()
-          .post(LOGIN, {"email": email, "password": password});
+          .post(url: LOGIN, data: {"email": email, "password": password});
 
       return Right(User(email: email, token: response.data['token']));
     } on BadRequestException {

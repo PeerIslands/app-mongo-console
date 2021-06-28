@@ -62,10 +62,6 @@ class MeasurementRepositoryImpl implements MeasurementRepository {
   @override
   Future<Either<Failure, List<Process>>> getProcesses(String groupId) async {
     try {
-      if (await processCacheDataSource.checkProcessExists()) {
-        return Right(await processCacheDataSource.getProcesses());
-      }
-
       var processes = await processRemoteDataSource.getProcesses(groupId);
 
       await processCacheDataSource.cacheProcesses(processes);

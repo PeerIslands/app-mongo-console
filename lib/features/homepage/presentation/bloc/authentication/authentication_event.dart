@@ -36,3 +36,5 @@ class ForgotPassword extends AuthenticationEvent {
   @override
   List<Object> get props => [email];
 }
+
+class LogoutSubmitted extends AuthenticationEvent {}

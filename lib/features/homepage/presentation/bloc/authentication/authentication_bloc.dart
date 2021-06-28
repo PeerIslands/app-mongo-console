@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_auth/core/constants/storage_constants.dart';
 import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/http/api_base_helper.dart';
+import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/features/homepage/domain/entities/user.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_login_form.dart'
     as SendLoginFormClass;
@@ -12,6 +13,8 @@ import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/s
     as SendSignupFormClass;
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_state.dart';
+import 'package:flutter_auth/features/shared/presentation/bloc/bottom_menu/bottom_menu_bloc.dart';
+import 'package:flutter_auth/features/shared/presentation/bloc/bottom_menu/bottom_menu_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthenticationBloc
@@ -39,6 +42,9 @@ class AuthenticationBloc
           email: event.email, name: event.name, password: event.password));
       yield Submitting();
       yield* _eitherSuccessOrErrorState(failureOrSignup);
+    } else if (event is LogoutSubmitted) {
+      ApiBaseHelper.storage.delete(key: BEARER_TOKEN);
+      injector<BottomMenuBloc>().add(LogoutPressed());
     }
   }
 

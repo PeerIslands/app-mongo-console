@@ -29,3 +29,12 @@ class DatabaseAccessListFailed extends DatabaseAccessState {
   @override
   List<Object> get props => [message];
 }
+
+class DatabaseAccessErrorWhileApprovingOrDeclining extends DatabaseAccessState {
+  final String message;
+
+  DatabaseAccessErrorWhileApprovingOrDeclining({this.message});
+
+  @override
+  List<Object> get props => [message];
+}

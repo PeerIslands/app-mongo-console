@@ -10,3 +10,5 @@ abstract class MenuEvent extends Equatable {
 class ChartItemPressed extends MenuEvent {}
 
 class CloseChartMenu extends MenuEvent {}
+
+class LogoutPressed extends MenuEvent {}
