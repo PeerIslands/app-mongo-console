@@ -34,7 +34,7 @@ class DatabaseAccessRepositoryImpl extends DatabaseAccessRepository {
 
       return Right(response.data);
     } on Exception {
-      return Left(ServerFailure(message: DB_ACCESS_APPROVE_ERROR));
+      return Left(ServerFailure(message: REQUEST_APPROVE_ERROR));
     }
   }
 }

@@ -109,6 +109,7 @@ class _BottomMenuPageState extends State<BottomMenuPage>
       isVisible: controller.status == AnimationStatus.completed,
       borderRadius: itemBorderRadius,
       title: item.title,
+      redirectTo: item.redirectTo,
     );
   }
 

@@ -29,3 +29,12 @@ class NetworkAccessListFailed extends NetworkAccessState {
   @override
   List<Object> get props => [message];
 }
+
+class NetworkAccessErrorWhileApprovingOrDeclining extends NetworkAccessState {
+  final String message;
+
+  NetworkAccessErrorWhileApprovingOrDeclining({this.message});
+
+  @override
+  List<Object> get props => [message];
+}

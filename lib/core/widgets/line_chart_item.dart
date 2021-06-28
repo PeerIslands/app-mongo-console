@@ -38,12 +38,16 @@ class LineChartItemState extends State<LineChartItem> {
   @override
   Widget build(BuildContext context) {
     final values =
-        arrayOfLines.map((list) => list.map((e) => e.value).toList()).toList();
+        arrayOfLines.map((list) => list.map((e) {
+          return e.value;
+        }).toList()).toList();
+
 
     var yAxisMin = values.getMinBetweenLists;
     var yAxisMax = values.getMaxBetweenLists;
 
     var rangeYAxis = createRange(yAxisMin, yAxisMax);
+    print(rangeYAxis);
 
     return LineChart(
       LineChartData(
@@ -62,7 +66,7 @@ class LineChartItemState extends State<LineChartItem> {
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            '${arrayOfLines[element.barIndex][element.x.toInt()].value.toStringAsFixed(2)}',
+                            '${arrayOfLines[element.barIndex][element.x.toInt()].value.toStringAsFixed(3)}',
                         style: TextStyle(
                           color: chartTooltipTextColor(context),
                           fontSize: 16,
@@ -101,9 +105,15 @@ class LineChartItemState extends State<LineChartItem> {
             checkToShowTitle: (double minValue, double maxValue,
                 SideTitles sideTitles, double appliedInterval, double value) {
               return value == 0 ||
-                  (rangeYAxis.length < 2 &&
-                      (value == yAxisMin || value == yAxisMax)) ||
-                  rangeYAxis.contains(value);
+                  ((rangeYAxis.length < 2 || rangeYAxis.length > 8) && (value == yAxisMin || value == yAxisMax)) ||
+                  (rangeYAxis.contains(value) && rangeYAxis.length >= 2 && rangeYAxis.length <= 8);
+            },
+            getTitles: (value) {
+              if (value % 1 == 0) {
+                return value.toStringAsFixed(0);
+              }
+
+              return value.toStringAsFixed(3);
             },
             getTextStyles: (value) => TextStyle(
               color: chartTextsColor(context),

@@ -20,6 +20,7 @@ import 'package:flutter_auth/features/metric_charts/presentation/bloc/measuremen
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/process/process_bloc.dart';
 import 'package:flutter_auth/features/network_access/data/repositories/network_access_repository_impl.dart';
 import 'package:flutter_auth/features/network_access/domain/repositories/network_access_repository.dart';
+import 'package:flutter_auth/features/network_access/domain/use_cases/approve_or_decline_network_request.dart';
 import 'package:flutter_auth/features/network_access/domain/use_cases/fetch_network_access_list.dart';
 import 'package:flutter_auth/features/network_access/presentation/bloc/network_access_bloc.dart';
 import 'package:flutter_auth/features/shared/presentation/bloc/bottom_menu/bottom_menu_bloc.dart';
@@ -34,7 +35,7 @@ Future<void> register() async {
   injector.registerFactory(() => BottomMenuBloc());
   injector.registerFactory(() => MeasurementBloc(injector(), injector()));
   injector.registerFactory(() => ProcessBloc(injector()));
-  injector.registerFactory(() => NetworkAccessBloc(injector()));
+  injector.registerFactory(() => NetworkAccessBloc(injector(), injector()));
   injector.registerFactory(() => DatabaseAccessBloc(injector(), injector()));
 
   // Use cases
@@ -47,6 +48,8 @@ Future<void> register() async {
   injector.registerLazySingleton(() => FetchDatabaseAccessList(injector()));
   injector
       .registerLazySingleton(() => ApproveOrDeclineDatabaseRequest(injector()));
+  injector
+      .registerLazySingleton(() => ApproveOrDeclineNetworkRequest(injector()));
 
   // Data sources
   injector.registerLazySingleton<ProcessCacheDataSource>(

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 
 class LoadRequests extends StatelessWidget {
-  final Widget reloadPage;
+  final Function(BuildContext context) callback;
 
   const LoadRequests({
-    Key key, this.reloadPage,
+    Key key, this.callback,
   }) : super(key: key);
 
   @override
@@ -19,16 +19,7 @@ class LoadRequests extends StatelessWidget {
                   fontSize: 16, fontWeight: FontWeight.w700)),
           foregroundColor: MaterialStateProperty.all<Color>(
               defaultButtonTextColor(context))),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return reloadPage;
-            },
-          ),
-        );
-      },
+      onPressed: () => callback(context),
       icon: Icon(Icons.refresh, size: 30),
       label: Text("LOAD REQUESTS"),
     );

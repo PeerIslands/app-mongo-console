@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
+import 'package:flutter_auth/features/homepage/presentation/pages/dashboard_page.dart';
 
 import 'menu_item_tile.dart';
 
@@ -11,6 +12,7 @@ class ExpandedChartMenuItem extends StatelessWidget {
   final bool isVisible;
   final double borderRadius;
   final String title;
+  final Widget redirectTo;
 
   const ExpandedChartMenuItem(
       {Key key,
@@ -19,7 +21,8 @@ class ExpandedChartMenuItem extends StatelessWidget {
       this.isVisible,
       this.borderRadius,
       this.title,
-      this.leftMargin})
+      this.leftMargin,
+      this.redirectTo})
       : super(key: key);
 
   @override
@@ -42,13 +45,25 @@ class ExpandedChartMenuItem extends StatelessWidget {
                 padding: EdgeInsets.only(
                   left: 100.0,
                 ),
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontFamily: 'Quicksand',
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w700,
-                    color: menuItemColor(context),
+                child: TextButton(
+                  onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return redirectTo;
+                        },
+                      ),
+                    )
+                  },
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700,
+                      color: menuItemColor(context),
+                    ),
                   ),
                 ),
               ),

@@ -29,10 +29,10 @@ class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
       'Decline',
       Colors.redAccent,
       Icons.thumb_down,
-      'IP Address will be declined',
+      'User request will be declined',
     ),
     SlidableOnTapOptions('Accept', Colors.lightGreen, Icons.thumb_up,
-        'IP Address will be accept'),
+        'User request will accept'),
   ];
 
   @override
@@ -77,7 +77,9 @@ class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
                         }
                       },
                     ),
-                    LoadRequests(reloadPage: DatabaseAccessPage())
+                    LoadRequests(callback: (BuildContext context) => context
+                        .read<DatabaseAccessBloc>()
+                        .add(GetDatabaseAccessRequests()))
                   ],
                   staggeredTiles: [
                     StaggeredTile.extent(2, 420),

@@ -38,15 +38,13 @@ class DatabaseAccessBloc
 
   Stream<DatabaseAccessState> _eitherSuccessApprovingOrDecliningOrError(
       Either<Failure, Response<dynamic>> failureOrSuccess) async* {
-    yield* failureOrSuccess.fold(
-        (failure) async* {
-          yield DatabaseAccessErrorWhileApprovingOrDeclining(
-            message: (failure as ServerFailure).message);
-          yield Empty();
-        }, (success) => null);
+    yield* failureOrSuccess.fold((failure) async* {
+      yield DatabaseAccessErrorWhileApprovingOrDeclining(
+          message: (failure as ServerFailure).message);
+      yield Empty();
+    }, (success) => null);
 
     yield Empty();
-
   }
 
   Stream<DatabaseAccessState> _eitherSuccessListOrNotFound(
