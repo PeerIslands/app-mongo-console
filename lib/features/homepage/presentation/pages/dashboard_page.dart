@@ -5,6 +5,7 @@ import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
+import 'package:flutter_auth/features/database_access/presentation/pages/database_access_page.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_full.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_half.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
@@ -60,6 +61,7 @@ class _MainPageState extends State<DashboardPage> {
                       DashboardTileItemHalf(
                         title: 'Databases',
                         subTitle: 'Manage access',
+                        redirectTo: DatabaseAccessPage(),
                         iconData: Icons.pie_chart,
                         iconDataColor: dashboardForthTileCardIconColor(context),
                       ),
@@ -68,8 +70,8 @@ class _MainPageState extends State<DashboardPage> {
                     staggeredTiles: [
                       StaggeredTile.extent(2, 110.0),
                       StaggeredTile.extent(2, 110.0),
-                      StaggeredTile.extent(1, 180.0),
-                      StaggeredTile.extent(1, 180.0),
+                      StaggeredTile.extent(1, 170.0),
+                      StaggeredTile.extent(1, 170.0),
                       StaggeredTile.extent(2, 550.0),
                     ],
                   )),
