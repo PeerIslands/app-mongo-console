@@ -8,6 +8,7 @@ import 'package:flutter_auth/features/homepage/domain/repositories/authenticatio
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_login_form.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_signup_form.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:flutter_auth/features/homepage/presentation/bloc/login/login_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/measurement_params_cache_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/process/process_cache_datasource.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/process/process_remote_datasource.dart';
@@ -30,8 +31,8 @@ final injector = GetIt.instance;
 
 Future<void> register() async {
   // Blocs
-  injector.registerFactory(
-      () => AuthenticationBloc(loginForm: injector(), signupForm: injector()));
+  injector.registerFactory(() => AuthenticationBloc());
+  injector.registerFactory(() => LoginBloc(loginForm: injector(), signupForm: injector()));
   injector.registerFactory(() => BottomMenuBloc());
   injector.registerFactory(() => MeasurementBloc(injector(), injector()));
   injector.registerFactory(() => ProcessBloc(injector()));

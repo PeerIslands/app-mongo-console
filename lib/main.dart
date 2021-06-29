@@ -1,12 +1,14 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/features/database_access/presentation/pages/database_access_page.dart';
+import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
+import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_state.dart';
+import 'package:flutter_auth/features/homepage/presentation/pages/authentication_page.dart';
 import 'package:flutter_auth/features/homepage/presentation/pages/dashboard_page.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/pages/connections_chart_page.dart';
-import 'package:flutter_auth/features/metric_charts/presentation/pages/network_chart_page.dart';
-import 'package:flutter_auth/features/network_access/presentation/pages/network_access_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/ioc/injection_container.dart' as dependency_injector;
+import 'core/ioc/injection_container.dart';
+import 'features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,13 +19,36 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MongoDB Atlas Admin',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: EasyDynamicTheme.of(context).themeMode,
-      home: DatabaseAccessPage(),
-      debugShowCheckedModeBanner: false,
+    return BlocProvider(
+      create: (_) => injector<AuthenticationBloc>(),
+      child: MaterialApp(
+        title: 'MongoDB Atlas Admin',
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: EasyDynamicTheme.of(context).themeMode,
+        home: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+            listener: (context, state) {
+          if (state is LoggedOut) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return AuthenticationPage();
+                },
+              ),
+            );
+          }
+        }, builder: (context, state) {
+          if (state is Empty) {
+            context.read<AuthenticationBloc>().add(CheckUserLogged());
+          } else if (state is LoggedIn) {
+            return DashboardPage();
+          }
+
+          return AuthenticationPage();
+        }),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

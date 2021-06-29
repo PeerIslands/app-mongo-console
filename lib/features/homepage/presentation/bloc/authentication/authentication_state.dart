@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_auth/features/homepage/domain/entities/user.dart';
+import 'package:flutter/widgets.dart';
 
 @immutable
 abstract class AuthenticationState extends Equatable {
@@ -8,25 +7,22 @@ abstract class AuthenticationState extends Equatable {
   List<Object> get props => [];
 }
 
-class Empty extends AuthenticationState {}
-
-class Submitting extends AuthenticationState {}
-
-class SubmissionSuccess extends AuthenticationState {
-  final User user;
-
-  SubmissionSuccess({@required this.user});
-
+class Empty extends AuthenticationState {
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [];
 }
 
-class SubmissionFailed extends AuthenticationState {
-  final String message;
-
-  SubmissionFailed({@required this.message});
-
+class LoggedIn extends AuthenticationState {
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [];
 }
 
+class Processing extends AuthenticationState {
+  @override
+  List<Object> get props => [];
+}
+
+class LoggedOut extends AuthenticationState {
+  @override
+  List<Object> get props => [];
+}

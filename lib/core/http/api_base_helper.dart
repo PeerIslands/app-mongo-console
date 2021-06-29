@@ -34,7 +34,7 @@ class ApiBaseHelper {
             case 400:
               throw BadRequestException();
             case 401:
-              injector<AuthenticationBloc>().add(LogoutSubmitted());
+              injector<AuthenticationBloc>().add(LoggedOutUser());
               throw UnauthorizedException();
             case 403:
               throw ForbiddenException();

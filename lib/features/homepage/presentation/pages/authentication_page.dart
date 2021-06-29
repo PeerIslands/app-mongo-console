@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
-import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
-import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
-import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_state.dart';
+import 'package:flutter_auth/features/homepage/presentation/bloc/login/login_bloc.dart';
+import 'package:flutter_auth/features/homepage/presentation/bloc/login/login_event.dart';
+import 'package:flutter_auth/features/homepage/presentation/bloc/login/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login/flutter_login.dart';
 
@@ -14,7 +14,7 @@ class AuthenticationPage extends StatelessWidget {
   @override
   Widget build(BuildContext buildContext) {
     return BlocProvider(
-      create: (_) => injector<AuthenticationBloc>(),
+      create: (_) => injector<LoginBloc>(),
       child: MaterialApp(
         theme: ThemeData(
           primarySwatch: primaryColor(buildContext),
@@ -25,15 +25,16 @@ class AuthenticationPage extends StatelessWidget {
           ),
         ),
         home: Scaffold(
-          body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          body: BlocBuilder<LoginBloc, LoginState>(
             // ignore: missing_return
             builder: (context, state) {
               return FlutterLogin(
                 logo: 'assets/images/mongo_peer_login.png',
                 loginProviders: [],
+                hideForgotPasswordButton: true,
                 onLogin: (LoginData loginInfo) {
                   context
-                      .read<AuthenticationBloc>()
+                      .read<LoginBloc>()
                       .add(LoginSubmitted(loginInfo.name, loginInfo.password));
 
                   return _checkIfLoginSucceed(context);
@@ -87,7 +88,7 @@ class AuthenticationPage extends StatelessWidget {
 
   Future<String> _checkIfLoginSucceed(BuildContext context) {
     return Future.delayed(Duration(milliseconds: 2500)).then((_) {
-      final loginSucceed = context.read<AuthenticationBloc>().state;
+      final loginSucceed = context.read<LoginBloc>().state;
       if (loginSucceed is Submitting) {
         return _checkIfLoginSucceed(context);
       }

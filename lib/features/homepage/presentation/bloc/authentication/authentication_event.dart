@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
 @immutable
 abstract class AuthenticationEvent extends Equatable {
@@ -7,34 +7,21 @@ abstract class AuthenticationEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoginSubmitted extends AuthenticationEvent {
-  final String email;
-  final String password;
-
-  LoginSubmitted(this.email, this.password);
-
+class CheckUserLogged extends AuthenticationEvent {
   @override
-  List<Object> get props => [email, password];
+  List<Object> get props => [];
 }
 
-class SignupSubmitted extends AuthenticationEvent {
-  final String email;
-  final String name;
-  final String password;
+class LoggedInUser extends AuthenticationEvent {
+  final String token;
 
-  SignupSubmitted(this.email, this.name, this.password);
+  LoggedInUser(this.token);
 
   @override
-  List<Object> get props => [email, name, password];
+  List<Object> get props => [token];
 }
 
-class ForgotPassword extends AuthenticationEvent {
-  final String email;
-
-  ForgotPassword(this.email);
-
+class LoggedOutUser extends AuthenticationEvent {
   @override
-  List<Object> get props => [email];
+  List<Object> get props => [];
 }
-
-class LogoutSubmitted extends AuthenticationEvent {}

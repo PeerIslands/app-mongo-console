@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
 import 'package:flutter_auth/features/shared/domain/entities/menu_item.dart';
@@ -31,13 +30,12 @@ class ChartMenuItem extends StatelessWidget {
           child: IconButton(
             icon: item.icon,
             onPressed: () {
-              if (item.openSideBar) {
+              if (item.title.toLowerCase() == 'logout') {
+                context.read<AuthenticationBloc>().add(LoggedOutUser());
+              } else if (item.openSideBar) {
                 context.read<BottomMenuBloc>().add(ChartItemPressed());
                 toggleBottomMenu();
               } else if (item.redirectTo != null) {
-                // if (item.title.toLowerCase() == 'logout') {
-                //   context.read<AuthenticationBloc>().add(LogoutSubmitted());
-                // }
                 Navigator.push(
                   context,
                   MaterialPageRoute(
