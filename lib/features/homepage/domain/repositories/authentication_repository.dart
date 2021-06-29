@@ -8,6 +8,4 @@ abstract class AuthenticationRepository {
 
   Future<Either<Failure, User>> signupUser(
       String email, String name, String password);
-
-  Future<Either<Failure, User>> forgotPassword(String email);
 }

@@ -51,7 +51,13 @@ class AuthenticationPage extends StatelessWidget {
                 },
                 theme: buildLoginTheme(buildContext),
                 onRecoverPassword: (_) => Future.value(''),
-                onSignup: (_) => Future.value(''),
+                onSignup: (LoginData signupForm) {
+                  context
+                      .read<LoginBloc>()
+                      .add(SignupSubmitted(signupForm.name, signupForm.name, signupForm.password));
+
+                  return _checkIfSignUpSucceed(context);
+                },
               );
             },
           ),
@@ -84,6 +90,19 @@ class AuthenticationPage extends StatelessWidget {
         contentPadding: EdgeInsets.zero,
       ),
     );
+  }
+
+  Future<String> _checkIfSignUpSucceed(BuildContext context) {
+    return Future.delayed(Duration(milliseconds: 2500)).then((_) {
+      final signupSucceed = context.read<LoginBloc>().state;
+      if (signupSucceed is Submitting) {
+        return _checkIfSignUpSucceed(context);
+      }
+      if (signupSucceed is SubmissionFailed)
+        return signupSucceed.message;
+      else
+        return null;
+    });
   }
 
   Future<String> _checkIfLoginSucceed(BuildContext context) {

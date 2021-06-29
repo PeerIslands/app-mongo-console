@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_auth/core/constants/server_paths.dart';
 import 'package:flutter_auth/core/constants/storage_constants.dart';
 import 'package:flutter_auth/core/error/dio_exceptions.dart';
-import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
@@ -40,8 +39,8 @@ class ApiBaseHelper {
               throw ForbiddenException();
             case 404:
               throw NotFoundException();
-            case 500:
-              throw ServerFailure(message: error.message);
+            default:
+              throw ServerException(message: error.message);
           }
         },
         onRequest: (request, requestInterceptorHandler) async {
@@ -68,7 +67,7 @@ class ApiBaseHelper {
       await (await baseAPI).get(url, queryParameters: queryParams);
 
   Future<Response> post(
-      {String url, dynamic data, Map<String, dynamic> queryParams}) async =>
+          {String url, dynamic data, Map<String, dynamic> queryParams}) async =>
       await (await baseAPI).post(url, data: data);
 
   Future<Response> put(String url, dynamic data) async =>
