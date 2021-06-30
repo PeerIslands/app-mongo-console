@@ -10,6 +10,7 @@ Flutter application to manage MongoDB Atlas resources.
 
 - [Preview 📱](#preview-)
 - [Stack 🍀](#stack-)
+- [Architecture 🧑🏽‍💻](#architecture-)
 - [How to Use 🤔](#how-to-use-)
 - [How to Contribute 💪](#how-to-contribute-)
 
@@ -46,6 +47,13 @@ Flutter application to manage MongoDB Atlas resources.
 - [multi_select_flutter](https://pub.dev/packages/multi_select_flutter)
 - [intl](https://pub.dev/packages/dio)
 - [cupertino_icons](https://pub.dev/packages/cupertino_icons)
+
+---
+
+<h2 align="center">Architecture 🧑🏽‍💻</h2>
+   <p align="center">
+      <img src="./docs/media/mongo_app_arc.png" alt="App Architecture">
+   </p>
 
 ---
 
