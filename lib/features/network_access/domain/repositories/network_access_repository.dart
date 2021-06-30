@@ -6,5 +6,6 @@ import 'package:flutter_auth/features/network_access/domain/use_cases/approve_or
 
 abstract class NetworkAccessRepository {
   Future<Either<Failure, List<NetworkAccess>>> fetchNetworkAccessRequests();
+
   Future<Either<Failure, Response>> approveOrDeclineRequest(Params params);
 }

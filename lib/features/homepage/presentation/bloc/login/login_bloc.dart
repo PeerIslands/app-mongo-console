@@ -35,7 +35,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield* _eitherSuccessOrErrorState(failureOrLogin, false);
     } else if (event is SignupSubmitted) {
       final failureOrSignup = await sendSignupForm(SendSignupFormClass.Params(
-          email: event.email.toLowerCase(), name: event.name, password: event.password));
+          email: event.email.toLowerCase(),
+          name: event.name,
+          password: event.password));
       yield Submitting();
       yield* _eitherSuccessOrErrorState(failureOrSignup, true);
     }

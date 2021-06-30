@@ -19,6 +19,8 @@ class AuthenticationBloc
 
       if (token.isNotNull) {
         add(LoggedInUser(token));
+      } else {
+        yield Empty();
       }
     } else if (event is LoggedInUser) {
       ApiBaseHelper.storage.write(key: BEARER_TOKEN, value: event.token);

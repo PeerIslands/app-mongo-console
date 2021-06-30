@@ -8,8 +8,6 @@ class RolesModel extends Roles {
   factory RolesModel.fromJson(Map<String, dynamic> json) => RolesModel(
       databaseName: json['databaseName'], roleName: json['roleName']);
 
-  Map<String, dynamic> toJson() => {
-    'databaseName': databaseName,
-    'roleName': roleName
-  };
+  Map<String, dynamic> toJson() =>
+      {'databaseName': databaseName, 'roleName': roleName};
 }

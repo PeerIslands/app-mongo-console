@@ -30,7 +30,6 @@ class AuthenticationPage extends StatelessWidget {
             builder: (context, state) {
               return FlutterLogin(
                 logo: 'assets/images/mongo_peer_login.png',
-                loginProviders: [],
                 hideForgotPasswordButton: true,
                 onLogin: (LoginData loginInfo) {
                   context
@@ -52,9 +51,8 @@ class AuthenticationPage extends StatelessWidget {
                 theme: buildLoginTheme(buildContext),
                 onRecoverPassword: (_) => Future.value(''),
                 onSignup: (LoginData signupForm) {
-                  context
-                      .read<LoginBloc>()
-                      .add(SignupSubmitted(signupForm.name, signupForm.name, signupForm.password));
+                  context.read<LoginBloc>().add(SignupSubmitted(
+                      signupForm.name, signupForm.name, signupForm.password));
 
                   return _checkIfSignUpSucceed(context);
                 },

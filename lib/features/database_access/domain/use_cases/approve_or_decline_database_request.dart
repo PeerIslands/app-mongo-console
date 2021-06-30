@@ -6,8 +6,7 @@ import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/use_cases/use_cases.dart';
 import 'package:flutter_auth/features/database_access/domain/repositories/database_access_repository.dart';
 
-class ApproveOrDeclineDatabaseRequest
-    implements UseCase<Response, Params> {
+class ApproveOrDeclineDatabaseRequest implements UseCase<Response, Params> {
   final DatabaseAccessRepository repository;
 
   ApproveOrDeclineDatabaseRequest(this.repository);

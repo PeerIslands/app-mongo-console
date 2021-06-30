@@ -1,18 +1,16 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/core/entities/slidable_on_tap_options.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
 import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
+import 'package:flutter_auth/core/widgets/load_requests.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/core/widgets/not_found.dart';
-import 'package:flutter_auth/core/widgets/slidable_with_delegates.dart';
 import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_bloc.dart';
 import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_event.dart';
 import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_state.dart';
-import 'package:flutter_auth/features/database_access/presentation/converters/databaseAccessToSlidableItem.dart';
-import 'package:flutter_auth/core/widgets/load_requests.dart';
+import 'package:flutter_auth/features/database_access/presentation/widgets/database_request_item.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,17 +22,6 @@ class DatabaseAccessPage extends StatefulWidget {
 }
 
 class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
-  final List<SlidableOnTapOptions> slidableOptions = [
-    SlidableOnTapOptions(
-      'Decline',
-      Colors.redAccent,
-      Icons.thumb_down,
-      'User request will be declined',
-    ),
-    SlidableOnTapOptions('Accept', Colors.lightGreen, Icons.thumb_up,
-        'User request will accept'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -77,12 +64,13 @@ class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
                         }
                       },
                     ),
-                    LoadRequests(callback: (BuildContext context) => context
-                        .read<DatabaseAccessBloc>()
-                        .add(GetDatabaseAccessRequests()))
+                    LoadRequests(
+                        callback: (BuildContext context) => context
+                            .read<DatabaseAccessBloc>()
+                            .add(GetDatabaseAccessRequests()))
                   ],
                   staggeredTiles: [
-                    StaggeredTile.extent(2, 420),
+                    StaggeredTile.extent(2, 580),
                     StaggeredTile.extent(2, 80),
                   ],
                 ),
@@ -102,26 +90,14 @@ class _DatabaseAccessPageState extends State<DatabaseAccessPage> {
         state.databaseAccessList.isNotEmpty) {
       return MaterialTile(
         child: Center(
-          child: OrientationBuilder(
-            builder: (context, orientation) => ListView.builder(
-              scrollDirection: orientation == Orientation.portrait
-                  ? Axis.vertical
-                  : Axis.horizontal,
-              itemBuilder: (context, index) {
-                var itemConverted = DatabaseAccessToSlidableItemConverter()
-                    .convert(state.databaseAccessList[index]);
-                return SlidableWithDelegates(
-                    context: context,
-                    item: itemConverted,
-                    options: slidableOptions,
-                    callback: () => {
-                          context.read<DatabaseAccessBloc>().add(
-                              ApproveOrDeclineRequest(
-                                  state.databaseAccessList[index].id, true))
-                        });
-              },
-              itemCount: state.databaseAccessList.length,
-            ),
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              var item = state.databaseAccessList[index];
+
+              return DatabaseRequestItem(
+                  item: item, state: state, index: index);
+            },
+            itemCount: state.databaseAccessList.length,
           ),
         ),
       );

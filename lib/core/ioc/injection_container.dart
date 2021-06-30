@@ -32,7 +32,8 @@ final injector = GetIt.instance;
 Future<void> register() async {
   // Blocs
   injector.registerSingleton<AuthenticationBloc>(AuthenticationBloc());
-  injector.registerFactory(() => LoginBloc(loginForm: injector(), signupForm: injector()));
+  injector.registerFactory(
+      () => LoginBloc(loginForm: injector(), signupForm: injector()));
   injector.registerFactory(() => BottomMenuBloc());
   injector.registerFactory(() => MeasurementBloc(injector(), injector()));
   injector.registerFactory(() => ProcessBloc(injector()));

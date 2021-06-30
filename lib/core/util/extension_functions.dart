@@ -2,6 +2,10 @@ extension NumExtensions on num {
   bool get isInt => (this % 1) == 0;
 }
 
+extension StringExtensions on String {
+  String get valueOrNullString => (this.isNull || this.isEmpty) ? 'null' : this;
+}
+
 extension ObjectExtensions on dynamic {
   bool get isNull => this == null;
 

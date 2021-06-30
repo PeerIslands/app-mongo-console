@@ -83,7 +83,8 @@ class OpcountersChartPage extends StatelessWidget {
                             MaterialTile(
                                 child: LineChartMeasurement(
                               title: 'Opcounters',
-                              subtitle: 'COMMAND/QUERY/DELETE/INSERT/UPDATE/GETMORE',
+                              subtitle:
+                                  'COMMAND/QUERY/DELETE/INSERT/UPDATE/GETMORE',
                               type: LineChartType.Thin,
                             ))
                           ],

@@ -27,8 +27,7 @@ class SlidableWithDelegates extends StatelessWidget {
         child: SlidableDrawerDismissal(),
         closeOnCanceled: true,
       ),
-      actionPane: SlidableStrechActionPane(),
-      actionExtentRatio: 0.20,
+      actionPane: SlidableScrollActionPane(),
       child: VerticalSlidableListItem(item),
       actionDelegate: SlideActionBuilderDelegate(
         actionCount: 2,
@@ -36,6 +35,7 @@ class SlidableWithDelegates extends StatelessWidget {
           var option = options[index];
 
           return IconSlideAction(
+            foregroundColor: Colors.white,
             caption: option.caption,
             color: option.color,
             icon: option.icon,
@@ -70,7 +70,7 @@ class SlidableWithDelegates extends StatelessWidget {
               );
 
               if (dismiss) {
-                callback();
+                callback(option.value);
               }
             },
           );

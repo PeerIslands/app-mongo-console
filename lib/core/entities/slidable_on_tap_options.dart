@@ -7,6 +7,8 @@ class SlidableOnTapOptions {
   final Color color;
   final IconData icon;
   final String dialogText;
+  final dynamic value;
 
-  SlidableOnTapOptions(this.caption, this.color, this.icon, this.dialogText);
+  SlidableOnTapOptions(
+      this.caption, this.color, this.icon, this.dialogText, this.value);
 }

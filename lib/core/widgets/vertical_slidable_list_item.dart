@@ -19,16 +19,29 @@ class VerticalSlidableListItem extends StatelessWidget {
               ? Slidable.of(context)?.open()
               : Slidable.of(context)?.close(),
       child: Container(
-        decoration:
-            BoxDecoration(border: Border.all(width: 0.2, color: Colors.white)),
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.2, color: Colors.black),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
         child: ListTile(
-          leading: CircleAvatar(
-            backgroundColor: itemColor,
-            child: _getIconOrText(),
-            foregroundColor: Colors.white,
-          ),
+          leading: item.showIcon
+              ? CircleAvatar(
+                  backgroundColor: itemColor,
+                  child: _getIconOrText(),
+                  foregroundColor: Colors.white,
+                )
+              : null,
           title: Text(item.title),
-          subtitle: Text(item.subtitle),
+          subtitle: item.subtitle.isNotNull && item.subtitle.isNotEmpty
+              ? Text(item.subtitle)
+              : null,
         ),
       ),
     );
@@ -37,7 +50,7 @@ class VerticalSlidableListItem extends StatelessWidget {
   Widget _getIconOrText() {
     if (item.icon.isNotNull) {
       return Icon(
-        Icons.supervised_user_circle_outlined,
+        item.icon,
         color: Colors.white,
         size: 30.0,
       );

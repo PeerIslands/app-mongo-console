@@ -25,14 +25,10 @@ class NetworkAccessPage extends StatefulWidget {
 
 class _NetworkAccessPageState extends State<NetworkAccessPage> {
   final List<SlidableOnTapOptions> slidableOptions = [
-    SlidableOnTapOptions(
-      'Decline',
-      Colors.redAccent,
-      Icons.thumb_down,
-      'IP Address will be declined',
-    ),
+    SlidableOnTapOptions('Decline', Colors.redAccent, Icons.thumb_down,
+        'IP Address will be declined', false),
     SlidableOnTapOptions('Accept', Colors.lightGreen, Icons.thumb_up,
-        'IP Address will be accept'),
+        'IP Address will be accept', true),
   ];
 
   @override
@@ -77,9 +73,10 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
                         }
                       },
                     ),
-                    LoadRequests(callback: (BuildContext context) => context
-                        .read<NetworkAccessBloc>()
-                        .add(GetNetworkAccessRequests()))
+                    LoadRequests(
+                        callback: (BuildContext context) => context
+                            .read<NetworkAccessBloc>()
+                            .add(GetNetworkAccessRequests()))
                   ],
                   staggeredTiles: [
                     StaggeredTile.extent(2, 420),
@@ -114,10 +111,10 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
                     context: context,
                     item: itemConverted,
                     options: slidableOptions,
-                    callback: () => {
+                    callback: (bool approve) => {
                           context.read<NetworkAccessBloc>().add(
                               ApproveOrDeclineRequest(
-                                  state.networkAccessList[index].id, true))
+                                  state.networkAccessList[index].id, approve))
                         });
               },
               itemCount: state.networkAccessList.length,

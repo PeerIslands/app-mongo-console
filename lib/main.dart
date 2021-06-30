@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/ioc/injection_container.dart' as dependency_injector;
 import 'core/ioc/injection_container.dart';
+import 'core/util/common_functions.dart';
 import 'features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 
 void main() async {
@@ -18,37 +19,23 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => injector<AuthenticationBloc>(),
-      child: MaterialApp(
-        title: 'MongoDB Atlas Admin',
-        theme: ThemeData.light(),
-        darkTheme: ThemeData.dark(),
-        themeMode: EasyDynamicTheme.of(context).themeMode,
-        home: BlocConsumer<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-          if (state is LoggedOut) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return AuthenticationPage();
-                },
-              ),
-            );
-          }
-        }, builder: (context, state) {
-          if (state is Empty) {
-            context.read<AuthenticationBloc>().add(CheckUserLogged());
-          } else if (state is LoggedIn) {
-            return DashboardPage();
-          }
-
-          return AuthenticationPage();
-        }),
-        debugShowCheckedModeBanner: false,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => BlocProvider(
+        create: (_) => injector<AuthenticationBloc>()..add(CheckUserLogged()),
+        child: MaterialApp(
+          title: 'MongoDB Atlas Admin',
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          themeMode: EasyDynamicTheme.of(context).themeMode,
+          home: BlocListener<AuthenticationBloc, AuthenticationState>(
+              listener: (context, state) {
+                if (state is LoggedIn) {
+                  pushMaterialPage(context, DashboardPage());
+                } else if (state is LoggedOut) {
+                  pushMaterialPage(context, AuthenticationPage());
+                }
+              },
+              child: AuthenticationPage()),
+          debugShowCheckedModeBanner: false,
+        ),
+      );
 }

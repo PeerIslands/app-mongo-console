@@ -5,7 +5,7 @@ import 'package:flutter_auth/features/network_access/domain/entities/network_acc
 class NetworkAccessToSlidableItemConverter {
   SlidableModal convert(NetworkAccess networkAccess) {
     if (networkAccess.isNotNull)
-      return SlidableModal(networkAccess.id, networkAccess.comment, '');
+      return SlidableModal(networkAccess.id, networkAccess.comment, '', true);
 
     return null;
   }

@@ -6,5 +6,6 @@ import 'package:flutter_auth/features/database_access/domain/use_cases/approve_o
 
 abstract class DatabaseAccessRepository {
   Future<Either<Failure, List<DatabaseAccess>>> fetchDatabaseAccessRequests();
+
   Future<Either<Failure, Response>> approveOrDeclineRequest(Params params);
 }

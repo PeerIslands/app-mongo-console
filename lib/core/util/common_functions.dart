@@ -2,6 +2,8 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:date_format/date_format.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 String buildFormatDate(DateTime date) => formatDate(date, [
       dd,
@@ -32,4 +34,16 @@ Iterable<int> createRange(double low, double high) sync* {
   for (int i = low.round(); i < high; i += interval) {
     yield i;
   }
+}
+
+void pushMaterialPage(BuildContext context, Widget page) async {
+  await new Future.delayed(new Duration(milliseconds: 100));
+
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) {
+        return page;
+      },
+    ),
+  );
 }

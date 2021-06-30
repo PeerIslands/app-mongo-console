@@ -37,11 +37,11 @@ class LineChartItemState extends State<LineChartItem> {
 
   @override
   Widget build(BuildContext context) {
-    final values =
-        arrayOfLines.map((list) => list.map((e) {
-          return e.value;
-        }).toList()).toList();
-
+    final values = arrayOfLines
+        .map((list) => list.map((e) {
+              return e.value;
+            }).toList())
+        .toList();
 
     var yAxisMin = values.getMinBetweenLists;
     var yAxisMax = values.getMaxBetweenLists;
@@ -105,8 +105,11 @@ class LineChartItemState extends State<LineChartItem> {
             checkToShowTitle: (double minValue, double maxValue,
                 SideTitles sideTitles, double appliedInterval, double value) {
               return value == 0 ||
-                  ((rangeYAxis.length < 2 || rangeYAxis.length > 8) && (value == yAxisMin || value == yAxisMax)) ||
-                  (rangeYAxis.contains(value) && rangeYAxis.length >= 2 && rangeYAxis.length <= 8);
+                  ((rangeYAxis.length < 2 || rangeYAxis.length > 8) &&
+                      (value == yAxisMin || value == yAxisMax)) ||
+                  (rangeYAxis.contains(value) &&
+                      rangeYAxis.length >= 2 &&
+                      rangeYAxis.length <= 8);
             },
             getTitles: (value) {
               if (value % 1 == 0) {

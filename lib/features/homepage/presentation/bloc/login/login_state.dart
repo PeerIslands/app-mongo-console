@@ -29,4 +29,3 @@ class SubmissionFailed extends LoginState {
   @override
   List<Object> get props => [message];
 }
-

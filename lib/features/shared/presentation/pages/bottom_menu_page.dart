@@ -21,7 +21,6 @@ class BottomMenuPage extends StatefulWidget {
 
 class _BottomMenuPageState extends State<BottomMenuPage>
     with SingleTickerProviderStateMixin {
-
   @override
   void initState() {
     super.initState();

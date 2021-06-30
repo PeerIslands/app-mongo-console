@@ -13,7 +13,8 @@ class NetworkAccessBloc extends Bloc<NetworkAccessEvent, NetworkAccessState> {
   final FetchNetworkAccessList fetchNetworkAccessList;
   final ApproveOrDeclineNetworkRequest approveOrDeclineRequest;
 
-  NetworkAccessBloc(this.fetchNetworkAccessList, this.approveOrDeclineRequest) : super(Empty());
+  NetworkAccessBloc(this.fetchNetworkAccessList, this.approveOrDeclineRequest)
+      : super(Empty());
 
   @override
   Stream<NetworkAccessState> mapEventToState(NetworkAccessEvent event) async* {
@@ -26,8 +27,8 @@ class NetworkAccessBloc extends Bloc<NetworkAccessEvent, NetworkAccessState> {
       yield* _eitherSuccessOrErrorState(failureOrNetworkAccessList);
     } else if (event is ApproveOrDeclineRequest) {
       Either<Failure, Response> failureOrSuccess =
-      await approveOrDeclineRequest(
-          Params(id: event.id, approve: event.approve));
+          await approveOrDeclineRequest(
+              Params(id: event.id, approve: event.approve));
 
       yield* _eitherSuccessApprovingOrDecliningOrError(failureOrSuccess);
     }
