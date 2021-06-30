@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 extension NumExtensions on num {
   bool get isInt => (this % 1) == 0;
 }
@@ -10,6 +13,28 @@ extension ObjectExtensions on dynamic {
   bool get isNull => this == null;
 
   bool get isNotNull => this != null;
+}
+
+extension BuildContextExtensions on BuildContext {
+  void pushMaterialPage(Widget page) {
+    Navigator.of(this).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return page;
+        },
+      ),
+    );
+  }
+
+  void pushReplacementMaterialPage(Widget page) {
+    Navigator.of(this).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) {
+          return page;
+        },
+      ),
+    );
+  }
 }
 
 extension ListNumExtension<T extends num> on List<T> {

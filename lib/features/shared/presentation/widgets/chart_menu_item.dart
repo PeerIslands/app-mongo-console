@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/core/util/extension_functions.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
 import 'package:flutter_auth/features/shared/domain/entities/menu_item.dart';
@@ -36,14 +37,7 @@ class ChartMenuItem extends StatelessWidget {
                 context.read<BottomMenuBloc>().add(ChartItemPressed());
                 toggleBottomMenu();
               } else if (item.redirectTo != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return item.redirectTo;
-                    },
-                  ),
-                );
+                context.pushMaterialPage(item.redirectTo);
               }
             },
           ),

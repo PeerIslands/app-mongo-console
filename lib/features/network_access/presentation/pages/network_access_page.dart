@@ -1,6 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/core/entities/slidable_on_tap_options.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
@@ -8,11 +7,10 @@ import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/load_requests.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/core/widgets/not_found.dart';
-import 'package:flutter_auth/core/widgets/slidable_with_delegates.dart';
 import 'package:flutter_auth/features/network_access/presentation/bloc/network_access_bloc.dart';
 import 'package:flutter_auth/features/network_access/presentation/bloc/network_access_event.dart';
 import 'package:flutter_auth/features/network_access/presentation/bloc/network_access_state.dart';
-import 'package:flutter_auth/features/network_access/presentation/converters/networkAccessToSlidableitemConverter.dart';
+import 'package:flutter_auth/features/network_access/presentation/widgets/network_request_item.dart';
 import 'package:flutter_auth/features/shared/presentation/common/menu_functions.dart';
 import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,13 +22,6 @@ class NetworkAccessPage extends StatefulWidget {
 }
 
 class _NetworkAccessPageState extends State<NetworkAccessPage> {
-  final List<SlidableOnTapOptions> slidableOptions = [
-    SlidableOnTapOptions('Decline', Colors.redAccent, Icons.thumb_down,
-        'IP Address will be declined', false),
-    SlidableOnTapOptions('Accept', Colors.lightGreen, Icons.thumb_up,
-        'IP Address will be accept', true),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -79,7 +70,7 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
                             .add(GetNetworkAccessRequests()))
                   ],
                   staggeredTiles: [
-                    StaggeredTile.extent(2, 420),
+                    StaggeredTile.extent(2, 580),
                     StaggeredTile.extent(2, 80),
                   ],
                 ),
@@ -99,26 +90,13 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
         state.networkAccessList.isNotEmpty) {
       return MaterialTile(
         child: Center(
-          child: OrientationBuilder(
-            builder: (context, orientation) => ListView.builder(
-              scrollDirection: orientation == Orientation.portrait
-                  ? Axis.vertical
-                  : Axis.horizontal,
-              itemBuilder: (context, index) {
-                var itemConverted = NetworkAccessToSlidableItemConverter()
-                    .convert(state.networkAccessList[index]);
-                return SlidableWithDelegates(
-                    context: context,
-                    item: itemConverted,
-                    options: slidableOptions,
-                    callback: (bool approve) => {
-                          context.read<NetworkAccessBloc>().add(
-                              ApproveOrDeclineRequest(
-                                  state.networkAccessList[index].id, approve))
-                        });
-              },
-              itemCount: state.networkAccessList.length,
-            ),
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              var item = state.networkAccessList[index];
+
+              return NetworkRequestItem(item: item, state: state, index: index);
+            },
+            itemCount: state.networkAccessList.length,
           ),
         ),
       );

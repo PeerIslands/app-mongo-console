@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
+import 'package:flutter_auth/core/util/extension_functions.dart';
 
 import '../../../../core/widgets/material_tile.dart';
 
@@ -30,14 +31,7 @@ class DashboardTileItemHalf extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             MaterialButton(
-                onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return redirectTo;
-                        },
-                      ),
-                    ),
+                onPressed: () => context.pushMaterialPage(redirectTo),
                 color: iconDataColor,
                 shape: CircleBorder(),
                 child: Padding(
@@ -47,14 +41,7 @@ class DashboardTileItemHalf extends StatelessWidget {
                 )),
             Padding(padding: EdgeInsets.only(bottom: 8.0)),
             TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return redirectTo;
-                  },
-                ),
-              ),
+              onPressed: () => context.pushMaterialPage(redirectTo),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

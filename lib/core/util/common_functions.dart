@@ -35,15 +35,3 @@ Iterable<int> createRange(double low, double high) sync* {
     yield i;
   }
 }
-
-void pushMaterialPage(BuildContext context, Widget page) async {
-  await new Future.delayed(new Duration(milliseconds: 100));
-
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) {
-        return page;
-      },
-    ),
-  );
-}

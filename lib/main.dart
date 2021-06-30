@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/ioc/injection_container.dart' as dependency_injector;
 import 'core/ioc/injection_container.dart';
-import 'core/util/common_functions.dart';
+import 'core/util/extension_functions.dart';
 import 'features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 
 void main() async {
@@ -29,9 +29,9 @@ class MyApp extends StatelessWidget {
           home: BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (context, state) {
                 if (state is LoggedIn) {
-                  pushMaterialPage(context, DashboardPage());
+                  context.pushMaterialPage(DashboardPage());
                 } else if (state is LoggedOut) {
-                  pushMaterialPage(context, AuthenticationPage());
+                  context.pushReplacementMaterialPage(AuthenticationPage());
                 }
               },
               child: AuthenticationPage()),

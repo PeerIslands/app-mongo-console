@@ -1,33 +1,32 @@
 import 'package:expansion_card/expansion_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_auth/core/entities/slidable_modal.dart';
 import 'package:flutter_auth/core/entities/slidable_on_tap_options.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/util/common_functions.dart';
 import 'package:flutter_auth/core/util/extension_functions.dart';
 import 'package:flutter_auth/core/widgets/slidable_with_delegates.dart';
-import 'package:flutter_auth/features/database_access/domain/entities/database_access.dart';
-import 'package:flutter_auth/features/database_access/domain/entities/roles.dart';
-import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_bloc.dart';
-import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_event.dart';
-import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_state.dart';
+import 'package:flutter_auth/features/network_access/domain/entities/network_access.dart';
+import 'package:flutter_auth/features/network_access/presentation/bloc/network_access_bloc.dart';
+import 'package:flutter_auth/features/network_access/presentation/bloc/network_access_event.dart';
+import 'package:flutter_auth/features/network_access/presentation/bloc/network_access_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DatabaseRequestItem extends StatelessWidget {
-  final DatabaseAccess item;
+class NetworkRequestItem extends StatelessWidget {
+  final NetworkAccess item;
 
-  final DatabaseAccessListLoaded state;
+  final NetworkAccessListLoaded state;
   final int index;
 
-  DatabaseRequestItem({Key key, this.item, this.state, this.index})
+  NetworkRequestItem({Key key, this.item, this.state, this.index})
       : super(key: key);
 
   final List<SlidableOnTapOptions> slidableOptions = [
     SlidableOnTapOptions('Decline', Colors.redAccent, Icons.thumb_down,
-        'User request will be declined', false),
+        'IP Address will be declined', false),
     SlidableOnTapOptions('Accept', Colors.lightGreen, Icons.thumb_up,
-        'User request will accept', true),
+        'IP Address will be accept', true),
   ];
 
   @override
@@ -39,7 +38,7 @@ class DatabaseRequestItem extends StatelessWidget {
           children: [
             CircleAvatar(
               backgroundColor: getRandomColor(),
-              child: Text('${item.username.substring(0, 2).toUpperCase()}'),
+              child: Text('${item.comment.substring(0, 2).toUpperCase()}'),
               foregroundColor: invertColorsLightToDark(context),
             ),
             SizedBox(width: 10),
@@ -48,7 +47,7 @@ class DatabaseRequestItem extends StatelessWidget {
               children: [
                 SizedBox(height: 10),
                 Text(
-                  item.username,
+                  item.comment,
                   style: TextStyle(
                     color: invertColorsDarkToLight(context),
                   ),
@@ -61,23 +60,20 @@ class DatabaseRequestItem extends StatelessWidget {
       children: <Widget>[
         ListTile(title: Text('id'), subtitle: Text(item.id.valueOrNullString)),
         ListTile(
-            title: Text('roles'),
-            subtitle: Text(_getDatabaseNameAndRoles(item.roles))),
+            title: Text('cidrBlock'),
+            subtitle: Text(item.cidrBlock.valueOrNullString)),
+        ListTile(
+            title: Text('comment'),
+            subtitle: Text(item.comment.valueOrNullString)),
         ListTile(
             title: Text('groupId'),
             subtitle: Text(item.groupId.valueOrNullString)),
         ListTile(
-            title: Text('username'),
-            subtitle: Text(item.username.valueOrNullString)),
+            title: Text('deleteAfterDate'),
+            subtitle: Text(item.deleteAfterDate.valueOrNullString)),
         ListTile(
-            title: Text('password'),
-            subtitle: Text(item.password.valueOrNullString)),
-        ListTile(
-            title: Text('databaseName'),
-            subtitle: Text(item.databaseName.valueOrNullString)),
-        ListTile(
-            title: Text('username'),
-            subtitle: Text(item.username.valueOrNullString)),
+            title: Text('status'),
+            subtitle: Text(item.status.valueOrNullString)),
         ListTile(
             title: Text('createdAt'),
             subtitle: Text(item.createdAt.valueOrNullString)),
@@ -89,30 +85,13 @@ class DatabaseRequestItem extends StatelessWidget {
           item: SlidableModal(item.id, 'actions', '', false),
           options: slidableOptions,
           callback: (bool approve) => {
-            context.read<DatabaseAccessBloc>().add(
-                  ApproveOrDeclineRequest(
-                      item.id, approve),
-                )
+            context.read<NetworkAccessBloc>().add(
+              ApproveOrDeclineRequest(
+                  item.id, approve),
+            )
           },
         ),
       ],
     );
-  }
-
-  String _getDatabaseNameAndRoles(List<Roles> roles) {
-    return roles
-        .map((role) =>
-            '${_getDatabaseName(role.databaseName)}${_getRoleName(role.roleName)}')
-        .join('\n');
-  }
-
-  String _getDatabaseName(String databaseName) {
-    return databaseName.isNotNull && databaseName.isNotEmpty
-        ? 'database: $databaseName'
-        : '';
-  }
-
-  String _getRoleName(String role) {
-    return role.isNotNull && role.isNotEmpty ? ', role: $role' : '';
   }
 }
