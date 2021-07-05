@@ -1,5 +1,6 @@
 const String LOGIN = 'login';
-const String SIGNUP = 'user/';
+const String USER = 'user/';
+const String DASHBOARD = 'mongodb/home';
 const String DB_ACCESS_LIST = 'mongodb/dbaccess/list';
 const String DB_ACCESS_REQUEST = 'mongodb/dbaccess/request';
 const String NETWORK_ACCESS_LIST = 'mongodb/access/list';

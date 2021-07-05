@@ -79,8 +79,6 @@ class _NetworkAccessPageState extends State<NetworkAccessPage> {
             ]),
           ),
         ),
-        floatingActionButton: FloatingDarkLightModeButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       ),
     );
   }

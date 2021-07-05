@@ -94,8 +94,6 @@ class NetworkChartPage extends StatelessWidget {
             ]),
           ),
         ),
-        floatingActionButton: FloatingDarkLightModeButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       ),
     );
   }

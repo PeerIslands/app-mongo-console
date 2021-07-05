@@ -68,8 +68,6 @@ class LogicalSizeChartPage extends StatelessWidget {
             ]),
           ),
         ),
-        floatingActionButton: FloatingDarkLightModeButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       ),
     );
   }

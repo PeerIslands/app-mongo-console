@@ -70,7 +70,7 @@ class ApiBaseHelper {
           {String url, dynamic data, Map<String, dynamic> queryParams}) async =>
       await (await baseAPI).post(url, data: data);
 
-  Future<Response> put(String url, dynamic data) async =>
+  Future<Response> put({String url, dynamic data}) async =>
       await (await baseAPI).put(url, data: data);
 
   Future<Response> delete(String url) async =>

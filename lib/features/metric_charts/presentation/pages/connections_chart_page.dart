@@ -64,8 +64,6 @@ class ConnectionsChartPage extends StatelessWidget {
             ]),
           ),
         ),
-        floatingActionButton: FloatingDarkLightModeButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       ),
     );
   }

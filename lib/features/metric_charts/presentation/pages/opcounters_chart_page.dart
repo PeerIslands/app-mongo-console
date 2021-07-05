@@ -101,8 +101,6 @@ class OpcountersChartPage extends StatelessWidget {
             ]),
           ),
         ),
-        floatingActionButton: FloatingDarkLightModeButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       ),
     );
   }

@@ -4,9 +4,14 @@ import 'package:flutter_auth/features/database_access/domain/use_cases/approve_o
 import 'package:flutter_auth/features/database_access/domain/use_cases/fetch_database_access_list.dart';
 import 'package:flutter_auth/features/database_access/presentation/bloc/database_access_bloc.dart';
 import 'package:flutter_auth/features/homepage/data/repositories/authentication_repository_impl.dart';
+import 'package:flutter_auth/features/homepage/data/repositories/dashboard_repository_impl.dart';
+import 'package:flutter_auth/features/homepage/data/repositories/settings_repository_impl.dart';
 import 'package:flutter_auth/features/homepage/domain/repositories/authentication_repository.dart';
+import 'package:flutter_auth/features/homepage/domain/repositories/dashboard_repository.dart';
+import 'package:flutter_auth/features/homepage/domain/repositories/settings_repository.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_login_form.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_signup_form.dart';
+import 'package:flutter_auth/features/homepage/domain/use_cases/dashboard/get_dashboard_data.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/login/login_bloc.dart';
 import 'package:flutter_auth/features/metric_charts/data/datasources/measurement_params_cache_datasource.dart';
@@ -52,6 +57,8 @@ Future<void> register() async {
       .registerLazySingleton(() => ApproveOrDeclineDatabaseRequest(injector()));
   injector
       .registerLazySingleton(() => ApproveOrDeclineNetworkRequest(injector()));
+  injector
+      .registerLazySingleton(() => GetDashboardData(injector(), injector()));
 
   // Data sources
   injector.registerLazySingleton<ProcessCacheDataSource>(
@@ -67,6 +74,10 @@ Future<void> register() async {
   );
 
   // Repositories
+  injector.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(),
+  );
+
   injector.registerLazySingleton<AuthenticationRepository>(
     () => AuthenticationRepositoryImpl(),
   );
@@ -84,5 +95,9 @@ Future<void> register() async {
 
   injector.registerLazySingleton<DatabaseAccessRepository>(
     () => DatabaseAccessRepositoryImpl(),
+  );
+
+  injector.registerLazySingleton<DashboardRepository>(
+        () => DashboardRepositoryImpl(),
   );
 }

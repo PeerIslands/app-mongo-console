@@ -1,11 +1,17 @@
+import 'package:cool_alert/cool_alert.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/core/error/failures.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
+import 'package:flutter_auth/core/use_cases/use_cases.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
-import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/features/database_access/presentation/pages/database_access_page.dart';
+import 'package:flutter_auth/features/homepage/domain/entities/dashboard.dart';
+import 'package:flutter_auth/features/homepage/domain/use_cases/dashboard/get_dashboard_data.dart';
+import 'package:flutter_auth/features/homepage/presentation/pages/settings_page.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_full.dart';
 import 'package:flutter_auth/features/homepage/presentation/widgets/dashboard_tile_item_half.dart';
 import 'package:flutter_auth/features/metric_charts/presentation/bloc/measurement/measurement_bloc.dart';
@@ -15,12 +21,35 @@ import 'package:flutter_auth/features/shared/presentation/pages/bottom_menu_page
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class DashboardPage extends StatefulWidget {
+class DashboardPage extends StatelessWidget {
   @override
-  _MainPageState createState() => _MainPageState();
+  Widget build(BuildContext context) {
+    GetDashboardData getDashboardData = injector<GetDashboardData>();
+
+    return FutureBuilder<Either<Failure, Dashboard>>(
+      future: getDashboardData(NoParams()),
+      builder: (context, AsyncSnapshot<Either<Failure, Dashboard>> snapshot) {
+        if (snapshot.hasData) {
+          return snapshot.data.fold((failure) {
+            return DashboardItems();
+          }, (dashboard) {
+            return DashboardItems(dashboardData: dashboard);
+          });
+        }
+
+        return DashboardItems();
+      },
+    );
+  }
 }
 
-class _MainPageState extends State<DashboardPage> {
+class DashboardItems extends StatelessWidget {
+  final Dashboard dashboardData;
+
+  const DashboardItems({
+    Key key, this.dashboardData,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -40,15 +69,15 @@ class _MainPageState extends State<DashboardPage> {
                     padding: EdgeInsets.only(left: 16, right: 16, top: 30),
                     children: <Widget>[
                       DashboardTileItemFull(
-                        title: 'Connections',
-                        subTitle: '265',
-                        iconData: Icons.account_tree,
+                        title: 'Number of accesses',
+                        subTitle: getNumAccessData(),
+                        iconData: Icons.network_wifi,
                         iconDataColor: dashboardFirstTileCardIconColor(context),
                       ),
                       DashboardTileItemFull(
-                        title: 'Network Addresses',
-                        subTitle: '4',
-                        iconData: Icons.network_wifi,
+                        title: 'Database users',
+                        subTitle: getNumDBData(),
+                        iconData: Icons.supervised_user_circle_outlined,
                         iconDataColor:
                             dashboardSecondTileCardIconColor(context),
                       ),
@@ -56,6 +85,7 @@ class _MainPageState extends State<DashboardPage> {
                         title: 'Settings',
                         subTitle: 'Set up connection',
                         iconData: Icons.settings_applications,
+                        redirectTo: SettingsPage(),
                         iconDataColor: dashboardThirdTileCardIconColor(context),
                       ),
                       DashboardTileItemHalf(
@@ -79,9 +109,23 @@ class _MainPageState extends State<DashboardPage> {
             ]),
           ),
         ),
-        floatingActionButton: FloatingDarkLightModeButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       ),
     );
+  }
+
+  String getNumAccessData() {
+    if (dashboardData != null && dashboardData.numAccess != null) {
+      return dashboardData.numAccess.totalCount.toString();
+    }
+
+    return '--';
+  }
+
+  String getNumDBData() {
+    if (dashboardData != null && dashboardData.numDbUsers != null) {
+      return dashboardData.numDbUsers.totalCount.toString();
+    }
+
+    return '--';
   }
 }

@@ -29,7 +29,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       String email, String name, String password) async {
     try {
       await ApiBaseHelper().post(
-          url: SIGNUP,
+          url: USER,
           data: {"email": email, "name": name, "password": password});
 
       return Right(User(email: email, password: password, token: ''));
