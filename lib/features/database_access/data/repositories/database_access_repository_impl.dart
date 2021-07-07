@@ -29,15 +29,13 @@ class DatabaseAccessRepositoryImpl extends DatabaseAccessRepository {
   Future<Either<Failure, Response>> approveOrDeclineRequest(
       Params params) async {
     try {
-      Response response = await ApiBaseHelper().post(
+      var response = await ApiBaseHelper().post(
           url: DB_ACCESS_REQUEST,
           queryParams: {'id': params.id},
           data: {'approve': params.approve});
 
       return Right(response);
-    } on ForbiddenException {
-      return Left(ServerFailure(message: USER_DOES_NOT_HAVE_PERMISSION));
-    } on BadRequestException {
+    } on Exception {
       return Left(ServerFailure(message: REQUEST_APPROVE_ERROR));
     }
   }

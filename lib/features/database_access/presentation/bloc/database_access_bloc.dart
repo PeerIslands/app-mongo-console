@@ -31,17 +31,19 @@ class DatabaseAccessBloc
       Either<Failure, Response> failureOrSuccess =
           await approveOrDeclineRequest(
               Params(id: event.id, approve: event.approve));
-
       yield* _eitherSuccessApprovingOrDecliningOrError(failureOrSuccess);
     }
   }
 
   Stream<DatabaseAccessState> _eitherSuccessApprovingOrDecliningOrError(
-      Either<Failure, Response<dynamic>> failureOrSuccess) async* {
+      Either<Failure, Response> failureOrSuccess) async* {
     yield* failureOrSuccess.fold((failure) async* {
       yield DatabaseAccessErrorWhileApprovingOrDeclining(
           message: (failure as ServerFailure).message);
-    }, (success) => null);
+    }, (success) async* {
+      print('aaa');
+      yield Empty();
+    });
 
     yield Empty();
   }

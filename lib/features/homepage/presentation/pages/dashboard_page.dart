@@ -32,11 +32,7 @@ class DashboardPage extends StatelessWidget {
           [getDashboardData(NoParams()), getDashboardCharts(NoParams())]),
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (!snapshot.hasData) {
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return DashboardItems();
         }
 
         Dashboard dashboardData;

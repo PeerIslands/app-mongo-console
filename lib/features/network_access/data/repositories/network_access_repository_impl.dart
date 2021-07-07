@@ -35,7 +35,7 @@ class NetworkAccessRepositoryImpl implements NetworkAccessRepository {
           queryParams: {'id': params.id});
 
       return Right(response);
-    } on BadRequestException {
+    } on Exception {
       return Left(ServerFailure(message: REQUEST_APPROVE_ERROR));
     }
   }

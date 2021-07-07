@@ -12,6 +12,7 @@ Flutter application to manage MongoDB Atlas resources.
 - [Stack 🍀](#stack-)
 - [Architecture 🧑🏽‍💻](#architecture-)
 - [Source Tree 🌴](#source-tree-)
+- [Tasks 😨](#tasks-)
 - [How to Use 🤔](#how-to-use-)
 - [How to Contribute 💪](#how-to-contribute-)
 
@@ -110,6 +111,17 @@ Flutter application to manage MongoDB Atlas resources.
 |   |   │   │   ├── widgets
 |   |   |   │   │   ├── specific_button.dart
 ```
+
+---
+<h2 align="center">Tasks 😨</h2>
+
+- [x] homepage (feature)
+- [x] database_access (feature)
+- [x] network_access (feature)
+- [x] metric_charts
+- [ ] Switch between environments (dev/prod)
+- [ ] Deploy
+
 ---
 
 <h2 align="center">How to Use 🤔</h2>

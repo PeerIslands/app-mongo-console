@@ -35,7 +35,7 @@ class NetworkAccessBloc extends Bloc<NetworkAccessEvent, NetworkAccessState> {
   }
 
   Stream<NetworkAccessState> _eitherSuccessApprovingOrDecliningOrError(
-      Either<Failure, Response<dynamic>> failureOrSuccess) async* {
+      Either<Failure, Response> failureOrSuccess) async* {
     yield* failureOrSuccess.fold((failure) async* {
       yield NetworkAccessErrorWhileApprovingOrDeclining(
           message: (failure as ServerFailure).message);
