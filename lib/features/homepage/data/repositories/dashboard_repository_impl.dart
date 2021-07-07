@@ -11,12 +11,11 @@ class DashboardRepositoryImpl implements DashboardRepository {
   @override
   Future<Either<Failure, Dashboard>> getDashboardData({String groupId}) async {
     try {
-      var response = await ApiBaseHelper().get(DASHBOARD, {"group_id": groupId});
+      var response =
+          await ApiBaseHelper().get(DASHBOARD, {"group_id": groupId});
 
       return Right(DashboardModel.fromJson(response.data));
-    } on Exception catch(e) {
-      print(e);
-
+    } on Exception catch (e) {
       return Left(ServerFailure(message: GENERAL_ERROR_MESSAGE));
     }
   }

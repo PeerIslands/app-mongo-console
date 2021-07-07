@@ -32,12 +32,12 @@ class DatabaseAccessRepositoryImpl extends DatabaseAccessRepository {
       Response response = await ApiBaseHelper().post(
           url: DB_ACCESS_REQUEST,
           queryParams: {'id': params.id},
-          data: {"approve": params.approve});
+          data: {'approve': params.approve});
 
-      return Right(response.data);
+      return Right(response);
     } on ForbiddenException {
       return Left(ServerFailure(message: USER_DOES_NOT_HAVE_PERMISSION));
-    } on Exception {
+    } on BadRequestException {
       return Left(ServerFailure(message: REQUEST_APPROVE_ERROR));
     }
   }

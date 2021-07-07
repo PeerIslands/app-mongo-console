@@ -90,8 +90,7 @@ class DatabaseRequestItem extends StatelessWidget {
           options: slidableOptions,
           callback: (bool approve) => {
             context.read<DatabaseAccessBloc>().add(
-                  ApproveOrDeclineRequest(
-                      item.id, approve),
+                  ApproveOrDeclineRequest(item.id, approve),
                 )
           },
         ),

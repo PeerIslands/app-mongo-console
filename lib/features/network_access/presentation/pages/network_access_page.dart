@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
 import 'package:flutter_auth/core/widgets/app_bar_default.dart';
-import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/core/widgets/load_requests.dart';
 import 'package:flutter_auth/core/widgets/material_tile.dart';
 import 'package:flutter_auth/core/widgets/not_found.dart';

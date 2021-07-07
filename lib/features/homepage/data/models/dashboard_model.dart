@@ -2,17 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_auth/features/homepage/domain/entities/dashboard.dart';
 
 class DashboardModel extends Dashboard {
-  DashboardModel({@required NumAccessModel numAccess, @required NumDBModel numDbUsers})
+  DashboardModel(
+      {@required NumAccessModel numAccess, @required NumDBModel numDbUsers})
       : super(numAccess, numDbUsers);
 
   factory DashboardModel.fromJson(Map<String, dynamic> json) {
     return DashboardModel(
-      numAccess: json['numAccess'] != null
-          ? NumAccessModel.fromJson(json['numAccess'])
-          : null,
-      numDbUsers: json['numDbUsers'] != null
-          ? NumDBModel.fromJson(json['numDbUsers'])
-          : null);
+        numAccess: json['numAccess'] != null
+            ? NumAccessModel.fromJson(json['numAccess'])
+            : null,
+        numDbUsers: json['numDbUsers'] != null
+            ? NumDBModel.fromJson(json['numDbUsers'])
+            : null);
   }
 
   Map<String, dynamic> toJson() => {

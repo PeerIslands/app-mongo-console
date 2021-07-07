@@ -39,7 +39,6 @@ class NetworkAccessBloc extends Bloc<NetworkAccessEvent, NetworkAccessState> {
     yield* failureOrSuccess.fold((failure) async* {
       yield NetworkAccessErrorWhileApprovingOrDeclining(
           message: (failure as ServerFailure).message);
-      yield Empty();
     }, (success) => null);
 
     yield Empty();

@@ -47,7 +47,6 @@ class LineChartItemState extends State<LineChartItem> {
     var yAxisMax = values.getMaxBetweenLists;
 
     var rangeYAxis = createRange(yAxisMin, yAxisMax);
-    print(rangeYAxis);
 
     return LineChart(
       LineChartData(

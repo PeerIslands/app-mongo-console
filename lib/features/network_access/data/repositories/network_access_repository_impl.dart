@@ -29,11 +29,13 @@ class NetworkAccessRepositoryImpl implements NetworkAccessRepository {
   Future<Either<Failure, Response>> approveOrDeclineRequest(
       Params params) async {
     try {
-      Response response = await ApiBaseHelper()
-          .post(url: NETWORK_ACCESS_REQUEST, queryParams: {'id': params.id});
+      Response response = await ApiBaseHelper().post(
+          url: NETWORK_ACCESS_REQUEST,
+          data: {'approve': params.approve},
+          queryParams: {'id': params.id});
 
-      return Right(response.data);
-    } on Exception {
+      return Right(response);
+    } on BadRequestException {
       return Left(ServerFailure(message: REQUEST_APPROVE_ERROR));
     }
   }

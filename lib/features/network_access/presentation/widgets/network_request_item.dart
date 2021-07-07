@@ -86,9 +86,8 @@ class NetworkRequestItem extends StatelessWidget {
           options: slidableOptions,
           callback: (bool approve) => {
             context.read<NetworkAccessBloc>().add(
-              ApproveOrDeclineRequest(
-                  item.id, approve),
-            )
+                  ApproveOrDeclineRequest(item.id, approve),
+                )
           },
         ),
       ],

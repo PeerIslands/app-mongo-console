@@ -41,7 +41,6 @@ class DatabaseAccessBloc
     yield* failureOrSuccess.fold((failure) async* {
       yield DatabaseAccessErrorWhileApprovingOrDeclining(
           message: (failure as ServerFailure).message);
-      yield Empty();
     }, (success) => null);
 
     yield Empty();

@@ -10,8 +10,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<Either<Failure, bool>> updateClientAndSecret(
       {String clientId, String secret}) async {
     try {
-      await ApiBaseHelper()
-          .put(url: USER, data: {"public_key": clientId, "private_key": secret});
+      await ApiBaseHelper().put(
+          url: USER, data: {"public_key": clientId, "private_key": secret});
 
       return Right(true);
     } on Exception {

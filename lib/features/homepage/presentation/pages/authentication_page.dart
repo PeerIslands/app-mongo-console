@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
 import 'package:flutter_auth/core/util/app_colors.dart';
-import 'package:flutter_auth/core/widgets/floating_dark_light_mode_button.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/login/login_bloc.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/login/login_event.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/login/login_state.dart';

@@ -11,6 +11,8 @@ import 'package:flutter_auth/features/homepage/domain/repositories/dashboard_rep
 import 'package:flutter_auth/features/homepage/domain/repositories/settings_repository.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_login_form.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/authentication/send_signup_form.dart';
+import 'package:flutter_auth/features/homepage/domain/use_cases/dashboard/add_dashboard_chart.dart';
+import 'package:flutter_auth/features/homepage/domain/use_cases/dashboard/get_dashboard_charts.dart';
 import 'package:flutter_auth/features/homepage/domain/use_cases/dashboard/get_dashboard_data.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/login/login_bloc.dart';
@@ -59,6 +61,10 @@ Future<void> register() async {
       .registerLazySingleton(() => ApproveOrDeclineNetworkRequest(injector()));
   injector
       .registerLazySingleton(() => GetDashboardData(injector(), injector()));
+  injector
+      .registerLazySingleton(() => GetDashboardCharts());
+  injector
+      .registerLazySingleton(() => AddOrRemoveDashboardChart(injector()));
 
   // Data sources
   injector.registerLazySingleton<ProcessCacheDataSource>(
@@ -98,6 +104,6 @@ Future<void> register() async {
   );
 
   injector.registerLazySingleton<DashboardRepository>(
-        () => DashboardRepositoryImpl(),
+    () => DashboardRepositoryImpl(),
   );
 }

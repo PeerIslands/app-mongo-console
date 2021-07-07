@@ -11,6 +11,7 @@ Flutter application to manage MongoDB Atlas resources.
 - [Preview 📱](#preview-)
 - [Stack 🍀](#stack-)
 - [Architecture 🧑🏽‍💻](#architecture-)
+- [Source Tree 🌴](#source-tree-)
 - [How to Use 🤔](#how-to-use-)
 - [How to Contribute 💪](#how-to-contribute-)
 
@@ -55,6 +56,60 @@ Flutter application to manage MongoDB Atlas resources.
       <img src="./docs/media/mongo_app_arc.png" alt="App Architecture">
    </p>
 
+---
+
+<h2 align="center">Source Tree 🌴</h2>
+
+```bash
+├── lib
+│   ├── core
+│   │   ├── constants
+|   |   │   ├── app_constants.dart --example
+│   │   ├── entities
+|   |   │   ├── shared_entity.dart --example
+│   │   ├── error
+|   |   │   ├── dio_exceptions.dart
+|   |   │   ├── failures.dart
+│   │   ├── http
+|   |   │   ├── api_base_helper.dart --base class
+│   │   ├── ioc
+|   |   │   ├── injector_container.dart
+│   │   ├── use_cases
+|   |   │   ├── use_cases.dart --base class
+│   │   ├── util
+|   |   │   ├── common_functions.dart 
+│   │   ├── widgets
+|   |   │   ├── shared_button.dart --example
+│   ├── features
+│   │   ├── some_feature --example
+|   │   │   ├── data
+|   |   │   │   ├── datasources
+|   |   |   │   │   ├── some_feature_cache_datasource.dart
+|   |   |   │   │   ├── some_feature_remote_datasource.dart
+|   |   │   │   ├── models
+|   |   |   │   │   ├── some_feature_model.dart
+|   |   │   │   ├── repositories
+|   |   |   │   │   ├── some_feature_repository_impl.dart
+|   │   │   ├── domain
+|   |   │   │   ├── entities
+|   |   |   │   │   ├── some_feature.dart
+|   |   │   │   ├── enums
+|   |   |   │   │   ├── some_feature_type_enum.dart
+|   |   │   │   ├── repositories
+|   |   |   │   │   ├── some_feature_repository.dart
+|   |   │   │   ├── use_cases
+|   |   |   │   │   ├── fetch_some_feature_data.dart
+|   |   |   │   │   ├── add_some_feature.dart
+|   │   │   ├── presentation
+|   |   │   │   ├── bloc
+|   |   |   │   │   ├── some_feature_bloc.dart
+|   |   |   │   │   ├── some_feature_event.dart
+|   |   |   │   │   ├── some_feature_state.dart
+|   |   │   │   ├── pages
+|   |   |   │   │   ├── some_feature_page.dart
+|   |   │   │   ├── widgets
+|   |   |   │   │   ├── specific_button.dart
+```
 ---
 
 <h2 align="center">How to Use 🤔</h2>
