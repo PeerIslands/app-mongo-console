@@ -1,17 +1,15 @@
-import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_auth/core/constants/server_paths.dart';
 import 'package:flutter_auth/core/constants/storage_constants.dart';
 import 'package:flutter_auth/core/error/dio_exceptions.dart';
 import 'package:flutter_auth/core/ioc/injection_container.dart';
+import 'package:flutter_auth/environment_config.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiBaseHelper {
-  static final String url =
-      Platform.isIOS ? HTTP_SERVER_URL_IOS : HTTP_SERVER_URL_ANDROID;
+  static final String url = EnvironmentConfig.API_PATH;
   static final storage = new FlutterSecureStorage();
 
   static BaseOptions opts = BaseOptions(

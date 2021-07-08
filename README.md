@@ -119,7 +119,7 @@ Flutter application to manage MongoDB Atlas resources.
 - [x] database_access (feature)
 - [x] network_access (feature)
 - [x] metric_charts
-- [ ] Switch between environments (dev/prod)
+- [X] Environment variables (dev/prod)
 - [ ] Deploy
 
 ---
@@ -139,7 +139,7 @@ Flutter application to manage MongoDB Atlas resources.
    $ flutter pub get
 
    # Run
-   $ flutter run
+   $ flutter run --dart-define=APP_ENV=Dev //(Dev||Prod)
    ```
 
 ---

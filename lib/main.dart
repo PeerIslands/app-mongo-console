@@ -1,5 +1,6 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/environment_config.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_event.dart';
 import 'package:flutter_auth/features/homepage/presentation/bloc/authentication/authentication_state.dart';
 import 'package:flutter_auth/features/homepage/presentation/pages/authentication_page.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => BlocProvider(
         create: (_) => injector<AuthenticationBloc>()..add(CheckUserLogged()),
         child: MaterialApp(
-          title: 'MongoDB Atlas Admin',
+          title: EnvironmentConfig.APP_NAME,
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
           themeMode: EasyDynamicTheme.of(context).themeMode,
